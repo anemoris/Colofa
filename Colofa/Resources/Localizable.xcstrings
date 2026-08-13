@@ -1,0 +1,1316 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "appName" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Colofa" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Colofa" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Colofa" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Colofa" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Colofa" } }
+      }
+    },
+    "added" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Added" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "追加" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "추가됨" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "已添加" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "已加入" } }
+      }
+    },
+    "ahead" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Ahead" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "先行" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "앞섬" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "领先" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "領先" } }
+      }
+    },
+    "behind" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Behind" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "遅延" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "뒤처짐" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "落后" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "落後" } }
+      }
+    },
+    "cherryPickInProgress" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Cherry-pick in Progress" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "チェリーピック進行中" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "체리픽 진행 중" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "正在拣选提交" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "正在挑選提交" } }
+      }
+    },
+    "commits" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Commits" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "コミット" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "커밋" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "提交" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "提交" } }
+      }
+    },
+    "conflict" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Conflict" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "コンフリクト" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "충돌" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "冲突" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "衝突" } }
+      }
+    },
+    "currentBranch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Current Branch" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "現在のブランチ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "현재 브랜치" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "当前分支" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "目前分支" } }
+      }
+    },
+    "deleted" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Deleted" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "削除" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "삭제됨" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "已删除" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "已刪除" } }
+      }
+    },
+    "from" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "From" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "変更前" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "변경 전" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "原路径" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "原路徑" } }
+      }
+    },
+    "gitAmInProgress" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "git am in Progress" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "git am 進行中" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "git am 진행 중" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "正在执行 git am" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "正在執行 git am" } }
+      }
+    },
+    "loadingRepositoryDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Reading refs and working-tree state from Git." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Git から参照と作業ツリーの状態を読み込んでいます。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Git에서 참조와 작업 트리 상태를 읽는 중입니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "正在从 Git 读取引用和工作树状态。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "正在從 Git 讀取參照與工作樹狀態。" } }
+      }
+    },
+    "mergeInProgress" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Merge in Progress" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "マージ進行中" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "병합 진행 중" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "正在合并" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "正在合併" } }
+      }
+    },
+    "modified" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Modified" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "変更" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "수정됨" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "已修改" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "已修改" } }
+      }
+    },
+    "openRepositoryDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Open a Repository to view its real Git state." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "リポジトリを開いて実際の Git 状態を表示します。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "저장소를 열어 실제 Git 상태를 확인하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "打开仓库以查看真实的 Git 状态。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "開啟儲存庫以檢視真實的 Git 狀態。" } }
+      }
+    },
+    "operationInProgressDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Resolve any Conflicts in Changes before continuing or aborting this operation." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "続行または中止する前に、変更内のコンフリクトを解決してください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "계속하거나 중단하기 전에 변경 사항의 충돌을 해결하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "继续或中止前，请先解决更改中的冲突。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "繼續或中止前，請先解決變更中的衝突。" } }
+      }
+    },
+    "rebaseInProgress" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Rebase in Progress" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "リベース進行中" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "리베이스 진행 중" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "正在变基" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "正在重定基底" } }
+      }
+    },
+    "renamed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Renamed" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "名前変更" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이름 변경됨" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "已重命名" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "已重新命名" } }
+      }
+    },
+    "repositorySize" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Git Object Size" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Git オブジェクトサイズ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Git 객체 크기" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Git 对象大小" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Git 物件大小" } }
+      }
+    },
+    "revertInProgress" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Revert in Progress" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "リバート進行中" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "되돌리기 진행 중" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "正在还原提交" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "正在還原提交" } }
+      }
+    },
+    "stagedChanges" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Staged Changes" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ステージ済みの変更" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "스테이징된 변경 사항" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "已暂存的更改" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "已暫存的變更" } }
+      }
+    },
+    "typeChanged" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Type Changed" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "種類変更" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "유형 변경됨" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "类型已更改" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "類型已變更" } }
+      }
+    },
+    "to" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "To" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "変更後" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "변경 후" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "新路径" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "新路徑" } }
+      }
+    },
+    "untracked" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Untracked" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "未追跡" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "추적되지 않음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "未跟踪" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "未追蹤" } }
+      }
+    },
+    "upstream" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Upstream" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "アップストリーム" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "업스트림" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "上游" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "上游" } }
+      }
+    },
+    "branchMenu" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Branch" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ブランチ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "브랜치" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "分支" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "分支" } }
+      }
+    },
+    "branches" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Branches" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ブランチ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "브랜치" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "分支" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "分支" } }
+      }
+    },
+    "changes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Changes" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "変更" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "변경 사항" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "更改" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "變更" } }
+      }
+    },
+    "checkout" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Checkout" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "チェックアウト" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "체크아웃" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "签出" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "簽出" } }
+      }
+    },
+    "commit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Commit" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "コミット" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "커밋" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "提交" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "提交" } }
+      }
+    },
+    "fetch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Fetch" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "フェッチ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "페치" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "获取" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "擷取" } }
+      }
+    },
+    "fetchHelp" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Fetch remote updates" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "リモートの更新をフェッチ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "원격 업데이트 페치" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "获取远程更新" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "擷取遠端更新" } }
+      }
+    },
+    "history" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "History" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "履歴" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "기록" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "历史记录" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "歷史記錄" } }
+      }
+    },
+    "merge" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Merge" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "マージ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "병합" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "合并" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "合併" } }
+      }
+    },
+    "newBranch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "New Branch" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "新規ブランチ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "새 브랜치" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "新建分支" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "新增分支" } }
+      }
+    },
+    "newBranchHelp" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Create a branch" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ブランチを作成" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "브랜치 생성" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "创建分支" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "建立分支" } }
+      }
+    },
+    "noBranches" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No Branches" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ブランチなし" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "브랜치 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "没有分支" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "沒有分支" } }
+      }
+    },
+    "noChanges" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No Changes" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "変更なし" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "변경 사항 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "没有更改" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "沒有變更" } }
+      }
+    },
+    "noChangesDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Working tree changes will appear here." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "作業ツリーの変更がここに表示されます。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "작업 트리의 변경 사항이 여기에 표시됩니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "工作树更改将显示在这里。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "工作樹的變更會顯示在這裡。" } }
+      }
+    },
+    "noHistory" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No History" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "履歴なし" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "기록 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "没有历史记录" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "沒有歷史記錄" } }
+      }
+    },
+    "noHistoryDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Reachable commits will appear here." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "到達可能なコミットがここに表示されます。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "접근 가능한 커밋이 여기에 표시됩니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "可达的提交将显示在这里。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "可到達的提交會顯示在這裡。" } }
+      }
+    },
+    "noRemotes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No Remotes" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "リモートなし" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "원격 저장소 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "没有远程" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "沒有遠端" } }
+      }
+    },
+    "noRepositoryOpen" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No Repository Open" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "リポジトリが開かれていません" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "열려 있는 저장소 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "未打开仓库" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "尚未開啟儲存庫" } }
+      }
+    },
+    "noRepositorySelected" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No Repository Selected" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "リポジトリが選択されていません" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "선택된 저장소 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "未选择仓库" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "尚未選取儲存庫" } }
+      }
+    },
+    "noStashes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No Stashes" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "スタッシュなし" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "스태시 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "没有贮藏" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "沒有儲藏" } }
+      }
+    },
+    "noStashesDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Saved working changes will appear here." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "保存された作業中の変更がここに表示されます。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "저장한 작업 변경 사항이 여기에 표시됩니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "已保存的工作更改将显示在这里。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "已儲藏的工作變更會顯示在這裡。" } }
+      }
+    },
+    "noTags" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No Tags" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "タグなし" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "태그 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "没有标签" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "沒有標籤" } }
+      }
+    },
+    "nothingSelected" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Nothing Selected" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "何も選択されていません" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "선택된 항목 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "未选择内容" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "尚未選取任何項目" } }
+      }
+    },
+    "nothingSelectedDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Select an item to inspect its details." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "項目を選択して詳細を確認してください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "세부 정보를 확인할 항목을 선택하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "选择一个项目以查看其详细信息。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "選取項目以查看詳細資訊。" } }
+      }
+    },
+    "openRepository" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Open Repository" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "リポジトリを開く" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "저장소 열기" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "打开仓库" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "開啟儲存庫" } }
+      }
+    },
+    "pull" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Pull" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "プル" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "풀" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "拉取" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "拉取" } }
+      }
+    },
+    "pullHelp" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Pull from the upstream branch" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "上流ブランチからプル" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "업스트림 브랜치에서 풀" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "从上游分支拉取" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "從上游分支拉取" } }
+      }
+    },
+    "push" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Push" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "プッシュ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "푸시" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "推送" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "推送" } }
+      }
+    },
+    "pushHelp" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Push to the upstream branch" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "上流ブランチへプッシュ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "업스트림 브랜치로 푸시" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "推送到上游分支" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "推送至上游分支" } }
+      }
+    },
+    "rebase" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Rebase" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "リベース" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "리베이스" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "变基" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "變基" } }
+      }
+    },
+    "remotes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Remotes" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "リモート" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "원격 저장소" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "远程" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "遠端" } }
+      }
+    },
+    "repositoryInfo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Repository Info" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "リポジトリ情報" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "저장소 정보" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "仓库信息" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "儲存庫資訊" } }
+      }
+    },
+    "repositoryInfoDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Open a Repository to inspect its information." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "リポジトリを開いて情報を確認してください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "정보를 확인할 저장소를 여세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "打开仓库以查看其信息。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "開啟儲存庫以查看相關資訊。" } }
+      }
+    },
+    "repositoryInfoHelp" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Show or hide Repository Info" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "リポジトリ情報を表示または非表示" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "저장소 정보 표시 또는 숨기기" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "显示或隐藏仓库信息" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "顯示或隱藏儲存庫資訊" } }
+      }
+    },
+    "repositoryMenu" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Repository" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "リポジトリ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "저장소" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "仓库" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "儲存庫" } }
+      }
+    },
+    "repositoryOpenFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Repository Could Not Be Opened" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "リポジトリを開けませんでした" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "저장소를 열 수 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法打开仓库" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法開啟儲存庫" } }
+      }
+    },
+    "repositoryOpenFailedDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Choose another Repository and try again." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "別のリポジトリを選択して、もう一度お試しください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "다른 저장소를 선택하고 다시 시도하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "请选择另一个仓库并重试。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "請選擇其他儲存庫，然後再試一次。" } }
+      }
+    },
+    "resolveConflictBeforeStaging" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Resolve this Conflict in an editor before continuing." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "続行する前に、エディタでこのコンフリクトを解決してください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "계속하기 전에 편집기에서 이 충돌을 해결하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "请先在编辑器中解决此冲突。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "請先在編輯器中解決此衝突。" } }
+      }
+    },
+    "stageAll" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Stage All" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "すべてステージ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "모두 스테이징" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "全部暂存" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "全部暫存" } }
+      }
+    },
+    "stageFile" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Stage File" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ファイルをステージ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "파일 스테이징" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "暂存文件" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "暫存檔案" } }
+      }
+    },
+    "stageFileFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "File Could Not Be Staged" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ファイルをステージできませんでした" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "파일을 스테이징할 수 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法暂存文件" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法暫存檔案" } }
+      }
+    },
+    "stageFilesFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Files Could Not Be Staged" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ファイルをステージできませんでした" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "파일을 스테이징할 수 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法暂存文件" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法暫存檔案" } }
+      }
+    },
+    "stash" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Stash" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "スタッシュ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "스태시" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "贮藏" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "儲藏" } }
+      }
+    },
+    "stashHelp" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Stash working changes" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "作業中の変更をスタッシュ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "작업 변경 사항 스태시" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "贮藏工作更改" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "儲藏工作變更" } }
+      }
+    },
+    "stashes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Stashes" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "スタッシュ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "스태시" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "贮藏" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "儲藏" } }
+      }
+    },
+    "tags" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Tags" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "タグ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "태그" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "标签" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "標籤" } }
+      }
+    },
+    "unstageAll" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unstage All" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "すべてステージ解除" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "모두 스테이징 해제" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "全部取消暂存" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "取消全部暫存" } }
+      }
+    },
+    "unstageFile" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unstage File" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ファイルのステージを解除" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "파일 스테이징 해제" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "取消暂存文件" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "取消暫存檔案" } }
+      }
+    },
+    "unstageFileFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "File Could Not Be Unstaged" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ファイルのステージを解除できませんでした" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "파일의 스테이징을 해제할 수 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法取消暂存文件" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法取消暫存檔案" } }
+      }
+    },
+    "unstageFilesFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Files Could Not Be Unstaged" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ファイルのステージを解除できませんでした" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "파일의 스테이징을 해제할 수 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法取消暂存文件" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法取消暫存檔案" } }
+      }
+    },
+    "bareRepositoryUnsupported" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Bare Repository Is Unsupported" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ベアリポジトリには対応していません" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "베어 저장소는 지원되지 않음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "不支持裸仓库" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "不支援裸儲存庫" } }
+      }
+    },
+    "bareRepositoryUnsupportedDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Colofa requires a working tree. Choose a non-bare Repository." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Colofa には作業ツリーが必要です。ベアではないリポジトリを選択してください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Colofa에는 작업 트리가 필요합니다. 베어 저장소가 아닌 저장소를 선택하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Colofa 需要工作树。请选择非裸仓库。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Colofa 需要工作樹。請選擇非裸儲存庫。" } }
+      }
+    },
+    "cancel" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Cancel" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "キャンセル" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "취소" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "取消" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "取消" } }
+      }
+    },
+    "checkAgain" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Check Again" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "再確認" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "다시 확인" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "重新检查" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "重新檢查" } }
+      }
+    },
+    "chooseAnotherRepository" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Choose Another Repository" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "別のリポジトリを選択" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "다른 저장소 선택" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "选择另一个仓库" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "選擇其他儲存庫" } }
+      }
+    },
+    "command" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Command" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "コマンド" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "명령" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "命令" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "命令" } }
+      }
+    },
+    "detachedHead" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Detached HEAD" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Detached HEAD" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "분리된 HEAD" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "分离的 HEAD" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "分離的 HEAD" } }
+      }
+    },
+    "dismiss" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Dismiss" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "閉じる" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "닫기" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "关闭" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "關閉" } }
+      }
+    },
+    "gitCommandFailedDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Git could not load the Repository. Review the sanitized details and try again." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Git はリポジトリを読み込めませんでした。安全化された詳細を確認して、もう一度お試しください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Git에서 저장소를 불러오지 못했습니다. 정리된 세부 정보를 확인하고 다시 시도하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Git 无法载入仓库。请检查已清理的详细信息并重试。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Git 無法載入儲存庫。請檢查已清理的詳細資訊並再試一次。" } }
+      }
+    },
+    "gitMutationFailedDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Git could not complete the operation. Review the sanitized details and try again." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Git は操作を完了できませんでした。安全化された詳細を確認して、もう一度お試しください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Git에서 작업을 완료하지 못했습니다. 정리된 세부 정보를 확인하고 다시 시도하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Git 无法完成操作。请检查已清理的详细信息并重试。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Git 無法完成操作。請檢查已清理的詳細資訊並再試一次。" } }
+      }
+    },
+    "gitOperationFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Git Operation Failed" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Git 操作に失敗しました" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Git 작업 실패" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Git 操作失败" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Git 操作失敗" } }
+      }
+    },
+    "gitOutputParsingFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Git returned Repository data that Colofa could not understand." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Git から Colofa が解釈できないリポジトリデータが返されました。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Git에서 Colofa가 이해할 수 없는 저장소 데이터를 반환했습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Git 返回了 Colofa 无法识别的仓库数据。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Git 傳回了 Colofa 無法識別的儲存庫資料。" } }
+      }
+    },
+    "gitDirectory" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Git Directory" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Git ディレクトリ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Git 디렉터리" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Git 目录" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Git 目錄" } }
+      }
+    },
+    "gitUnavailable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Git Is Not Available" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Git を利用できません" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Git을 사용할 수 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Git 不可用" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Git 無法使用" } }
+      }
+    },
+    "gitUnavailableDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Install the Xcode Command Line Tools, then check again. Colofa does not require a Git path setting." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Xcode コマンドラインツールをインストールしてから再確認してください。Git パスの設定は不要です。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Xcode 명령줄 도구를 설치한 다음 다시 확인하세요. Git 경로 설정은 필요하지 않습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "请安装 Xcode 命令行工具，然后重新检查。Colofa 不需要 Git 路径设置。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "請安裝 Xcode 命令列工具，然後重新檢查。Colofa 不需要 Git 路徑設定。" } }
+      }
+    },
+    "head" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "HEAD" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "HEAD" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "HEAD" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "HEAD" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "HEAD" } }
+      }
+    },
+    "loadingRepository" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Loading Repository" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "リポジトリを読み込み中" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "저장소 불러오는 중" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "正在载入仓库" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "正在載入儲存庫" } }
+      }
+    },
+    "notARepository" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Not a Repository" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "リポジトリではありません" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "저장소가 아님" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "不是仓库" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "不是儲存庫" } }
+      }
+    },
+    "notARepositoryDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "The selected folder is not inside a Git Repository." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "選択したフォルダは Git リポジトリ内にありません。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "선택한 폴더가 Git 저장소 안에 있지 않습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "所选文件夹不在 Git 仓库中。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "所選資料夾不在 Git 儲存庫中。" } }
+      }
+    },
+    "ok" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "OK" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "OK" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "확인" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "好" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "好" } }
+      }
+    },
+    "output" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Output" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "出力" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "출력" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "输出" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "輸出" } }
+      }
+    },
+    "repositoryLocationUnavailable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Repository Location Is Unavailable" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "リポジトリの場所を利用できません" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "저장소 위치를 사용할 수 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "仓库位置不可用" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "儲存庫位置無法使用" } }
+      }
+    },
+    "repositoryLocationUnavailableDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "The folder may have moved, been deleted, or become unreadable." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "フォルダが移動、削除、または読み取り不能になった可能性があります。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "폴더가 이동 또는 삭제되었거나 읽을 수 없게 되었을 수 있습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "该文件夹可能已移动、被删除或无法读取。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "該資料夾可能已移動、刪除或無法讀取。" } }
+      }
+    },
+    "repositoryName" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Name" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "名前" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이름" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "名称" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "名稱" } }
+      }
+    },
+    "repositoryPath" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Path" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "パス" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "경로" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "路径" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "路徑" } }
+      }
+    },
+    "unbornBranch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unborn Branch" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "未作成のブランチ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "아직 커밋이 없는 브랜치" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "尚无提交的分支" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "尚無提交的分支" } }
+      }
+    },
+    "viewDetails" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "View Details" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "詳細を表示" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "세부 정보 보기" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "查看详情" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "查看詳細資訊" } }
+      }
+    },
+    "workspace" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Workspace" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ワークスペース" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "작업 공간" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "工作区" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "工作區" } }
+      }
+    },
+    "configuration" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Configuration" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "設定" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "구성" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "配置" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "設定" } }
+      }
+    },
+    "configurationEditingScope" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Editing" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "編集対象" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "편집 대상" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "编辑范围" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "編輯範圍" } }
+      }
+    },
+    "configurationRepositoryScope" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This Repository" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "このリポジトリ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 저장소" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "此仓库" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "此儲存庫" } }
+      }
+    },
+    "configurationGlobalScope" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Global" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "グローバル" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "전역" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "全局" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "全域" } }
+      }
+    },
+    "configurationRepositoryDestination" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Writes to this Repository's local Git configuration." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "このリポジトリのローカル Git 設定に書き込みます。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 저장소의 로컬 Git 구성에 씁니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "写入此仓库的本地 Git 配置。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "寫入此儲存庫的本機 Git 設定。" } }
+      }
+    },
+    "configurationGlobalDestination" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Writes to your global Git configuration." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "グローバル Git 設定に書き込みます。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "전역 Git 구성에 씁니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "写入你的全局 Git 配置。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "寫入你的全域 Git 設定。" } }
+      }
+    },
+    "configurationSystemScope" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "System" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "システム" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "시스템" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "系统" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "系統" } }
+      }
+    },
+    "configurationWorktreeScope" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Worktree" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ワークツリー" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "워크트리" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "工作树" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "工作樹" } }
+      }
+    },
+    "configurationCommandScope" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Command" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "コマンド" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "명령" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "命令" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "命令" } }
+      }
+    },
+    "configurationUnknownScope" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Other" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "その他" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "기타" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "其他" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "其他" } }
+      }
+    },
+    "configurationUserName" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Author Name" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "作成者名" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "작성자 이름" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "作者姓名" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "作者姓名" } }
+      }
+    },
+    "configurationUserNameDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Git uses this name for new commits." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Git は新しいコミットにこの名前を使用します。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Git은 새 커밋에 이 이름을 사용합니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Git 会将此姓名用于新提交。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Git 會將此姓名用於新提交。" } }
+      }
+    },
+    "configurationUserEmail" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Author Email" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "作成者メールアドレス" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "작성자 이메일" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "作者邮箱" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "作者電子郵件" } }
+      }
+    },
+    "configurationUserEmailDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Git uses this address for new commits." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Git は新しいコミットにこのアドレスを使用します。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Git은 새 커밋에 이 주소를 사용합니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Git 会将此地址用于新提交。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Git 會將此地址用於新提交。" } }
+      }
+    },
+    "configurationHTTPProxy" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "HTTP Proxy" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "HTTP プロキシ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "HTTP 프록시" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "HTTP 代理" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "HTTP 代理伺服器" } }
+      }
+    },
+    "configurationHTTPProxyDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Applies to HTTP(S) transfers; SSH remotes use your SSH configuration instead." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "HTTP(S) 転送に適用されます。SSH リモートには SSH 設定が使用されます。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "HTTP(S) 전송에 적용되며 SSH 리모트는 SSH 구성을 사용합니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "适用于 HTTP(S) 传输；SSH 远程仓库使用 SSH 配置。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "適用於 HTTP(S) 傳輸；SSH 遠端儲存庫使用 SSH 設定。" } }
+      }
+    },
+    "configurationEmailWarning" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This does not look like a conventional email address. Git may still accept it." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "一般的なメールアドレスの形式ではありません。Git は受け付ける場合があります。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "일반적인 이메일 주소처럼 보이지 않습니다. Git은 계속 허용할 수 있습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "这看起来不像常见的邮箱地址，但 Git 仍可能接受它。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "這看起來不像常見的電子郵件地址，但 Git 仍可能接受它。" } }
+      }
+    },
+    "configurationEffective" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Effective" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "有効" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "적용됨" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "生效" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "生效" } }
+      }
+    },
+    "configurationEmptyValue" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Empty value" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "空の値" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "빈 값" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "空值" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "空值" } }
+      }
+    },
+    "configurationNoValue" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Not configured in any source." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "どの設定ソースにも設定されていません。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "어떤 구성 소스에도 설정되어 있지 않습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "任何配置来源均未设置。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "任何設定來源均未設定。" } }
+      }
+    },
+    "configurationInheritsGlobalValue" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Inherited from global: %@" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "グローバルから継承：%@" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "전역에서 상속: %@" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "继承自全局：%@" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "繼承自全域：%@" } }
+      }
+    },
+    "configurationOverridesGlobalValue" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Overrides global “%@”." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "グローバル値「%@」を上書きします。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "전역 값 “%@”을(를) 재정의합니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "覆盖全局“%@”。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "覆寫全域「%@」。" } }
+      }
+    },
+    "configurationRemoveOverride" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Remove Override" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "上書きを削除" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "재정의 제거" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "移除覆盖" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "移除覆寫" } }
+      }
+    },
+    "configurationRemoveRepositoryOverride" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Remove Repository Override" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "リポジトリの上書きを削除" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "저장소 재정의 제거" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "移除仓库覆盖" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "移除儲存庫覆寫" } }
+      }
+    },
+    "configurationRepositoryShadowsValue" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This Repository overrides this value with “%@”." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "このリポジトリはこの値を「%@」で上書きしています。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 저장소가 이 값을 “%@”(으)로 재정의합니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "本仓库以“%@”覆盖此项。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "此儲存庫以「%@」覆寫此項。" } }
+      }
+    },
+    "configurationSourceShadowsValue" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Another configuration source sets the effective value to “%@”." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "別の設定ソースが有効な値を「%@」に設定しています。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "다른 구성 소스가 유효 값을 “%@”(으)로 설정합니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "其他配置来源将生效值设为“%@”。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "其他設定來源將生效值設為「%@」。" } }
+      }
+    },
+    "configurationSave" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Save" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "保存" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "저장" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "保存" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "儲存" } }
+      }
+    },
+    "configurationSaveFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Configuration Could Not Be Saved" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "設定を保存できませんでした" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "구성을 저장할 수 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法保存配置" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法儲存設定" } }
+      }
+    }
+  },
+  "version" : "1.0"
+}

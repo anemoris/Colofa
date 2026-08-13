@@ -1,0 +1,17 @@
+// Signing.xcconfig
+//
+// Shared signing configuration. This file is tracked in Git and must never
+// contain a developer identity.
+//
+// Your own Apple Developer Team ID belongs in `Signing.local.xcconfig`, which
+// is ignored by Git. Copy `Signing.local.xcconfig.example` to
+// `Signing.local.xcconfig` and fill in your Team ID before building locally.
+//
+// The empty default below keeps unsigned validation builds independent of a
+// developer account.
+
+DEVELOPMENT_TEAM =
+
+// Optional include: absent on fresh clones, present locally. Assignments here
+// override the empty default above.
+#include? "Signing.local.xcconfig"

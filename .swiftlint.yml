@@ -1,0 +1,28 @@
+strict: true
+
+# Lint all first-party Swift source, tests, support code, and scripts.
+included:
+  - Colofa
+  - ColofaTests
+  - ColofaUITests
+  - ColofaGitIntegrationTests
+  - SharedTestSupport
+  - Scripts
+
+excluded:
+  - .build
+  - .swiftpm
+  - build
+  - DerivedData
+
+trailing_comma:
+  # Multi-line collection literals in this codebase use trailing commas.
+  mandatory_comma: true
+
+identifier_name:
+  # `am` is a Git operation name, not an abbreviation to expand.
+  # These are regular expressions, and "^id$" is SwiftLint's own default, which
+  # is repeated here because supplying this key replaces the default outright.
+  excluded:
+    - "^id$"
+    - "^am$"

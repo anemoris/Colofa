@@ -1,0 +1,347 @@
+[
+  {
+    "text" : "actor GitRepositoryService {",
+    "violation" : {
+      "location" : {
+        "character" : 1,
+        "file" : "repo:///Colofa/Features/Repository/Services/GitRepositoryService.swift",
+        "line" : 11
+      },
+      "reason" : "Actor body should span 350 lines or less excluding comments and whitespace: currently spans 378 lines",
+      "ruleDescription" : "Type bodies should not span too many lines",
+      "ruleIdentifier" : "type_body_length",
+      "ruleName" : "Type Body Length",
+      "severity" : "error"
+    }
+  },
+  {
+    "text" : "    func loadRepository(at selectedURL: URL) async throws -> RepositorySnapshot {",
+    "violation" : {
+      "location" : {
+        "character" : 5,
+        "file" : "repo:///Colofa/Features/Repository/Services/GitRepositoryService.swift",
+        "line" : 53
+      },
+      "reason" : "Function body should span 50 lines or less excluding comments and whitespace: currently spans 94 lines",
+      "ruleDescription" : "Function bodies should not span too many lines",
+      "ruleIdentifier" : "function_body_length",
+      "ruleName" : "Function Body Length",
+      "severity" : "error"
+    }
+  },
+  {
+    "text" : "        return String(decoding: output, as: UTF8.self)",
+    "violation" : {
+      "location" : {
+        "character" : 16,
+        "file" : "repo:///Colofa/Features/Repository/Services/GitRepositoryService.swift",
+        "line" : 242
+      },
+      "reason" : "Prefer failable `String(bytes:encoding:)` initializer when converting `Data` to `String`",
+      "ruleDescription" : "Prefer failable `String(bytes:encoding:)` initializer when converting `Data` to `String`",
+      "ruleIdentifier" : "optional_data_string_conversion",
+      "ruleName" : "Optional Data -> String Conversion",
+      "severity" : "error"
+    }
+  },
+  {
+    "text" : "    private func executeData(",
+    "violation" : {
+      "location" : {
+        "character" : 13,
+        "file" : "repo:///Colofa/Features/Repository/Services/GitRepositoryService.swift",
+        "line" : 262
+      },
+      "reason" : "Function body should span 50 lines or less excluding comments and whitespace: currently spans 65 lines",
+      "ruleDescription" : "Function bodies should not span too many lines",
+      "ruleIdentifier" : "function_body_length",
+      "ruleName" : "Function Body Length",
+      "severity" : "error"
+    }
+  },
+  {
+    "text" : "                    String(decoding: $0, as: UTF8.self)",
+    "violation" : {
+      "location" : {
+        "character" : 21,
+        "file" : "repo:///Colofa/Features/Repository/Services/GitRepositoryService.swift",
+        "line" : 321
+      },
+      "reason" : "Prefer failable `String(bytes:encoding:)` initializer when converting `Data` to `String`",
+      "ruleDescription" : "Prefer failable `String(bytes:encoding:)` initializer when converting `Data` to `String`",
+      "ruleIdentifier" : "optional_data_string_conversion",
+      "ruleName" : "Optional Data -> String Conversion",
+      "severity" : "error"
+    }
+  },
+  {
+    "text" : "            if output.count < (limit ?? .max) {",
+    "violation" : {
+      "location" : {
+        "character" : 13,
+        "file" : "repo:///Colofa/Features/Repository/Services/GitRepositoryService.swift",
+        "line" : 386
+      },
+      "reason" : "`where` clauses are preferred over a single `if` inside a `for`",
+      "ruleDescription" : "`where` clauses are preferred over a single `if` inside a `for`",
+      "ruleIdentifier" : "for_where",
+      "ruleName" : "Prefer For-Where",
+      "severity" : "error"
+    }
+  },
+  {
+    "text" : "}",
+    "violation" : {
+      "location" : {
+        "character" : 1,
+        "file" : "repo:///Colofa/Features/Repository/Services/GitRepositoryService.swift",
+        "line" : 426
+      },
+      "reason" : "File should contain 400 lines or less: currently contains 426",
+      "ruleDescription" : "Files should not span too many lines.",
+      "ruleIdentifier" : "file_length",
+      "ruleName" : "File Length",
+      "severity" : "error"
+    }
+  },
+  {
+    "text" : "    nonisolated static func parse(_ data: Data) throws -> RepositoryStatus {",
+    "violation" : {
+      "location" : {
+        "character" : 17,
+        "file" : "repo:///Colofa/Features/Repository/Services/GitStatusParser.swift",
+        "line" : 12
+      },
+      "reason" : "Function should have complexity 10 or less; currently complexity is 12",
+      "ruleDescription" : "Complexity of function bodies should be limited.",
+      "ruleIdentifier" : "cyclomatic_complexity",
+      "ruleName" : "Cyclomatic Complexity",
+      "severity" : "error"
+    }
+  },
+  {
+    "text" : "    nonisolated static func parse(_ data: Data) throws -> RepositoryStatus {",
+    "violation" : {
+      "location" : {
+        "character" : 24,
+        "file" : "repo:///Colofa/Features/Repository/Services/GitStatusParser.swift",
+        "line" : 12
+      },
+      "reason" : "Function body should span 50 lines or less excluding comments and whitespace: currently spans 59 lines",
+      "ruleDescription" : "Function bodies should not span too many lines",
+      "ruleIdentifier" : "function_body_length",
+      "ruleName" : "Function Body Length",
+      "severity" : "error"
+    }
+  },
+  {
+    "text" : "final class WorkspaceState {",
+    "violation" : {
+      "location" : {
+        "character" : 7,
+        "file" : "repo:///Colofa/Features/Workspace/State/WorkspaceState.swift",
+        "line" : 14
+      },
+      "reason" : "Class body should span 350 lines or less excluding comments and whitespace: currently spans 449 lines",
+      "ruleDescription" : "Type bodies should not span too many lines",
+      "ruleIdentifier" : "type_body_length",
+      "ruleName" : "Type Body Length",
+      "severity" : "error"
+    }
+  },
+  {
+    "text" : "    private func openRepository(",
+    "violation" : {
+      "location" : {
+        "character" : 13,
+        "file" : "repo:///Colofa/Features/Workspace/State/WorkspaceState.swift",
+        "line" : 345
+      },
+      "reason" : "Function should have complexity 10 or less; currently complexity is 11",
+      "ruleDescription" : "Complexity of function bodies should be limited.",
+      "ruleIdentifier" : "cyclomatic_complexity",
+      "ruleName" : "Cyclomatic Complexity",
+      "severity" : "error"
+    }
+  },
+  {
+    "text" : "    private func openRepository(",
+    "violation" : {
+      "location" : {
+        "character" : 13,
+        "file" : "repo:///Colofa/Features/Workspace/State/WorkspaceState.swift",
+        "line" : 345
+      },
+      "reason" : "Function body should span 50 lines or less excluding comments and whitespace: currently spans 51 lines",
+      "ruleDescription" : "Function bodies should not span too many lines",
+      "ruleIdentifier" : "function_body_length",
+      "ruleName" : "Function Body Length",
+      "severity" : "error"
+    }
+  },
+  {
+    "text" : "}",
+    "violation" : {
+      "location" : {
+        "character" : 1,
+        "file" : "repo:///Colofa/Features/Workspace/State/WorkspaceState.swift",
+        "line" : 520
+      },
+      "reason" : "File should contain 400 lines or less: currently contains 520",
+      "ruleDescription" : "Files should not span too many lines.",
+      "ruleIdentifier" : "file_length",
+      "ruleName" : "File Length",
+      "severity" : "error"
+    }
+  },
+  {
+    "text" : "        let events = String(decoding: try Data(contentsOf: eventsURL), as: UTF8.self)",
+    "violation" : {
+      "location" : {
+        "character" : 22,
+        "file" : "repo:///ColofaGitIntegrationTests/LocalMutationIntegrationTests.swift",
+        "line" : 36
+      },
+      "reason" : "Prefer failable `String(bytes:encoding:)` initializer when converting `Data` to `String`",
+      "ruleDescription" : "Prefer failable `String(bytes:encoding:)` initializer when converting `Data` to `String`",
+      "ruleIdentifier" : "optional_data_string_conversion",
+      "ruleName" : "Optional Data -> String Conversion",
+      "severity" : "error"
+    }
+  },
+  {
+    "text" : "struct RepositoryOpeningIntegrationTests {",
+    "violation" : {
+      "location" : {
+        "character" : 1,
+        "file" : "repo:///ColofaGitIntegrationTests/RepositoryOpeningIntegrationTests.swift",
+        "line" : 14
+      },
+      "reason" : "Struct body should span 250 lines or less excluding comments and whitespace: currently spans 318 lines",
+      "ruleDescription" : "Type bodies should not span too many lines",
+      "ruleIdentifier" : "type_body_length",
+      "ruleName" : "Type Body Length",
+      "severity" : "error"
+    }
+  },
+  {
+    "text" : "    func loadsRealReferencesUpstreamAndWorkingTreeProjections() async throws {",
+    "violation" : {
+      "location" : {
+        "character" : 5,
+        "file" : "repo:///ColofaGitIntegrationTests/RepositoryOpeningIntegrationTests.swift",
+        "line" : 34
+      },
+      "reason" : "Function body should span 50 lines or less excluding comments and whitespace: currently spans 55 lines",
+      "ruleDescription" : "Function bodies should not span too many lines",
+      "ruleIdentifier" : "function_body_length",
+      "ruleName" : "Function Body Length",
+      "severity" : "error"
+    }
+  },
+  {
+    "text" : "        let events = String(decoding: try Data(contentsOf: eventsURL), as: UTF8.self)",
+    "violation" : {
+      "location" : {
+        "character" : 22,
+        "file" : "repo:///ColofaGitIntegrationTests/RepositoryOpeningIntegrationTests.swift",
+        "line" : 351
+      },
+      "reason" : "Prefer failable `String(bytes:encoding:)` initializer when converting `Data` to `String`",
+      "ruleDescription" : "Prefer failable `String(bytes:encoding:)` initializer when converting `Data` to `String`",
+      "ruleIdentifier" : "optional_data_string_conversion",
+      "ruleName" : "Optional Data -> String Conversion",
+      "severity" : "error"
+    }
+  },
+  {
+    "text" : "                        String(decoding: output, as: UTF8.self)",
+    "violation" : {
+      "location" : {
+        "character" : 25,
+        "file" : "repo:///ColofaGitIntegrationTests/Support/GitTestRepository.swift",
+        "line" : 158
+      },
+      "reason" : "Prefer failable `String(bytes:encoding:)` initializer when converting `Data` to `String`",
+      "ruleDescription" : "Prefer failable `String(bytes:encoding:)` initializer when converting `Data` to `String`",
+      "ruleIdentifier" : "optional_data_string_conversion",
+      "ruleName" : "Optional Data -> String Conversion",
+      "severity" : "error"
+    }
+  },
+  {
+    "text" : "        return String(decoding: output, as: UTF8.self)",
+    "violation" : {
+      "location" : {
+        "character" : 16,
+        "file" : "repo:///ColofaGitIntegrationTests/Support/GitTestRepository.swift",
+        "line" : 164
+      },
+      "reason" : "Prefer failable `String(bytes:encoding:)` initializer when converting `Data` to `String`",
+      "ruleDescription" : "Prefer failable `String(bytes:encoding:)` initializer when converting `Data` to `String`",
+      "ruleIdentifier" : "optional_data_string_conversion",
+      "ruleName" : "Optional Data -> String Conversion",
+      "severity" : "error"
+    }
+  },
+  {
+    "text" : "final class WorkspaceStateTests {",
+    "violation" : {
+      "location" : {
+        "character" : 7,
+        "file" : "repo:///ColofaTests/Features/Workspace/WorkspaceStateTests.swift",
+        "line" : 14
+      },
+      "reason" : "Class body should span 350 lines or less excluding comments and whitespace: currently spans 493 lines",
+      "ruleDescription" : "Type bodies should not span too many lines",
+      "ruleIdentifier" : "type_body_length",
+      "ruleName" : "Type Body Length",
+      "severity" : "error"
+    }
+  },
+  {
+    "text" : "}",
+    "violation" : {
+      "location" : {
+        "character" : 1,
+        "file" : "repo:///ColofaTests/Features/Workspace/WorkspaceStateTests.swift",
+        "line" : 575
+      },
+      "reason" : "File should contain 400 lines or less: currently contains 575",
+      "ruleDescription" : "Files should not span too many lines.",
+      "ruleIdentifier" : "file_length",
+      "ruleName" : "File Length",
+      "severity" : "error"
+    }
+  },
+  {
+    "text" : "    func testEnglishShowsRealRepositoryState() {",
+    "violation" : {
+      "location" : {
+        "character" : 5,
+        "file" : "repo:///ColofaUITests/Features/Workspace/RepositoryOpeningUITests.swift",
+        "line" : 40
+      },
+      "reason" : "Function body should span 50 lines or less excluding comments and whitespace: currently spans 80 lines",
+      "ruleDescription" : "Function bodies should not span too many lines",
+      "ruleIdentifier" : "function_body_length",
+      "ruleName" : "Function Body Length",
+      "severity" : "error"
+    }
+  },
+  {
+    "text" : "    func testEnglishShowsAdditionalHeadAndOperationStates() {",
+    "violation" : {
+      "location" : {
+        "character" : 5,
+        "file" : "repo:///ColofaUITests/Features/Workspace/RepositoryOpeningUITests.swift",
+        "line" : 139
+      },
+      "reason" : "Function body should span 50 lines or less excluding comments and whitespace: currently spans 55 lines",
+      "ruleDescription" : "Function bodies should not span too many lines",
+      "ruleIdentifier" : "function_body_length",
+      "ruleName" : "Function Body Length",
+      "severity" : "error"
+    }
+  }
+]

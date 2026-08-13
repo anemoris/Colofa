@@ -1,0 +1,83 @@
+# Xcode
+#
+# gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Xcode user data
+*.xcuserstate
+*.xcscmblueprint
+xcuserdata/
+*.moved-aside
+*.xccheckout
+
+## Obj-C/Swift specific
+*.hmap
+
+# Xcode build output
+build/
+DerivedData/
+*.ipa
+*.dSYM.zip
+*.dSYM
+
+## Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+# Swift Package Manager
+.build/
+.swiftpm/
+
+# CocoaPods
+Pods/
+
+# Carthage
+Carthage/Build/
+
+# Carthage
+#
+# Add this line if you want to avoid checking in source code from Carthage dependencies.
+# Carthage/Checkouts
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output/
+
+# AppCode
+.idea/
+
+# Local AI and editor configuration
+/AGENTS.md
+/CLAUDE.md
+/DESIGN.md
+/CONTEXT.md
+.agents/
+.codex/
+.claude/
+.vscode/
+.cursor/
+.windsurf/
+.scratch/
+
+# Doc
+/docs/
+
+# Signing and secrets
+Config/Signing.local.xcconfig
+*.mobileprovision
+*.provisionprofile
+*.p12
+*.cer
+*.pem
+*.key
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
