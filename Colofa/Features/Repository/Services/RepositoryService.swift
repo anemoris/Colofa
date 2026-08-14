@@ -17,6 +17,10 @@ struct RepositoryService: Sendable {
     /// is echoed back in sanitized failure details.
     let runMutation: @Sendable ([String], String?, URL) async throws -> Void
 
+    /// Reads one bounded patch. Separate from `load` because a Diff is chosen, not published:
+    /// Repository state does not carry it, and its cost is paid only for the current selection.
+    let loadDiff: @Sendable (DiffLoadRequest) async throws -> DiffLoadResult
+
     static func live() -> Self {
         let backend = GitRepositoryService()
 
@@ -29,6 +33,9 @@ struct RepositoryService: Sendable {
             },
             runMutation: { arguments, standardInput, url in
                 try await backend.runMutation(arguments, standardInput: standardInput, in: url)
+            },
+            loadDiff: { request in
+                try await backend.loadDiff(request)
             }
         )
     }
@@ -38,7 +45,8 @@ struct RepositoryService: Sendable {
         Self(
             availability: { .unavailable },
             load: { _ in throw RepositoryOpenError.gitUnavailable },
-            runMutation: { _, _, _ in throw RepositoryOpenError.gitUnavailable }
+            runMutation: { _, _, _ in throw RepositoryOpenError.gitUnavailable },
+            loadDiff: { _ in throw RepositoryOpenError.gitUnavailable }
         )
     }
 
@@ -51,6 +59,9 @@ struct RepositoryService: Sendable {
             },
             runMutation: { arguments, standardInput, url in
                 try await backend.runMutation(arguments, standardInput: standardInput, in: url)
+            },
+            loadDiff: { request in
+                try await backend.loadDiff(request)
             }
         )
     }

@@ -30,6 +30,10 @@ actor UITestingRepositoryService {
         return snapshot
     }
 
+    func loadDiff(_ request: DiffLoadRequest) async throws -> DiffLoadResult {
+        try await UITestingDiffs.result(for: request)
+    }
+
     func runMutation(
         _ command: [String],
         standardInput: String? = nil,

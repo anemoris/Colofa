@@ -15,6 +15,9 @@ import Foundation
 /// `UITestingRepositoryService` builds these from an actor.
 nonisolated enum UITestingRepositorySnapshots {
     static func initial(at url: URL, arguments: [String]) -> RepositorySnapshot {
+        if arguments.contains(UITestingArgument.diffState) {
+            return diffState(at: url)
+        }
         if arguments.contains(UITestingArgument.committableState) {
             return committable(at: url, arguments: arguments)
         }
@@ -120,6 +123,40 @@ nonisolated enum UITestingRepositorySnapshots {
             configuration: arguments.contains(UITestingArgument.missingCommitIdentity)
                 ? .empty
                 : configuration(at: url)
+        )
+    }
+
+    /// One Change per Diff case the pane has to handle, so a single launch can walk all of them.
+    private static func diffState(at url: URL) -> RepositorySnapshot {
+        RepositorySnapshot(
+            name: url.lastPathComponent,
+            rootURL: url,
+            gitDirectoryURL: url.appending(path: ".git"),
+            head: .branch("main"),
+            headCommit: RepositoryHeadCommit(
+                objectID: "ui-diff-head",
+                summary: "Fixture commit",
+                body: ""
+            ),
+            localBranches: ["main"],
+            stagedChanges: [
+                RepositoryChange(
+                    path: UITestingDiffs.renamedPath,
+                    kind: .renamed(from: UITestingDiffs.originalPath)
+                ),
+            ],
+            unstagedChanges: [
+                RepositoryChange(path: UITestingDiffs.binaryPath, kind: .modified),
+                RepositoryChange(path: UITestingDiffs.textPath, kind: .modified),
+                RepositoryChange(path: UITestingDiffs.beyondLimitPath, kind: .modified),
+                RepositoryChange(path: UITestingDiffs.deletedBeyondLimitPath, kind: .deleted),
+                RepositoryChange(path: UITestingDiffs.confirmationPath, kind: .modified),
+                RepositoryChange(path: UITestingDiffs.slowPath, kind: .modified),
+                RepositoryChange(path: UITestingDiffs.submodulePath, kind: .modified),
+            ],
+            totalCommitCount: 12,
+            gitObjectSize: 4_096,
+            configuration: configuration(at: url)
         )
     }
 
