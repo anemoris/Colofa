@@ -57,6 +57,13 @@ struct WorkspaceRootView: View {
         } message: {
             Text(state.repositoryFailureMessage ?? .gitMutationFailedDescription)
         }
+        .alert(
+            String(localized: .amendCancelledHeadChangedTitle),
+            isPresented: $state.isShowingStaleAmendAlert
+        ) {
+        } message: {
+            Text(.amendCancelledHeadChangedMessage)
+        }
         .task {
             await state.start()
         }

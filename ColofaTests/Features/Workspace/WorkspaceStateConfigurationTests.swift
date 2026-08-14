@@ -64,7 +64,7 @@ final class WorkspaceStateConfigurationTests {
         await state.updateConfiguration(.userName, value: "Updated Name", in: .repository)
         await state.updateConfiguration(.userName, value: nil, in: .repository)
 
-        #expect(await stub.recordedMutations() == [
+        #expect(await stub.recordedArguments() == [
             ["config", "--local", "--replace-all", "user.name", "Updated Name"],
             ["config", "--local", "--unset-all", "user.name"],
         ])
@@ -99,7 +99,7 @@ final class WorkspaceStateConfigurationTests {
             in: .global
         )
 
-        #expect(await stub.recordedMutations() == [
+        #expect(await stub.recordedArguments() == [
             ["config", "--global", "--replace-all", "user.email", "new@example.invalid"],
         ])
     }
@@ -131,7 +131,7 @@ final class WorkspaceStateConfigurationTests {
         await state.handleRepositorySelection(.success(repositoryURL))
         await state.updateConfiguration(.userEmail, value: nil, in: .repository)
 
-        #expect(await stub.recordedMutations() == [
+        #expect(await stub.recordedArguments() == [
             ["config", "--local", "--unset-all", "user.email"],
         ])
         #expect(state.repository == after)

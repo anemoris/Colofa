@@ -136,6 +136,19 @@ final class GitTestRepository {
 
     @discardableResult
     func git(_ arguments: [String], in directoryURL: URL? = nil) throws -> String {
+        try rawGit(arguments, in: directoryURL)
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+
+    /// HEAD's message exactly as the Commit holds it, with none of the trimming every other
+    /// reading applies. Comparing what an Amend did to a message needs those bytes intact.
+    func rawCommitMessage(in repositoryURL: URL) throws -> String {
+        // `git log` ends its record with a newline the Commit itself does not contain.
+        let record = try rawGit(["log", "--max-count=1", "--format=%B"], in: repositoryURL)
+        return record.hasSuffix("\n") ? String(record.dropLast()) : record
+    }
+
+    private func rawGit(_ arguments: [String], in directoryURL: URL? = nil) throws -> String {
         let outputPipe = Pipe()
         let process = Process()
         process.executableURL = gitURL
@@ -162,7 +175,6 @@ final class GitTestRepository {
         }
 
         return String(decoding: output, as: UTF8.self)
-            .trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     private func remove() {

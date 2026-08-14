@@ -33,6 +33,28 @@ nonisolated enum UITestingArgument {
     /// Serves a fully populated snapshot instead of an empty, unborn-branch Repository.
     static let realRepositoryState = "--ui-testing-real-repository-state"
 
+    /// Serves a Repository that can actually be committed: Staged Changes, a configured identity,
+    /// a published HEAD to amend, and no Conflict or active operation in the way.
+    static let committableState = "--ui-testing-committable-state"
+
+    /// Removes all working-tree changes so the collapsed clean-workspace Amend affordance appears.
+    static let cleanCommitState = "--ui-testing-clean-commit-state"
+
+    /// Serves an unresolved Conflict without an active operation.
+    static let commitConflict = "--ui-testing-commit-conflict"
+
+    /// Removes the effective Commit identity.
+    static let missingCommitIdentity = "--ui-testing-missing-commit-identity"
+
+    /// Serves a staged first Commit on an Unborn Branch.
+    static let unbornCommitState = "--ui-testing-unborn-commit-state"
+
+    /// Makes Commit fail as though a configured Hook rejected it.
+    static let commitHookFailure = "--ui-testing-commit-hook-failure"
+
+    /// Makes Commit fail as though configured signing rejected it.
+    static let commitSigningFailure = "--ui-testing-commit-signing-failure"
+
     /// Reports HEAD as detached rather than on a branch.
     static let detachedHead = "--ui-testing-detached-head"
 

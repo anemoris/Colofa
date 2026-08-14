@@ -16,7 +16,12 @@ actor RepositoryServiceStub {
     private let mutationError: RepositoryOpenError?
     private let mutationDelay: Duration?
     private var snapshots: [URL: [RepositorySnapshot]]
-    private var mutations: [[String]] = []
+    private var mutations: [RecordedMutation] = []
+
+    struct RecordedMutation: Equatable, Sendable {
+        let arguments: [String]
+        let standardInput: String?
+    }
 
     init(
         gitAvailability: GitAvailability = .available(URL(filePath: "/usr/bin/git")),
@@ -42,14 +47,18 @@ actor RepositoryServiceStub {
             load: { url in
                 try await self.load(url)
             },
-            runMutation: { arguments, _ in
-                try await self.mutate(arguments)
+            runMutation: { arguments, standardInput, _ in
+                try await self.mutate(arguments, standardInput: standardInput)
             }
         )
     }
 
-    func recordedMutations() -> [[String]] {
+    func recordedMutations() -> [RecordedMutation] {
         mutations
+    }
+
+    func recordedArguments() -> [[String]] {
+        mutations.map(\.arguments)
     }
 
     private func load(_ url: URL) async throws -> RepositorySnapshot {
@@ -71,8 +80,8 @@ actor RepositoryServiceStub {
         return snapshot
     }
 
-    private func mutate(_ arguments: [String]) async throws {
-        mutations.append(arguments)
+    private func mutate(_ arguments: [String], standardInput: String?) async throws {
+        mutations.append(RecordedMutation(arguments: arguments, standardInput: standardInput))
         if let mutationDelay {
             try await Task.sleep(for: mutationDelay)
         }

@@ -25,17 +25,17 @@ actor UITestingRepositoryService {
             return snapshot
         }
 
-        let snapshot = initialSnapshot(at: url)
+        let snapshot = UITestingRepositorySnapshots.initial(at: url, arguments: arguments)
         self.snapshot = snapshot
         return snapshot
     }
 
-    func runMutation(_ command: [String], in repositoryURL: URL) throws {
-        if arguments.contains(UITestingArgument.stageFailure) {
-            throw RepositoryOpenError.commandFailed(
-                GitFailureDetails(command: "git", output: "UI test mutation failed")
-            )
-        }
+    func runMutation(
+        _ command: [String],
+        standardInput: String? = nil,
+        in repositoryURL: URL
+    ) throws {
+        try throwRequestedMutationFailure()
         guard let snapshot, snapshot.rootURL == repositoryURL else {
             throw RepositoryOpenError.notRepository
         }
@@ -48,6 +48,41 @@ actor UITestingRepositoryService {
             return
         }
 
+        if command.first == "commit" {
+            let isAmending = command.contains("--amend")
+            self.snapshot = replacing(
+                in: snapshot,
+                head: committedHead(in: snapshot),
+                staged: [],
+                headCommit: committed(standardInput ?? "", in: snapshot, isAmending: isAmending),
+                upstream: committedUpstream(in: snapshot, isAmending: isAmending),
+                totalCommitCount: snapshot.totalCommitCount + (isAmending ? 0 : 1)
+            )
+            return
+        }
+
+        updateChanges(for: command, in: snapshot)
+    }
+
+    private func throwRequestedMutationFailure() throws {
+        if arguments.contains(UITestingArgument.commitHookFailure) {
+            throw RepositoryOpenError.commandFailed(
+                GitFailureDetails(command: "git commit", output: "pre-commit rejected the Commit")
+            )
+        }
+        if arguments.contains(UITestingArgument.commitSigningFailure) {
+            throw RepositoryOpenError.commandFailed(
+                GitFailureDetails(command: "git commit", output: "Commit signing failed")
+            )
+        }
+        if arguments.contains(UITestingArgument.stageFailure) {
+            throw RepositoryOpenError.commandFailed(
+                GitFailureDetails(command: "git", output: "UI test mutation failed")
+            )
+        }
+    }
+
+    private func updateChanges(for command: [String], in snapshot: RepositorySnapshot) {
         let paths = command.drop { $0 != "--" }.dropFirst()
         var staged = snapshot.stagedChanges
         var unstaged = snapshot.unstagedChanges
@@ -77,80 +112,50 @@ actor UITestingRepositoryService {
         )
     }
 
-    private func initialSnapshot(at url: URL) -> RepositorySnapshot {
-        guard arguments.contains(UITestingArgument.realRepositoryState) else {
-            return RepositorySnapshot(
-                name: url.lastPathComponent,
-                rootURL: url,
-                gitDirectoryURL: url.appending(path: ".git"),
-                head: .unbornBranch("main")
-            )
-        }
-
-        let partial = RepositoryChange(path: "partial 文件.txt", kind: .modified)
-        return RepositorySnapshot(
-            name: url.lastPathComponent,
-            rootURL: url,
-            gitDirectoryURL: url.appending(path: ".git"),
-            head: arguments.contains(UITestingArgument.detachedHead)
-                ? .detached("0123456789abcdef")
-                : .branch("main"),
-            upstream: RepositoryUpstream(name: "origin/main", ahead: 3, behind: 2),
-            remotes: arguments.contains(UITestingArgument.remoteBranchesOnly)
-                ? []
-                : [RepositoryRemote(name: "origin", url: "ssh://example.invalid/Colofa.git")],
-            localBranches: ["feature/真实", "main"],
-            remoteBranches: ["origin/main"],
-            tags: ["v1.0-测试"],
-            stagedChanges: [
-                RepositoryChange(path: "added.swift", kind: .added),
-                partial,
-                RepositoryChange(path: "renamed 名称.txt", kind: .renamed(from: "old name.txt")),
-            ],
-            unstagedChanges: [
-                RepositoryChange(path: "conflict.txt", kind: .conflict),
-                RepositoryChange(path: "Link", kind: .typeChanged),
-                RepositoryChange(path: "deleted.swift", kind: .deleted),
-                RepositoryChange(path: "notes.txt", kind: .untracked),
-                partial,
-            ],
-            operation: operation,
-            totalCommitCount: 12,
-            gitObjectSize: 4_096,
-            configuration: configuration(at: url)
+    /// The Commit the stub now reports at HEAD. A fresh Commit is unpublished; an Amend keeps
+    /// whatever the rewritten Commit was, which is what makes the warning reappear.
+    private func committed(
+        _ message: String,
+        in snapshot: RepositorySnapshot,
+        isAmending: Bool
+    ) -> RepositoryHeadCommit {
+        let lines = message.split(separator: "\n", maxSplits: 1, omittingEmptySubsequences: false)
+        return RepositoryHeadCommit(
+            objectID: "ui-\(isAmending ? "amend" : "commit")-\(snapshot.totalCommitCount)",
+            summary: String(lines.first ?? ""),
+            body: lines.count > 1
+                ? String(lines[1]).trimmingCharacters(in: .newlines)
+                : "",
+            isPublished: isAmending && snapshot.headCommit?.isPublished == true
         )
     }
 
-    private func configuration(at url: URL) -> GitConfigurationSnapshot {
-        GitConfigurationSnapshot(
-            entries: [
-                GitConfigurationEntry(
-                    key: .httpProxy,
-                    value: "http://system.example.invalid:8080",
-                    scope: .system,
-                    origin: GitConfigurationOrigin(rawValue: "file:/etc/gitconfig")
-                ),
-                GitConfigurationEntry(
-                    key: .userName,
-                    value: "Colofa UI Author",
-                    scope: .global,
-                    origin: GitConfigurationOrigin(rawValue: "file:/tmp/colofa-ui-global.gitconfig")
-                ),
-                GitConfigurationEntry(
-                    key: .userEmail,
-                    value: "global@example.invalid",
-                    scope: .global,
-                    origin: GitConfigurationOrigin(rawValue: "file:/tmp/colofa-ui-global.gitconfig")
-                ),
-                GitConfigurationEntry(
-                    key: .userEmail,
-                    value: "local@example.invalid",
-                    scope: .local,
-                    origin: GitConfigurationOrigin(
-                        rawValue: "file:\(url.appending(path: ".git").normalizedFilePath)/config"
-                    )
-                ),
-            ]
+    private func committedHead(in snapshot: RepositorySnapshot) -> RepositoryHead {
+        if case .unbornBranch(let branch) = snapshot.head {
+            .branch(branch)
+        } else {
+            snapshot.head
+        }
+    }
+
+    private func committedUpstream(
+        in snapshot: RepositorySnapshot,
+        isAmending: Bool
+    ) -> RepositoryUpstream? {
+        guard let upstream = snapshot.upstream else {
+            return nil
+        }
+        if isAmending && snapshot.headCommit?.isPublished == true {
+            return RepositoryUpstream(
+                name: upstream.name,
+                ahead: upstream.ahead + 1,
+                behind: upstream.behind + 1
+            )
+        }
+        return RepositoryUpstream(
+            name: upstream.name,
+            ahead: upstream.ahead + (isAmending ? 0 : 1),
+            behind: upstream.behind
         )
     }
 
@@ -191,36 +196,27 @@ actor UITestingRepositoryService {
         return GitConfigurationSnapshot(entries: entries)
     }
 
-    private var operation: RepositoryOperation {
-        if arguments.contains(UITestingArgument.rebase) {
-            .rebase
-        } else if arguments.contains(UITestingArgument.am) {
-            .am
-        } else if arguments.contains(UITestingArgument.cherryPick) {
-            .cherryPick
-        } else if arguments.contains(UITestingArgument.revert) {
-            .revert
-        } else {
-            .merge
-        }
-    }
-
     /// Copies `snapshot`, overriding only the fields a mutation touched.
     ///
     /// `RepositorySnapshot` has no `with`-style API, so every stub mutation would otherwise
     /// restate all of its fields and silently drop whichever one a future property forgot.
     private func replacing(
         in snapshot: RepositorySnapshot,
+        head: RepositoryHead? = nil,
         staged: [RepositoryChange]? = nil,
         unstaged: [RepositoryChange]? = nil,
+        headCommit: RepositoryHeadCommit? = nil,
+        upstream: RepositoryUpstream? = nil,
+        totalCommitCount: Int? = nil,
         configuration: GitConfigurationSnapshot? = nil
     ) -> RepositorySnapshot {
         RepositorySnapshot(
             name: snapshot.name,
             rootURL: snapshot.rootURL,
             gitDirectoryURL: snapshot.gitDirectoryURL,
-            head: snapshot.head,
-            upstream: snapshot.upstream,
+            head: head ?? snapshot.head,
+            headCommit: headCommit ?? snapshot.headCommit,
+            upstream: upstream ?? snapshot.upstream,
             remotes: snapshot.remotes,
             localBranches: snapshot.localBranches,
             remoteBranches: snapshot.remoteBranches,
@@ -228,7 +224,7 @@ actor UITestingRepositoryService {
             stagedChanges: staged ?? snapshot.stagedChanges,
             unstagedChanges: unstaged ?? snapshot.unstagedChanges,
             operation: snapshot.operation,
-            totalCommitCount: snapshot.totalCommitCount,
+            totalCommitCount: totalCommitCount ?? snapshot.totalCommitCount,
             gitObjectSize: snapshot.gitObjectSize,
             configuration: configuration ?? snapshot.configuration
         )

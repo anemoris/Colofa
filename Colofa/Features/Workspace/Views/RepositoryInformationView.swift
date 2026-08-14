@@ -38,6 +38,7 @@ struct RepositoryInformationView: View {
                 }
                 LabeledContent(String(localized: .commits)) {
                     Text(repository.totalCommitCount, format: .number)
+                        .accessibilityIdentifier("repository.commitCount")
                 }
                 LabeledContent(String(localized: .branches)) {
                     Text(repository.localBranches.count, format: .number)

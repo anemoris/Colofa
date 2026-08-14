@@ -11,7 +11,11 @@ import Foundation
 struct RepositoryService: Sendable {
     let availability: @Sendable () async -> GitAvailability
     let load: @Sendable (URL) async throws -> RepositorySnapshot
-    let runMutation: @Sendable ([String], URL) async throws -> Void
+
+    /// Runs one mutating command, optionally feeding it standard input. Content that belongs to
+    /// the user, such as a Commit message, travels here rather than in the argument list, which
+    /// is echoed back in sanitized failure details.
+    let runMutation: @Sendable ([String], String?, URL) async throws -> Void
 
     static func live() -> Self {
         let backend = GitRepositoryService()
@@ -23,8 +27,8 @@ struct RepositoryService: Sendable {
             load: { url in
                 try await backend.loadRepository(at: url)
             },
-            runMutation: { arguments, url in
-                try await backend.runMutation(arguments, in: url)
+            runMutation: { arguments, standardInput, url in
+                try await backend.runMutation(arguments, standardInput: standardInput, in: url)
             }
         )
     }
@@ -34,7 +38,7 @@ struct RepositoryService: Sendable {
         Self(
             availability: { .unavailable },
             load: { _ in throw RepositoryOpenError.gitUnavailable },
-            runMutation: { _, _ in throw RepositoryOpenError.gitUnavailable }
+            runMutation: { _, _, _ in throw RepositoryOpenError.gitUnavailable }
         )
     }
 
@@ -45,8 +49,8 @@ struct RepositoryService: Sendable {
             load: { url in
                 try await backend.loadRepository(at: url)
             },
-            runMutation: { arguments, url in
-                try await backend.runMutation(arguments, in: url)
+            runMutation: { arguments, standardInput, url in
+                try await backend.runMutation(arguments, standardInput: standardInput, in: url)
             }
         )
     }
