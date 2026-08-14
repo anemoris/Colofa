@@ -36,13 +36,12 @@ struct StatusBarView: View {
             if let repository = state.repository {
                 RepositoryHeadLabel(head: repository.head)
                 if let upstream = repository.upstream {
-                    HStack(spacing: 4) {
-                        Text(verbatim: "→ \(upstream.name)")
-                        Text(verbatim: "· ↑\(upstream.ahead) ↓\(upstream.behind)")
-                    }
-                    .accessibilityElement(children: .ignore)
+                    Text(
+                        verbatim: "→ \(upstream.name) · ↑\(upstream.ahead) ↓\(upstream.behind)"
+                    )
                     .accessibilityLabel(Text(.upstream))
                     .accessibilityValue(Text(verbatim: upstreamAccessibilityValue(upstream)))
+                    .accessibilityIdentifier("repository.upstream")
                 }
                 Label {
                     Text(repository.changeCount, format: .number)

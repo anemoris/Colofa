@@ -14,6 +14,7 @@ struct RepositoryChangesView: View {
 
     var body: some View {
         @Bindable var state = state
+        let isClean = repository.stagedChanges.isEmpty && repository.unstagedChanges.isEmpty
 
         VStack(spacing: 0) {
             if let operation = repository.operation {
@@ -21,11 +22,16 @@ struct RepositoryChangesView: View {
                 Divider()
             }
 
-            if repository.stagedChanges.isEmpty && repository.unstagedChanges.isEmpty {
+            if isClean {
                 ContentUnavailableView {
                     Label(.noChanges, systemImage: "checkmark.circle")
                 } description: {
                     Text(.noChangesDescription)
+                } actions: {
+                    if state.canAmend {
+                        Button(.amendCommit, action: amend)
+                            .accessibilityIdentifier("repository.commit.expandAmend")
+                    }
                 }
                 .accessibilityIdentifier("baseline.empty.changes")
             } else {
@@ -61,6 +67,11 @@ struct RepositoryChangesView: View {
                 .listStyle(.inset)
                 .accessibilityIdentifier("repository.changes")
             }
+
+            if !isClean || state.commitDraft.isAmending {
+                Divider()
+                CommitComposerView(repository: repository)
+            }
         }
     }
 
@@ -74,6 +85,10 @@ struct RepositoryChangesView: View {
         Task {
             await state.unstageAll()
         }
+    }
+
+    private func amend() {
+        state.setAmending(true)
     }
 }
 

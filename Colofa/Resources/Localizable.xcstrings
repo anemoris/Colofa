@@ -1310,6 +1310,246 @@
         "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法保存配置" } },
         "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法儲存設定" } }
       }
+    },
+    "amendCommit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Amend Commit" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "コミットを修正" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "커밋 수정" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "修订提交" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "修訂提交" } }
+      }
+    },
+    "amendCommitFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Commit Could Not Be Amended" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "コミットを修正できませんでした" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "커밋을 수정할 수 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法修订提交" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法修訂提交" } }
+      }
+    },
+    "amendCancelledHeadChangedMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "HEAD changed outside Colofa. Your Amend edits were discarded, and the message you had before entering Amend was restored." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Colofa の外部で HEAD が変更されました。修正中の編集内容は破棄され、修正を開始する前のメッセージが復元されました。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Colofa 외부에서 HEAD가 변경되었습니다. 수정 중인 편집 내용은 삭제되었으며, 수정하기 전에 작성하던 메시지가 복원되었습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "HEAD 已在 Colofa 外部发生变化。修订期间的编辑已丢弃，并已恢复进入修订前的消息。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "HEAD 已在 Colofa 外部發生變更。修訂期間的編輯已捨棄，並已還原進入修訂前的訊息。" } }
+      }
+    },
+    "amendCancelledHeadChangedTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Amend Canceled" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "コミットの修正をキャンセルしました" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "커밋 수정이 취소됨" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "已取消修订" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "已取消修訂" } }
+      }
+    },
+    "amendPublishedCommitConfirm" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Amend Anyway" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "それでも修正" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "그래도 수정" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "仍要修订" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "仍要修訂" } }
+      }
+    },
+    "amendPublishedCommitMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This Commit already exists on a remote. Amending rewrites History, so publishing it again will require an explicit Force Push." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "このコミットは既にリモートに存在します。修正すると履歴が書き換えられるため、再度公開するには明示的な強制プッシュが必要になります。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 커밋은 이미 리모트에 있습니다. 수정하면 히스토리가 다시 쓰이므로, 다시 게시하려면 명시적인 강제 푸시가 필요합니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "该提交已存在于远程。修订会重写历史，因此再次发布时需要显式的强制推送。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "此提交已存在於遠端。修訂會重寫歷史，因此再次發布時需要明確的強制推送。" } }
+      }
+    },
+    "amendPublishedCommitTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Amend a Published Commit?" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "公開済みのコミットを修正しますか？" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "게시된 커밋을 수정할까요?" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "要修订已发布的提交吗？" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "要修訂已發布的提交嗎？" } }
+      }
+    },
+    "amendReformatsMessageGuidance" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This Commit's message does not fit Summary and Description exactly. Amending will reformat it." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "このコミットのメッセージは概要と説明にそのままは収まりません。修正するとメッセージが整形し直されます。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 커밋의 메시지는 요약과 설명에 그대로 담기지 않습니다. 수정하면 메시지 서식이 다시 정리됩니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "该提交的消息无法原样放入摘要和描述。修订会重新排版这条消息。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "此提交的訊息無法原樣放入摘要和描述。修訂會重新排版這則訊息。" } }
+      }
+    },
+    "commitAmend" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Amend" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "修正" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "수정" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "修订" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "修訂" } }
+      }
+    },
+    "commitDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Description" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "説明" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "설명" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "描述" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "描述" } }
+      }
+    },
+    "commitFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Commit Could Not Be Created" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "コミットを作成できませんでした" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "커밋을 만들 수 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法创建提交" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法建立提交" } }
+      }
+    },
+    "commitHelp" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Create a Commit containing exactly the Staged Changes." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ステージ済みの変更だけを含むコミットを作成します。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "스테이징된 변경 사항만 포함하는 커밋을 만듭니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "创建仅包含已暂存更改的提交。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "建立僅包含已暫存變更的提交。" } }
+      }
+    },
+    "commitStagedFiles" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Staged Files" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ステージ済みファイル" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "스테이징된 파일" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "已暂存文件" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "已暫存檔案" } }
+      }
+    },
+    "commitSummary" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Summary" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "概要" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "요약" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "摘要" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "摘要" } }
+      }
+    },
+    "commitSummaryLengthGuidance" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Summaries longer than 50 characters are shortened by most Git tools." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "50 文字を超える概要は、ほとんどの Git ツールで省略されます。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "50자를 넘는 요약은 대부분의 Git 도구에서 줄여서 표시됩니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "超过 50 个字符的摘要会被大多数 Git 工具截断显示。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "超過 50 個字元的摘要會被大多數 Git 工具截斷顯示。" } }
+      }
+    },
+    "commitUnavailableConflict" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Resolve every Conflict before committing." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "コミットする前に、すべてのコンフリクトを解決してください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "커밋하기 전에 모든 충돌을 해결하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "提交前请先解决所有冲突。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "提交前請先解決所有衝突。" } }
+      }
+    },
+    "commitUnavailableDetachedHead" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "HEAD is detached. Create a Branch first so the Commit stays reachable." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "HEAD が分離しています。コミットが到達可能なままになるよう、先にブランチを作成してください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "HEAD가 분리되어 있습니다. 커밋에 계속 접근할 수 있도록 먼저 브랜치를 만드세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "HEAD 处于分离状态。请先创建分支，以免提交无法被引用。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "HEAD 處於分離狀態。請先建立分支，以免提交無法被引用。" } }
+      }
+    },
+    "commitUnavailableEmptySummary" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Enter a Summary before committing." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "コミットする前に概要を入力してください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "커밋하기 전에 요약을 입력하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "提交前请输入摘要。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "提交前請輸入摘要。" } }
+      }
+    },
+    "commitUnavailableMissingIdentity" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Set user.name and user.email in Repository Info before committing." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "コミットする前に、リポジトリ情報で user.name と user.email を設定してください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "커밋하기 전에 저장소 정보에서 user.name과 user.email을 설정하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "提交前请在仓库信息中设置 user.name 与 user.email。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "提交前請在儲存庫資訊中設定 user.name 與 user.email。" } }
+      }
+    },
+    "commitUnavailableMutationInProgress" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Another Git command is still running." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "別の Git コマンドがまだ実行中です。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "다른 Git 명령이 아직 실행 중입니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "另一条 Git 命令仍在运行。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "另一條 Git 命令仍在執行。" } }
+      }
+    },
+    "commitUnavailableNoRepository" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Open a Repository before committing." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "コミットする前にリポジトリを開いてください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "커밋하기 전에 저장소를 여세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "提交前请先打开仓库。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "提交前請先開啟儲存庫。" } }
+      }
+    },
+    "commitUnavailableNoStagedChanges" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Stage at least one change before committing." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "コミットする前に、変更を 1 つ以上ステージしてください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "커밋하기 전에 변경 사항을 하나 이상 스테이징하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "提交前请至少暂存一项更改。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "提交前請至少暫存一項變更。" } }
+      }
+    },
+    "commitUnavailableNothingToAmend" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This Branch has no Commit to amend yet." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "このブランチには、まだ修正できるコミットがありません。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 브랜치에는 아직 수정할 커밋이 없습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "此分支尚无可修订的提交。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "此分支尚無可修訂的提交。" } }
+      }
+    },
+    "commitUnavailableOperationInProgress" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Finish or abort the Git operation in progress before committing." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "コミットする前に、進行中の Git 操作を完了するか中止してください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "커밋하기 전에 진행 중인 Git 작업을 완료하거나 중단하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "提交前请先完成或中止进行中的 Git 操作。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "提交前請先完成或中止進行中的 Git 操作。" } }
+      }
     }
   },
   "version" : "1.0"

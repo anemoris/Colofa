@@ -6,7 +6,6 @@
 //  All rights reserved.
 //
 
-import AppKit
 import XCTest
 
 final class RepositoryConfigurationUITests: XCTestCase {
@@ -152,65 +151,6 @@ final class RepositoryConfigurationUITests: XCTestCase {
             application.staticTexts["Inherited from global: global@example.invalid"]
         )
         XCTAssertEqual(nameField.value as? String, "Unsaved Author")
-    }
-
-    /// Replaces the contents of `field` with `text`, confirming the field actually reports it.
-    ///
-    /// The text is pasted rather than typed. `typeText` feeds synthesized key events through
-    /// whatever input source is active, so on a machine with a CJK input method "Ada Lovelace"
-    /// arrives as "A大Lovelace" — the space commits an IME candidate instead of reaching the
-    /// field. Git accepts spaces in configuration values and `user.name` almost always has one,
-    /// so the tests keep using realistic values instead of avoiding the character.
-    ///
-    /// This replaces the system pasteboard contents.
-    @MainActor
-    private func replaceText(
-        of field: XCUIElement,
-        with text: String,
-        line: UInt = #line
-    ) {
-        field.click()
-        field.typeKey("a", modifierFlags: [.command])
-        if text.isEmpty {
-            // Selecting all does not remove anything on its own.
-            field.typeKey(.delete, modifierFlags: [])
-        } else {
-            NSPasteboard.general.clearContents()
-            NSPasteboard.general.setString(text, forType: .string)
-            field.typeKey("v", modifierFlags: [.command])
-        }
-        XCTAssertTrue(
-            waitUntil(NSPredicate(format: "value == %@", text), on: field),
-            "Field reports “\(field.value ?? "")” after entering “\(text)”",
-            file: #filePath,
-            line: line
-        )
-    }
-
-    /// Waits for `element` to exist by polling, rather than `waitForExistence`, which first
-    /// waits for the application to go idle and can time out on a view that is plainly there.
-    @MainActor
-    private func assertEventuallyExists(
-        _ element: XCUIElement,
-        _ message: @autoclosure () -> String = "",
-        line: UInt = #line
-    ) {
-        XCTAssertTrue(
-            waitUntil(NSPredicate(format: "exists == true"), on: element),
-            message(),
-            file: #filePath,
-            line: line
-        )
-    }
-
-    @MainActor
-    private func waitUntil(
-        _ predicate: NSPredicate,
-        on element: XCUIElement,
-        timeout: TimeInterval = 5
-    ) -> Bool {
-        let expectation = XCTNSPredicateExpectation(predicate: predicate, object: element)
-        return XCTWaiter().wait(for: [expectation], timeout: timeout) == .completed
     }
 
     /// Scope titles are combined into their source row for VoiceOver, so they are not reachable

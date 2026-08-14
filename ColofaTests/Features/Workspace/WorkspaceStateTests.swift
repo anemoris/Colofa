@@ -377,7 +377,7 @@ final class WorkspaceStateTests {
         await state.stage(modified)
         await state.unstage(modified)
 
-        #expect(await stub.recordedMutations() == [
+        #expect(await stub.recordedArguments() == [
             ["--literal-pathspecs", "add", "--", "Sources/My File.swift"],
             ["--literal-pathspecs", "restore", "--staged", "--", "Sources/My File.swift"],
         ])
@@ -410,7 +410,7 @@ final class WorkspaceStateTests {
 
         await state.stageAll()
 
-        #expect(await stub.recordedMutations() == [
+        #expect(await stub.recordedArguments() == [
             [
                 "--literal-pathspecs", "add", "--", "new name.txt", "old name.txt", "notes.txt",
             ],
@@ -463,7 +463,7 @@ final class WorkspaceStateTests {
 
         await state.unstageAll()
 
-        #expect(await stub.recordedMutations() == [
+        #expect(await stub.recordedArguments() == [
             [
                 "--literal-pathspecs", "rm", "--cached", "-f", "--", "first.txt",
             ],
@@ -495,7 +495,7 @@ final class WorkspaceStateTests {
         await state.stage(change)
         await first.value
 
-        #expect(await stub.recordedMutations() == [
+        #expect(await stub.recordedArguments() == [
             [
                 "--literal-pathspecs", "add", "--", "file.txt",
             ],

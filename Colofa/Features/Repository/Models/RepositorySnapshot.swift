@@ -13,6 +13,7 @@ struct RepositorySnapshot: Equatable, Identifiable, Sendable {
     let rootURL: URL
     let gitDirectoryURL: URL
     let head: RepositoryHead
+    let headCommit: RepositoryHeadCommit?
     let upstream: RepositoryUpstream?
     let remotes: [RepositoryRemote]
     let localBranches: [String]
@@ -31,6 +32,7 @@ struct RepositorySnapshot: Equatable, Identifiable, Sendable {
         rootURL: URL,
         gitDirectoryURL: URL,
         head: RepositoryHead,
+        headCommit: RepositoryHeadCommit? = nil,
         upstream: RepositoryUpstream? = nil,
         remotes: [RepositoryRemote] = [],
         localBranches: [String] = [],
@@ -47,6 +49,7 @@ struct RepositorySnapshot: Equatable, Identifiable, Sendable {
         self.rootURL = rootURL
         self.gitDirectoryURL = gitDirectoryURL
         self.head = head
+        self.headCommit = headCommit
         self.upstream = upstream
         self.remotes = remotes
         self.localBranches = localBranches

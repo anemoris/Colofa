@@ -16,9 +16,12 @@ import Foundation
 func repository(
     at url: URL,
     head: RepositoryHead = .branch("main"),
+    headCommit: RepositoryHeadCommit? = nil,
+    upstream: RepositoryUpstream? = nil,
     operation: RepositoryOperation? = nil,
     stagedChanges: [RepositoryChange] = [],
     unstagedChanges: [RepositoryChange] = [],
+    totalCommitCount: Int = 0,
     configuration: GitConfigurationSnapshot = .empty
 ) -> RepositorySnapshot {
     RepositorySnapshot(
@@ -26,9 +29,32 @@ func repository(
         rootURL: url,
         gitDirectoryURL: url.appending(path: ".git"),
         head: head,
+        headCommit: headCommit,
+        upstream: upstream,
         stagedChanges: stagedChanges,
         unstagedChanges: unstagedChanges,
         operation: operation,
+        totalCommitCount: totalCommitCount,
         configuration: configuration
+    )
+}
+
+/// A configuration that satisfies Git's identity requirement, which Commit checks before it runs.
+func identityConfiguration() -> GitConfigurationSnapshot {
+    GitConfigurationSnapshot(
+        entries: [
+            GitConfigurationEntry(
+                key: .userName,
+                value: "Colofa Tests",
+                scope: .global,
+                origin: GitConfigurationOrigin(rawValue: "file:/tmp/global.gitconfig")
+            ),
+            GitConfigurationEntry(
+                key: .userEmail,
+                value: "colofa-tests@example.invalid",
+                scope: .global,
+                origin: GitConfigurationOrigin(rawValue: "file:/tmp/global.gitconfig")
+            ),
+        ]
     )
 }

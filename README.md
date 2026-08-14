@@ -14,9 +14,10 @@ Early development. What works today, against real repositories, through the `git
 - Ordinary repositories, linked worktrees, and repositories inside submodules
 - Live status: branch, upstream, ahead and behind counts, staged and unstaged changes
 - Staging and unstaging files, one at a time or all at once
+- Creating Commits from exactly the staged changes, including first Commit and Amend workflows
 - A repository inspector showing effective Git configuration, with editing for `user.name`, `user.email`, and `http.proxy` in either repository or global scope
 
-Still missing: commit, diffs, hunk staging, history, branch operations, fetch, pull, push, stashes, merge, and rebase. Their toolbar buttons already hold their places, disabled. The interface was settled first as the design target, and the backend is working its way up to it.
+Still missing: diffs, hunk staging, history, branch operations, fetch, pull, push, stashes, merge, and rebase. Their toolbar buttons already hold their places, disabled. The interface was settled first as the design target, and the backend is working its way up to it.
 
 ## The window
 

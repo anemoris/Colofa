@@ -16,8 +16,7 @@ final class StagingUITests: XCTestCase {
     @MainActor
     func testEnglishFileAndBulkStagingSurfaces() {
         let application = stagingApplication()
-        application.launch()
-        application.activate()
+        prepareStagingApplication(application)
 
         let notes = application.descendants(matching: .any)["repository.unstaged.notes.txt"]
         XCTAssertTrue(notes.waitForExistence(timeout: 5))
@@ -40,9 +39,10 @@ final class StagingUITests: XCTestCase {
         XCTAssertTrue(stagedNotes.waitForExistence(timeout: 2))
 
         stagedNotes.click()
-        XCTAssertTrue(detailAction.waitForExistence(timeout: 2))
-        XCTAssertEqual(detailAction.label, "Unstage File")
-        detailAction.click()
+        let unstageDetailAction = application.descendants(matching: .any)["repository.detail.action"]
+        XCTAssertTrue(unstageDetailAction.waitForExistence(timeout: 2))
+        XCTAssertEqual(unstageDetailAction.label, "Unstage File")
+        unstageDetailAction.click()
         XCTAssertTrue(notes.waitForExistence(timeout: 2))
 
         application.descendants(matching: .any)["repository.unstaged.action.notes.txt"].click()
@@ -122,6 +122,16 @@ final class StagingUITests: XCTestCase {
         XCTAssertTrue(alert.waitForNonExistence(timeout: 2))
         let failureBanner = application.descendants(matching: .any)["repository.failureBanner"]
         XCTAssertFalse(failureBanner.exists)
+    }
+
+    @MainActor
+    private func prepareStagingApplication(_ application: XCUIApplication) {
+        application.launch()
+        application.activate()
+        application.menuBars.menuBarItems["Window"].click()
+        application.menuItems["Zoom"].click()
+        application.menuBars.menuBarItems["View"].click()
+        application.menuItems["Repository Info"].click()
     }
 
     @MainActor

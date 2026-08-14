@@ -35,9 +35,9 @@ actor GitRepositoryService {
         for candidateURL in candidateURLs where FileManager.default.isExecutableFile(
             atPath: candidateURL.normalizedFilePath
         ) {
-            guard let version = try? await execute(
-                candidateURL,
-                arguments: ["--version"],
+            let candidate = GitProcess(executableURL: candidateURL, environment: environment)
+            guard let version = try? await candidate.text(
+                ["--version"],
                 in: .temporaryDirectory
             ), version.hasPrefix("git version ") else {
                 continue
@@ -59,111 +59,49 @@ actor GitRepositoryService {
             throw RepositoryOpenError.locationUnavailable
         }
 
-        guard case .available(let executableURL) = await availability() else {
-            throw RepositoryOpenError.gitUnavailable
-        }
-
+        let git = try await resolvedGit()
         let isBare: String
         do {
-            isBare = try await execute(
-                executableURL,
-                arguments: ["rev-parse", "--is-bare-repository"],
-                in: selectedURL
-            )
+            isBare = try await git.text(["rev-parse", "--is-bare-repository"], in: selectedURL)
         } catch let error as RepositoryOpenError {
             if !containsGitMetadata(atOrAbove: selectedURL) {
                 throw RepositoryOpenError.notRepository
             }
             throw error
         }
-
         guard isBare != "true" else {
             throw RepositoryOpenError.bareRepository
         }
 
-        let rootPath = try await execute(
-            executableURL,
-            arguments: ["rev-parse", "--show-toplevel"],
-            in: selectedURL
-        )
-        let gitDirectoryPath = try await execute(
-            executableURL,
-            arguments: ["rev-parse", "--absolute-git-dir"],
-            in: selectedURL
-        )
-        let rootURL = URL(filePath: rootPath, directoryHint: .isDirectory)
-            .standardizedFileURL
-        let gitDirectoryURL = URL(filePath: gitDirectoryPath, directoryHint: .isDirectory)
-            .standardizedFileURL
-
-        let status = try GitStatusParser.parse(
-            try await executeData(
-                executableURL,
-                arguments: [
-                    "--no-optional-locks", "status", "--porcelain=v2", "--branch", "-z", "--renames",
-                    "--untracked-files=all",
-                ],
-                in: rootURL
-            )
-        )
-        let references = try GitReferenceParser.parse(
-            try await executeData(
-                executableURL,
-                arguments: [
-                    "for-each-ref", "--format=%(refname)%00%(symref)",
-                    "refs/heads", "refs/remotes", "refs/tags",
-                ],
-                in: rootURL
-            )
-        )
-        let remotes = try GitRemoteParser.parse(
-            try await executeDataAllowingNoMatches(
-                executableURL,
-                arguments: ["config", "--null", "--get-regexp", "^remote\\..*\\.url$"],
-                in: rootURL
-            )
-        )
-        let configuration = try await GitConfigurationReader.snapshot {
-            try await executeDataAllowingNoMatches(executableURL, arguments: $0, in: rootURL)
-        }
-
-        return RepositorySnapshot(
-            name: rootURL.lastPathComponent,
-            rootURL: rootURL,
-            gitDirectoryURL: gitDirectoryURL,
-            head: status.head,
-            upstream: status.upstream,
-            remotes: remotes,
-            localBranches: references.localBranches,
-            remoteBranches: references.remoteBranches,
-            tags: references.tags,
-            stagedChanges: status.stagedChanges,
-            unstagedChanges: status.unstagedChanges,
-            operation: operation(in: gitDirectoryURL),
-            totalCommitCount: try await totalCommitCount(
-                head: status.head,
-                executableURL: executableURL,
-                repositoryURL: rootURL
+        return try await snapshot(
+            rootURL: try await directoryURL(
+                reportedBy: ["rev-parse", "--show-toplevel"],
+                using: git,
+                in: selectedURL
             ),
-            gitObjectSize: try await gitObjectSize(
-                executableURL: executableURL,
-                repositoryURL: rootURL
+            gitDirectoryURL: try await directoryURL(
+                reportedBy: ["rev-parse", "--absolute-git-dir"],
+                using: git,
+                in: selectedURL
             ),
-            configuration: configuration
+            using: git
         )
     }
 
-    func runMutation(_ arguments: [String], in repositoryURL: URL) async throws {
+    func runMutation(
+        _ arguments: [String],
+        standardInput: String? = nil,
+        in repositoryURL: URL
+    ) async throws {
         let previousMutation = mutationTail
         // Once queued, a mutation must finish so cancellation cannot interrupt an index write.
         let mutation = Task { [self] in
             await previousMutation?.value
-
-            guard case .available(let executableURL) = await availability() else {
-                throw RepositoryOpenError.gitUnavailable
-            }
-
-            _ = try await execute(executableURL, arguments: arguments, in: repositoryURL)
+            _ = try await resolvedGit().text(
+                arguments,
+                in: repositoryURL,
+                standardInput: standardInput
+            )
         }
         mutationTail = Task {
             _ = await mutation.result
@@ -172,35 +110,112 @@ actor GitRepositoryService {
         try await mutation.value
     }
 
+    private func snapshot(
+        rootURL: URL,
+        gitDirectoryURL: URL,
+        using git: GitProcess
+    ) async throws -> RepositorySnapshot {
+        let status = try await status(using: git, in: rootURL)
+        let references = try await references(using: git, in: rootURL)
+
+        return RepositorySnapshot(
+            name: rootURL.lastPathComponent,
+            rootURL: rootURL,
+            gitDirectoryURL: gitDirectoryURL,
+            head: status.head,
+            headCommit: try await GitHeadCommitReader.headCommit(
+                head: status.head,
+                hasRemoteBranches: !references.remoteBranches.isEmpty,
+                using: git,
+                in: rootURL
+            ),
+            upstream: status.upstream,
+            remotes: try GitRemoteParser.parse(
+                try await git.dataAllowingNoMatches(
+                    ["config", "--null", "--get-regexp", "^remote\\..*\\.url$"],
+                    in: rootURL
+                )
+            ),
+            localBranches: references.localBranches,
+            remoteBranches: references.remoteBranches,
+            tags: references.tags,
+            stagedChanges: status.stagedChanges,
+            unstagedChanges: status.unstagedChanges,
+            operation: operation(in: gitDirectoryURL),
+            totalCommitCount: try await totalCommitCount(
+                head: status.head,
+                using: git,
+                in: rootURL
+            ),
+            gitObjectSize: try GitObjectSizeParser.parse(
+                try await git.text(["count-objects", "-v"], in: rootURL)
+            ),
+            configuration: try await GitConfigurationReader.snapshot {
+                try await git.dataAllowingNoMatches($0, in: rootURL)
+            }
+        )
+    }
+
+    private func status(using git: GitProcess, in rootURL: URL) async throws -> RepositoryStatus {
+        try GitStatusParser.parse(
+            try await git.data(
+                [
+                    "--no-optional-locks", "status", "--porcelain=v2", "--branch", "-z", "--renames",
+                    "--untracked-files=all",
+                ],
+                in: rootURL
+            )
+        )
+    }
+
+    private func references(
+        using git: GitProcess,
+        in rootURL: URL
+    ) async throws -> RepositoryReferences {
+        try GitReferenceParser.parse(
+            try await git.data(
+                [
+                    "for-each-ref", "--format=%(refname)%00%(symref)",
+                    "refs/heads", "refs/remotes", "refs/tags",
+                ],
+                in: rootURL
+            )
+        )
+    }
+
+    private func resolvedGit() async throws -> GitProcess {
+        guard case .available(let executableURL) = await availability() else {
+            throw RepositoryOpenError.gitUnavailable
+        }
+        return GitProcess(executableURL: executableURL, environment: environment)
+    }
+
+    private func directoryURL(
+        reportedBy arguments: [String],
+        using git: GitProcess,
+        in selectedURL: URL
+    ) async throws -> URL {
+        URL(
+            filePath: try await git.text(arguments, in: selectedURL),
+            directoryHint: .isDirectory
+        )
+        .standardizedFileURL
+    }
+
     private func totalCommitCount(
         head: RepositoryHead,
-        executableURL: URL,
-        repositoryURL: URL
+        using git: GitProcess,
+        in repositoryURL: URL
     ) async throws -> Int {
         if case .unbornBranch = head {
             return 0
         }
-        let output = try await execute(
-            executableURL,
-            arguments: ["rev-list", "--count", "HEAD"],
-            in: repositoryURL
-        )
-        guard let count = Int(output) else {
+        guard let count = Int(
+            try await git.text(["rev-list", "--count", "HEAD"], in: repositoryURL)
+        ) else {
             throw GitOutputParsingError()
         }
         return count
-    }
-
-    private func gitObjectSize(
-        executableURL: URL,
-        repositoryURL: URL
-    ) async throws -> Int64 {
-        let output = try await execute(
-            executableURL,
-            arguments: ["count-objects", "-v"],
-            in: repositoryURL
-        )
-        return try GitObjectSizeParser.parse(output)
     }
 
     private func operation(in gitDirectoryURL: URL) -> RepositoryOperation? {
@@ -228,138 +243,6 @@ actor GitRepositoryService {
         return nil
     }
 
-    private func execute(
-        _ executableURL: URL,
-        arguments: [String],
-        in directoryURL: URL
-    ) async throws -> String {
-        let output = try await executeData(
-            executableURL,
-            arguments: arguments,
-            in: directoryURL,
-            outputLimit: 4_000
-        )
-        return String(decoding: output, as: UTF8.self)
-            .trimmingCharacters(in: .whitespacesAndNewlines)
-    }
-
-    private func executeDataAllowingNoMatches(
-        _ executableURL: URL,
-        arguments: [String],
-        in directoryURL: URL
-    ) async throws -> Data {
-        do {
-            return try await executeData(
-                executableURL,
-                arguments: arguments,
-                in: directoryURL
-            )
-        } catch RepositoryOpenError.commandFailed(let details) where details.exitStatus == 1 {
-            return Data()
-        }
-    }
-
-    private func executeData(
-        _ executableURL: URL,
-        arguments: [String],
-        in directoryURL: URL,
-        outputLimit: Int? = nil
-    ) async throws -> Data {
-        let standardOutputPipe = Pipe()
-        let standardErrorPipe = Pipe()
-        let process = Process()
-        process.executableURL = executableURL
-        process.arguments = arguments
-        process.currentDirectoryURL = directoryURL
-        process.environment = environment
-        process.standardOutput = standardOutputPipe
-        process.standardError = standardErrorPipe
-
-        do {
-            try process.run()
-        } catch {
-            if !FileManager.default.isExecutableFile(atPath: executableURL.normalizedFilePath) {
-                self.executableURL = nil
-                throw RepositoryOpenError.gitUnavailable
-            }
-            throw RepositoryOpenError.commandFailed(
-                failureDetails(
-                    arguments: arguments,
-                    repositoryURL: directoryURL,
-                    output: error.localizedDescription
-                )
-            )
-        }
-
-        async let standardOutput = Self.readData(
-            from: standardOutputPipe.fileHandleForReading,
-            limit: outputLimit
-        )
-        async let standardError = Self.readData(
-            from: standardErrorPipe.fileHandleForReading,
-            limit: 4_000
-        )
-        let exitStatus = await Self.waitForTermination(of: process)
-        let output: Data
-        let errorOutput: Data
-        do {
-            (output, errorOutput) = try await (standardOutput, standardError)
-        } catch {
-            throw RepositoryOpenError.commandFailed(
-                failureDetails(
-                    arguments: arguments,
-                    repositoryURL: directoryURL,
-                    output: error.localizedDescription,
-                    exitStatus: exitStatus
-                )
-            )
-        }
-
-        guard exitStatus == 0 else {
-            let diagnosticOutput = [errorOutput, output]
-                .map {
-                    String(decoding: $0, as: UTF8.self)
-                        .trimmingCharacters(in: .whitespacesAndNewlines)
-                }
-                .filter { !$0.isEmpty }
-                .joined(separator: "\n")
-            throw RepositoryOpenError.commandFailed(
-                failureDetails(
-                    arguments: arguments,
-                    repositoryURL: directoryURL,
-                    output: diagnosticOutput,
-                    exitStatus: exitStatus
-                )
-            )
-        }
-
-        return output
-    }
-
-    private func failureDetails(
-        arguments: [String],
-        repositoryURL: URL,
-        output: String,
-        exitStatus: Int32? = nil
-    ) -> GitFailureDetails {
-        let sanitizedOutput = String(
-            output
-                .replacing("\0", with: "")
-                .replacing(repositoryURL.normalizedFilePath, with: "<Repository>")
-                .prefix(4_000)
-        )
-        let command = (["git"] + arguments)
-            .map(\.debugDescription)
-            .joined(separator: " ")
-            .replacing(repositoryURL.normalizedFilePath, with: "<Repository>")
-
-        return GitFailureDetails(
-            command: command,
-            output: sanitizedOutput,
-            exitStatus: exitStatus
-        )
-    }
-
     private func containsGitMetadata(atOrAbove selectedURL: URL) -> Bool {
         var directoryURL = selectedURL.standardizedFileURL
 
@@ -374,33 +257,6 @@ actor GitRepositoryService {
                 return false
             }
             directoryURL.deleteLastPathComponent()
-        }
-    }
-
-    private nonisolated static func readData(
-        from handle: FileHandle,
-        limit: Int?
-    ) async throws -> Data {
-        var output = Data()
-        for try await byte in handle.bytes {
-            if output.count < (limit ?? .max) {
-                output.append(byte)
-            }
-        }
-        return output
-    }
-
-    private nonisolated static func waitForTermination(of process: Process) async -> Int32 {
-        await withTaskCancellationHandler {
-            await withCheckedContinuation { continuation in
-                process.terminationHandler = { process in
-                    continuation.resume(returning: process.terminationStatus)
-                }
-            }
-        } onCancel: {
-            if process.isRunning {
-                process.terminate()
-            }
         }
     }
 

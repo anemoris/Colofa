@@ -17,6 +17,9 @@ final class WorkspaceState {
     var isShowingInspector = false
     var configurationEditingScope = GitConfigurationEditScope.repository
     var selectedChange: RepositoryChangeSelection?
+    var commitDraft = CommitMessageDraft()
+    var isConfirmingHistoryRewrite = false
+    var isShowingStaleAmendAlert = false
     private(set) var repository: RepositorySnapshot?
     private(set) var repositoryFailure: RepositoryFailurePresentation?
     private(set) var isLoadingRepository = false
@@ -33,6 +36,11 @@ final class WorkspaceState {
     private var hasStarted = false
     private var repositoryLoadID = 0
     private var activeReplacementLoadID: Int?
+
+    /// Set while an Amend Colofa itself is running, which is the one time HEAD is expected to
+    /// move. Any reload publishing during that window reports Colofa's own rewrite, whichever
+    /// task started it, so none of them may declare the Amend draft stale.
+    private var isRewritingHead = false
 
     init(
         repositoryService: RepositoryService = .live(),
@@ -100,21 +108,38 @@ final class WorkspaceState {
         _ = await openRepository(at: repository.rootURL, presentsFailure: true)
     }
 
+    /// - Parameter rewritesHead: Whether this command moves HEAD on purpose, which only an Amend
+    ///   does. Every reload that lands while it runs — the authoritative one, or an ordinary
+    ///   refresh a scene activation started alongside it — then reports the rewrite Colofa asked
+    ///   for, and must not mistake it for somebody else rewriting History.
+    /// - Returns: Whether the command ran and succeeded, so a caller can keep composer state
+    ///   after a failure the user still has to act on.
+    @discardableResult
     func performMutation(
         _ arguments: [String],
+        standardInput: String? = nil,
+        rewritesHead: Bool = false,
         failureTitle: LocalizedStringResource = .gitOperationFailed
-    ) async {
+    ) async -> Bool {
         // Keep the mutation and authoritative reload alive if the initiating view task is cancelled.
         await Task {
             guard let repository, canMutateRepository else {
-                return
+                return false
             }
             isPerformingMutation = true
-            defer { isPerformingMutation = false }
+            isRewritingHead = rewritesHead
+            defer {
+                isPerformingMutation = false
+                isRewritingHead = false
+            }
 
             var commandError: RepositoryOpenError?
             do {
-                try await repositoryService.runMutation(arguments, repository.rootURL)
+                try await repositoryService.runMutation(
+                    arguments,
+                    standardInput,
+                    repository.rootURL
+                )
             } catch let error as RepositoryOpenError {
                 commandError = error
             } catch {
@@ -125,8 +150,13 @@ final class WorkspaceState {
 
             await refresh()
             if let commandError {
+                // The command rewrote nothing Colofa asked for, so a HEAD that moved anyway — a
+                // Hook that rewrote it before refusing — still invalidates an open Amend draft.
+                reconcileAmendDraft()
                 presentMutationError(commandError, title: failureTitle)
+                return false
             }
+            return true
         }.value
     }
 
@@ -180,14 +210,10 @@ extension WorkspaceState {
     }
 
     func dismissRepositoryOpenError() {
-        guard case .repositoryOpenAlert(let error) = repositoryFailure else {
+        guard case .repositoryOpenAlert = repositoryFailure else {
             return
         }
-        if let details = error.failureDetails {
-            repositoryFailure = .details(details, message: error.message)
-        } else {
-            repositoryFailure = nil
-        }
+        repositoryFailure = repositoryFailure?.expandedDetails
     }
 
     func dismissFailureDetails() {
@@ -195,11 +221,11 @@ extension WorkspaceState {
     }
 
     func showRepositoryMutationErrorDetails() {
-        guard case .mutationAlert(let error, _) = repositoryFailure,
-              let details = error.failureDetails else {
+        guard case .mutationAlert = repositoryFailure,
+              let expanded = repositoryFailure?.expandedDetails else {
             return
         }
-        repositoryFailure = .details(details, message: mutationMessage(for: error))
+        repositoryFailure = expanded
     }
 
     func dismissRepositoryMutationError() {
@@ -210,43 +236,19 @@ extension WorkspaceState {
     }
 
     var repositoryFailureDetails: GitFailureDetails? {
-        if case .details(let details, _) = repositoryFailure {
-            details
-        } else {
-            nil
-        }
+        repositoryFailure.flatMap(\.details)
     }
 
     var repositoryFailureTitle: LocalizedStringResource? {
-        switch repositoryFailure {
-        case .repositoryOpenAlert(let error):
-            error.title
-        case .mutationAlert(_, let title):
-            title
-        case .details, nil:
-            nil
-        }
+        repositoryFailure.flatMap(\.title)
     }
 
     var repositoryFailureMessage: LocalizedStringResource? {
-        switch repositoryFailure {
-        case .repositoryOpenAlert(let error):
-            error.message
-        case .mutationAlert(let error, _):
-            mutationMessage(for: error)
-        case .details(_, let message):
-            message
-        case nil:
-            nil
-        }
+        repositoryFailure.flatMap(\.message)
     }
 
     var canShowRepositoryFailureDetails: Bool {
-        if case .mutationAlert(let error, _) = repositoryFailure {
-            error.failureDetails != nil
-        } else {
-            false
-        }
+        repositoryFailure?.canShowDetails == true
     }
 
     func retryGitDiscovery() async {
@@ -321,7 +323,16 @@ extension WorkspaceState {
     }
 
     private func publishRepository(_ repository: RepositorySnapshot) {
+        let isSameRepository = self.repository?.rootURL == repository.rootURL
         self.repository = repository
+        if !isSameRepository {
+            // A message written for one Repository must not follow the user into another.
+            commitDraft.clear()
+            isConfirmingHistoryRewrite = false
+            isShowingStaleAmendAlert = false
+        } else if !isRewritingHead {
+            reconcileAmendDraft()
+        }
         updateSelectedChange(for: repository)
         repositoryFailure = nil
         guard !isUITesting else {
@@ -342,14 +353,6 @@ extension WorkspaceState {
         title: LocalizedStringResource
     ) {
         repositoryFailure = .mutationAlert(error, title: title)
-    }
-
-    private func mutationMessage(for error: RepositoryOpenError) -> LocalizedStringResource {
-        if case .commandFailed = error {
-            .gitMutationFailedDescription
-        } else {
-            error.message
-        }
     }
 
     // Not private: the configuration extension in WorkspaceState+Configuration.swift needs it.

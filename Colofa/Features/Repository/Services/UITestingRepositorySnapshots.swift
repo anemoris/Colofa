@@ -1,0 +1,186 @@
+////
+//  UITestingRepositorySnapshots.swift
+//  Colofa
+//
+//  Copyright © 2026 Anemoris Studio.
+//  All rights reserved.
+//
+
+#if DEBUG
+import Foundation
+
+/// The Repository states UI tests select with launch arguments.
+///
+/// Declared `nonisolated` because the project defaults to Main Actor isolation while
+/// `UITestingRepositoryService` builds these from an actor.
+nonisolated enum UITestingRepositorySnapshots {
+    static func initial(at url: URL, arguments: [String]) -> RepositorySnapshot {
+        if arguments.contains(UITestingArgument.committableState) {
+            return committable(at: url, arguments: arguments)
+        }
+        if arguments.contains(UITestingArgument.realRepositoryState) {
+            return realState(at: url, arguments: arguments)
+        }
+        return RepositorySnapshot(
+            name: url.lastPathComponent,
+            rootURL: url,
+            gitDirectoryURL: url.appending(path: ".git"),
+            head: .unbornBranch("main")
+        )
+    }
+
+    private static func realState(at url: URL, arguments: [String]) -> RepositorySnapshot {
+        let partial = RepositoryChange(path: "partial 文件.txt", kind: .modified)
+        return RepositorySnapshot(
+            name: url.lastPathComponent,
+            rootURL: url,
+            gitDirectoryURL: url.appending(path: ".git"),
+            head: arguments.contains(UITestingArgument.detachedHead)
+                ? .detached("0123456789abcdef")
+                : .branch("main"),
+            headCommit: RepositoryHeadCommit(
+                objectID: "ui-fixture-head",
+                summary: "Fixture commit",
+                body: "Fixture body"
+            ),
+            upstream: RepositoryUpstream(name: "origin/main", ahead: 3, behind: 2),
+            remotes: arguments.contains(UITestingArgument.remoteBranchesOnly)
+                ? []
+                : [RepositoryRemote(name: "origin", url: "ssh://example.invalid/Colofa.git")],
+            localBranches: ["feature/真实", "main"],
+            remoteBranches: ["origin/main"],
+            tags: ["v1.0-测试"],
+            stagedChanges: [
+                RepositoryChange(path: "added.swift", kind: .added),
+                partial,
+                RepositoryChange(path: "renamed 名称.txt", kind: .renamed(from: "old name.txt")),
+            ],
+            unstagedChanges: [
+                RepositoryChange(path: "conflict.txt", kind: .conflict),
+                RepositoryChange(path: "Link", kind: .typeChanged),
+                RepositoryChange(path: "deleted.swift", kind: .deleted),
+                RepositoryChange(path: "notes.txt", kind: .untracked),
+                partial,
+            ],
+            operation: operation(arguments: arguments),
+            totalCommitCount: 12,
+            gitObjectSize: 4_096,
+            configuration: configuration(at: url)
+        )
+    }
+
+    /// A Repository that can actually be committed: Staged Changes, a configured identity, and a
+    /// published HEAD whose Amend must be warned about.
+    private static func committable(at url: URL, arguments: [String]) -> RepositorySnapshot {
+        let isUnborn = arguments.contains(UITestingArgument.unbornCommitState)
+        let isClean = arguments.contains(UITestingArgument.cleanCommitState)
+        let head: RepositoryHead
+        if isUnborn {
+            head = .unbornBranch("main")
+        } else if arguments.contains(UITestingArgument.detachedHead) {
+            head = .detached("0123456789abcdef")
+        } else {
+            head = .branch("main")
+        }
+        return RepositorySnapshot(
+            name: url.lastPathComponent,
+            rootURL: url,
+            gitDirectoryURL: url.appending(path: ".git"),
+            head: head,
+            headCommit: isUnborn ? nil : RepositoryHeadCommit(
+                objectID: "ui-published-head",
+                summary: "Published summary",
+                body: "Published body",
+                isPublished: true
+            ),
+            upstream: isUnborn
+                ? nil
+                : RepositoryUpstream(name: "origin/main", ahead: 0, behind: 0),
+            remotes: [RepositoryRemote(name: "origin", url: "ssh://example.invalid/Colofa.git")],
+            localBranches: ["main"],
+            remoteBranches: ["origin/main"],
+            stagedChanges: isClean
+                ? []
+                : [RepositoryChange(path: "staged.swift", kind: .modified)],
+            unstagedChanges: isClean || isUnborn
+                ? []
+                : [
+                    RepositoryChange(
+                        path: arguments.contains(UITestingArgument.commitConflict)
+                            ? "conflict.txt"
+                            : "notes.txt",
+                        kind: arguments.contains(UITestingArgument.commitConflict)
+                            ? .conflict
+                            : .untracked
+                    ),
+                ],
+            operation: activeOperation(arguments: arguments),
+            totalCommitCount: isUnborn ? 0 : 12,
+            gitObjectSize: 4_096,
+            configuration: arguments.contains(UITestingArgument.missingCommitIdentity)
+                ? .empty
+                : configuration(at: url)
+        )
+    }
+
+    private static func configuration(at url: URL) -> GitConfigurationSnapshot {
+        GitConfigurationSnapshot(
+            entries: [
+                GitConfigurationEntry(
+                    key: .httpProxy,
+                    value: "http://system.example.invalid:8080",
+                    scope: .system,
+                    origin: GitConfigurationOrigin(rawValue: "file:/etc/gitconfig")
+                ),
+                GitConfigurationEntry(
+                    key: .userName,
+                    value: "Colofa UI Author",
+                    scope: .global,
+                    origin: GitConfigurationOrigin(rawValue: "file:/tmp/colofa-ui-global.gitconfig")
+                ),
+                GitConfigurationEntry(
+                    key: .userEmail,
+                    value: "global@example.invalid",
+                    scope: .global,
+                    origin: GitConfigurationOrigin(rawValue: "file:/tmp/colofa-ui-global.gitconfig")
+                ),
+                GitConfigurationEntry(
+                    key: .userEmail,
+                    value: "local@example.invalid",
+                    scope: .local,
+                    origin: GitConfigurationOrigin(
+                        rawValue: "file:\(url.appending(path: ".git").normalizedFilePath)/config"
+                    )
+                ),
+            ]
+        )
+    }
+
+    private static func operation(arguments: [String]) -> RepositoryOperation {
+        if arguments.contains(UITestingArgument.rebase) {
+            .rebase
+        } else if arguments.contains(UITestingArgument.am) {
+            .am
+        } else if arguments.contains(UITestingArgument.cherryPick) {
+            .cherryPick
+        } else if arguments.contains(UITestingArgument.revert) {
+            .revert
+        } else {
+            .merge
+        }
+    }
+
+    private static func activeOperation(arguments: [String]) -> RepositoryOperation? {
+        let operationArguments = [
+            UITestingArgument.rebase,
+            UITestingArgument.am,
+            UITestingArgument.cherryPick,
+            UITestingArgument.revert,
+        ]
+        guard operationArguments.contains(where: { arguments.contains($0) }) else {
+            return nil
+        }
+        return operation(arguments: arguments)
+    }
+}
+#endif
