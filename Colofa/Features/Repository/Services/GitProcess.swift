@@ -40,7 +40,7 @@ nonisolated struct GitProcess: Sendable {
             standardInput: standardInput,
             outputLimit: 4_000
         )
-        return Self.string(from: output)
+        return String(gitBytes: output)
             .trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
@@ -54,6 +54,140 @@ nonisolated struct GitProcess: Sendable {
         } catch RepositoryOpenError.commandFailed(let details) where details.exitStatus == 1 {
             return Data()
         }
+    }
+
+    /// Reads standard output while counting it, and stops the moment it passes `bounds`.
+    ///
+    /// A patch Colofa has already decided not to render must not be read to the end first, so
+    /// crossing a bound ends Git rather than draining it, and the output collected so far is
+    /// dropped rather than retained. `retainsOutput` is what separates reading a patch from only
+    /// measuring one.
+    ///
+    /// - Parameter successfulExitStatuses: The statuses that mean the command answered rather
+    ///   than failed. A stopped read reports Colofa's own decision, so its status is not checked.
+    func boundedData(
+        _ arguments: [String],
+        in directoryURL: URL,
+        bounds: GitOutputBounds,
+        retainsOutput: Bool,
+        successfulExitStatuses: Set<Int32> = [0]
+    ) async throws -> GitBoundedOutput {
+        let standardOutputPipe = Pipe()
+        let standardErrorPipe = Pipe()
+        let process = Process()
+        process.executableURL = executableURL
+        process.arguments = arguments
+        process.currentDirectoryURL = directoryURL
+        process.environment = environment
+        process.standardOutput = standardOutputPipe
+        process.standardError = standardErrorPipe
+
+        let command = Command(
+            arguments: arguments,
+            directoryURL: directoryURL,
+            sensitiveValues: []
+        )
+        try launch(process, running: command)
+
+        async let errorOutput = GitProcessIO.readData(
+            from: standardErrorPipe.fileHandleForReading,
+            limit: 4_000
+        )
+        let read = await Self.boundedRead(
+            from: standardOutputPipe.fileHandleForReading,
+            of: process,
+            bounds: bounds,
+            retainsOutput: retainsOutput
+        )
+        let exitStatus = await GitProcessIO.waitForTermination(of: process)
+        let errorOutputData = try? await errorOutput
+
+        // A cancelled read ends where Git was killed, not where the output did. Reporting what
+        // arrived would be reporting a patch that was cut off as a whole one.
+        try Task.checkCancellation()
+
+        return try validated(
+            read,
+            of: command,
+            exitStatus: exitStatus,
+            errorOutput: errorOutputData,
+            successfulExitStatuses: successfulExitStatuses
+        )
+    }
+
+    /// - Parameter errorOutput: What Git wrote to standard error, or `nil` when reading it
+    ///   failed.
+    private func validated(
+        _ read: Result<GitBoundedOutput, any Error>,
+        of command: Command,
+        exitStatus: Int32,
+        errorOutput: Data?,
+        successfulExitStatuses: Set<Int32>
+    ) throws -> GitBoundedOutput {
+        let output: GitBoundedOutput
+        switch read {
+        case .failure(let error):
+            throw RepositoryOpenError.commandFailed(
+                failureDetails(of: command, output: error.localizedDescription, exitStatus: exitStatus)
+            )
+        case .success(let value):
+            output = value
+        }
+
+        // A status Colofa accepts as an answer rather than a failure only counts as one when Git
+        // said nothing while returning it. `git diff --no-index` reports both "these differ" and
+        // "I could not read that" as status 1, and only the second writes to standard error — so
+        // a missing file would otherwise be read back as a Diff with nothing in it. Standard
+        // error Colofa failed to read counts as present, because assuming it was empty is the
+        // assumption that turns a failure into an answer.
+        let answeredQuietly = exitStatus == 0
+            || (successfulExitStatuses.contains(exitStatus) && errorOutput?.isEmpty == true)
+        guard output.exceedsBounds || answeredQuietly else {
+            throw RepositoryOpenError.commandFailed(
+                failureDetails(
+                    of: command,
+                    output: GitProcessIO.diagnostic(
+                        errorOutput: errorOutput ?? Data(),
+                        output: Data()
+                    ),
+                    exitStatus: exitStatus
+                )
+            )
+        }
+        return output
+    }
+
+    /// Reads bounded output and makes sure Git ends afterwards, whether the read stopped at a
+    /// bound, failed, or was cancelled — each of them leaves Git writing to nobody.
+    private static func boundedRead(
+        from handle: FileHandle,
+        of process: Process,
+        bounds: GitOutputBounds,
+        retainsOutput: Bool
+    ) async -> Result<GitBoundedOutput, any Error> {
+        let read: Result<GitBoundedOutput, any Error>
+        do {
+            // The read blocks on a thread of its own, so cancellation has to reach it by ending
+            // Git: closing the pipe is what returns the blocked read at once.
+            read = .success(
+                try await withTaskCancellationHandler {
+                    try await GitBoundedReader.read(
+                        from: handle,
+                        bounds: bounds,
+                        retainsOutput: retainsOutput
+                    )
+                } onCancel: {
+                    process.terminate()
+                }
+            )
+        } catch {
+            read = .failure(error)
+        }
+
+        if (try? read.get())?.exceedsBounds ?? true, process.isRunning {
+            process.terminate()
+        }
+        return read
     }
 
     func data(
@@ -79,8 +213,20 @@ nonisolated struct GitProcess: Sendable {
         let command = Command(
             arguments: arguments,
             directoryURL: directoryURL,
-            sensitiveValues: Self.sensitiveValues(from: standardInput)
+            sensitiveValues: GitOutputRedaction.sensitiveValues(from: standardInput)
         )
+        try launch(process, running: command)
+
+        return try await output(
+            of: process,
+            running: command,
+            standardInput: standardInputPipe.map { ($0, standardInput ?? "") },
+            outputPipes: (standardOutputPipe, standardErrorPipe),
+            outputLimit: outputLimit
+        )
+    }
+
+    private func launch(_ process: Process, running command: Command) throws {
         do {
             try process.run()
         } catch {
@@ -91,14 +237,6 @@ nonisolated struct GitProcess: Sendable {
                 failureDetails(of: command, output: error.localizedDescription)
             )
         }
-
-        return try await output(
-            of: process,
-            running: command,
-            standardInput: standardInputPipe.map { ($0, standardInput ?? "") },
-            outputPipes: (standardOutputPipe, standardErrorPipe),
-            outputLimit: outputLimit
-        )
     }
 
     private func output(
@@ -112,18 +250,18 @@ nonisolated struct GitProcess: Sendable {
         // otherwise block this task before anything drains Git's output.
         let inputTask = standardInput.map { input in
             Task.detached {
-                Self.write(input.text, to: input.pipe.fileHandleForWriting)
+                GitProcessIO.write(input.text, to: input.pipe.fileHandleForWriting)
             }
         }
-        async let standardOutput = Self.readData(
+        async let standardOutput = GitProcessIO.readData(
             from: outputPipes.standardOutput.fileHandleForReading,
             limit: outputLimit
         )
-        async let standardError = Self.readData(
+        async let standardError = GitProcessIO.readData(
             from: outputPipes.standardError.fileHandleForReading,
             limit: 4_000
         )
-        let exitStatus = await Self.waitForTermination(of: process)
+        let exitStatus = await GitProcessIO.waitForTermination(of: process)
         await inputTask?.value
 
         let output: Data
@@ -144,7 +282,7 @@ nonisolated struct GitProcess: Sendable {
             throw RepositoryOpenError.commandFailed(
                 failureDetails(
                     of: command,
-                    output: Self.diagnostic(errorOutput: errorOutput, output: output),
+                    output: GitProcessIO.diagnostic(errorOutput: errorOutput, output: output),
                     exitStatus: exitStatus
                 )
             )
@@ -159,17 +297,17 @@ nonisolated struct GitProcess: Sendable {
         exitStatus: Int32? = nil
     ) -> GitFailureDetails {
         GitFailureDetails(
-            command: redactingLocation(
+            command: GitOutputRedaction.redactingLocation(
                 of: command.directoryURL,
-                in: redactingSensitiveValues(
+                in: GitOutputRedaction.redactingSensitiveValues(
                     command.sensitiveValues,
                     in: (["git"] + command.arguments).map(\.debugDescription).joined(separator: " ")
                 )
             ),
             output: String(
-                redactingLocation(
+                GitOutputRedaction.redactingLocation(
                     of: command.directoryURL,
-                    in: redactingSensitiveValues(
+                    in: GitOutputRedaction.redactingSensitiveValues(
                         command.sensitiveValues,
                         in: output.replacing("\0", with: "")
                     )
@@ -177,113 +315,5 @@ nonisolated struct GitProcess: Sendable {
             ),
             exitStatus: exitStatus
         )
-    }
-
-    /// Removes the Repository's location from text Colofa is about to show or store.
-    ///
-    /// Every spelling is replaced, longest first. Git and hooks report the canonical path, which
-    /// on macOS differs from the one the user selected whenever a symlink such as `/tmp` is
-    /// involved; without the canonical form that real location would survive in the output.
-    private func redactingLocation(of repositoryURL: URL, in text: String) -> String {
-        let canonicalPath = try? repositoryURL
-            .resourceValues(forKeys: [.canonicalPathKey])
-            .canonicalPath
-        let paths = Set([repositoryURL.normalizedFilePath, canonicalPath].compactMap { $0 })
-
-        return paths.sorted { $0.count > $1.count }.reduce(text) { redacted, path in
-            redacted.replacing(path, with: "<Repository>")
-        }
-    }
-
-    private func redactingSensitiveValues(_ values: [String], in text: String) -> String {
-        values.reduce(text) { redacted, value in
-            redactingSensitiveValue(value, in: redacted)
-        }
-    }
-
-    private func redactingSensitiveValue(_ value: String, in text: String) -> String {
-        let replacement = "<Sensitive Input>"
-        var redacted = text
-        var searchStart = redacted.startIndex
-
-        while let range = redacted.range(of: value, range: searchStart..<redacted.endIndex) {
-            let characterBefore = range.lowerBound == redacted.startIndex
-                ? nil
-                : redacted[redacted.index(before: range.lowerBound)]
-            let characterAfter = range.upperBound == redacted.endIndex
-                ? nil
-                : redacted[range.upperBound]
-            guard isSensitiveValueBoundary(characterBefore),
-                  isSensitiveValueBoundary(characterAfter) else {
-                searchStart = range.upperBound
-                continue
-            }
-
-            redacted.replaceSubrange(range, with: replacement)
-            searchStart = redacted.index(range.lowerBound, offsetBy: replacement.count)
-        }
-        return redacted
-    }
-
-    private func isSensitiveValueBoundary(_ character: Character?) -> Bool {
-        guard let character else {
-            return true
-        }
-        return !character.isLetter && !character.isNumber && character != "_"
-    }
-
-    private static func sensitiveValues(from input: String?) -> [String] {
-        guard let input else {
-            return []
-        }
-        let trimmed = input.trimmingCharacters(in: .whitespacesAndNewlines)
-        let lines = input.split(whereSeparator: \.isNewline).map(String.init)
-        return Set([input, trimmed] + lines)
-            .filter { !$0.isEmpty }
-            .sorted { $0.count > $1.count }
-    }
-
-    private static func diagnostic(errorOutput: Data, output: Data) -> String {
-        [errorOutput, output]
-            .map { string(from: $0).trimmingCharacters(in: .whitespacesAndNewlines) }
-            .filter { !$0.isEmpty }
-            .joined(separator: "\n")
-    }
-
-    /// Git's own output is UTF-8. Anything else is still shown rather than dropped: ISO Latin-1
-    /// maps every byte, so a Repository with oddly encoded content stays diagnosable.
-    private static func string(from data: Data) -> String {
-        String(bytes: data, encoding: .utf8) ?? String(bytes: data, encoding: .isoLatin1) ?? ""
-    }
-
-    private static func readData(from handle: FileHandle, limit: Int?) async throws -> Data {
-        var output = Data()
-        for try await byte in handle.bytes where output.count < (limit ?? .max) {
-            output.append(byte)
-        }
-        return output
-    }
-
-    /// Feeds `text` to the process and closes the pipe, which is what tells Git the input ended.
-    ///
-    /// A failed write is not reported separately: Git then sees a short or empty input and fails
-    /// with its own message, which is the failure the user needs to read.
-    private static func write(_ text: String, to handle: FileHandle) {
-        defer { try? handle.close() }
-        try? handle.write(contentsOf: Data(text.utf8))
-    }
-
-    private static func waitForTermination(of process: Process) async -> Int32 {
-        await withTaskCancellationHandler {
-            await withCheckedContinuation { continuation in
-                process.terminationHandler = { process in
-                    continuation.resume(returning: process.terminationStatus)
-                }
-            }
-        } onCancel: {
-            if process.isRunning {
-                process.terminate()
-            }
-        }
     }
 }

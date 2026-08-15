@@ -20,6 +20,24 @@ final class WorkspaceState {
     var commitDraft = CommitMessageDraft()
     var isConfirmingHistoryRewrite = false
     var isShowingStaleAmendAlert = false
+
+    /// Which layout the Diff pane uses. Deliberately not persisted: it is how the user wants to
+    /// read this session, not state belonging to the Repository.
+    var diffLayout = DiffLayout.unified
+
+    // Not private: the Diff extension in WorkspaceState+Diff.swift owns everything below, and
+    // Swift keeps `private` within one file. Nothing else writes to them.
+    var diff: DiffLoadState?
+    var diffFileURL: URL?
+    var diffLoadID = 0
+    var loadedDiffKey: DiffKey?
+    var loadedDiffKind: RepositoryChangeKind?
+    var confirmedDiffKey: DiffKey?
+
+    /// Counts authoritative Repository reads. A Diff is a view of content Colofa did not read
+    /// with the snapshot, so every reload has to re-ask rather than assume the patch still holds.
+    private(set) var repositoryGeneration = 0
+
     private(set) var repository: RepositorySnapshot?
     private(set) var repositoryFailure: RepositoryFailurePresentation?
     private(set) var isLoadingRepository = false
@@ -30,7 +48,9 @@ final class WorkspaceState {
     /// by passing `-lastRepositoryPath <path>` as a launch argument.
     private static let lastRepositoryPathKey = "lastRepositoryPath"
 
-    private let repositoryService: RepositoryService
+    // Not private: the Diff extension reads patches through it directly, because a Diff is not
+    // published Repository state and does not travel with a snapshot.
+    let repositoryService: RepositoryService
     private let userDefaults: UserDefaults
     private let launchArguments: [String]
     private var hasStarted = false
@@ -158,14 +178,6 @@ final class WorkspaceState {
             }
             return true
         }.value
-    }
-
-    func change(for selection: RepositoryChangeSelection) -> RepositoryChange? {
-        guard let repository else {
-            return nil
-        }
-        return changes(in: repository, staged: selection.isStaged)
-            .first { $0.path == selection.path }
     }
 
     var canReplaceRepository: Bool {
@@ -325,6 +337,7 @@ extension WorkspaceState {
     private func publishRepository(_ repository: RepositorySnapshot) {
         let isSameRepository = self.repository?.rootURL == repository.rootURL
         self.repository = repository
+        repositoryGeneration += 1
         if !isSameRepository {
             // A message written for one Repository must not follow the user into another.
             commitDraft.clear()
@@ -358,29 +371,6 @@ extension WorkspaceState {
     // Not private: the configuration extension in WorkspaceState+Configuration.swift needs it.
     var canMutateRepository: Bool {
         !isPerformingMutation && activeReplacementLoadID == nil
-    }
-
-    private func updateSelectedChange(for repository: RepositorySnapshot) {
-        guard let selectedChange else {
-            return
-        }
-        if changes(in: repository, staged: selectedChange.isStaged)
-            .contains(where: { $0.path == selectedChange.path }) {
-            return
-        }
-        let alternate = RepositoryChangeSelection(
-            path: selectedChange.path,
-            isStaged: !selectedChange.isStaged
-        )
-        self.selectedChange = changes(in: repository, staged: alternate.isStaged)
-            .contains(where: { $0.path == alternate.path }) ? alternate : nil
-    }
-
-    private func changes(
-        in repository: RepositorySnapshot,
-        staged: Bool
-    ) -> [RepositoryChange] {
-        staged ? repository.stagedChanges : repository.unstagedChanges
     }
 
     private var isUITesting: Bool {

@@ -40,6 +40,9 @@ nonisolated enum UITestingArgument {
     /// Removes all working-tree changes so the collapsed clean-workspace Amend affordance appears.
     static let cleanCommitState = "--ui-testing-clean-commit-state"
 
+    /// Serves the Changes whose Diffs cover text, rename, binary, submodule, and both size limits.
+    static let diffState = "--ui-testing-diff-state"
+
     /// Serves an unresolved Conflict without an active operation.
     static let commitConflict = "--ui-testing-commit-conflict"
 

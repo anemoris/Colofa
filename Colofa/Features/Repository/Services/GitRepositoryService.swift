@@ -88,6 +88,10 @@ actor GitRepositoryService {
         )
     }
 
+    func loadDiff(_ request: DiffLoadRequest) async throws -> DiffLoadResult {
+        try await GitDiffLoader(git: try await resolvedGit()).load(request)
+    }
+
     func runMutation(
         _ arguments: [String],
         standardInput: String? = nil,

@@ -11,13 +11,17 @@ import SwiftUI
 struct GitUnavailableView: View {
     @Environment(WorkspaceState.self) private var state
 
+    /// Shown exactly as it has to be typed. A command is not copy: translating it would leave the
+    /// user with a line that does not run.
+    private static let installCommand = "xcode-select --install"
+
     var body: some View {
         ContentUnavailableView {
             Label(.gitUnavailable, systemImage: "terminal")
         } description: {
             VStack {
                 Text(.gitUnavailableDescription)
-                Text(verbatim: "xcode-select --install")
+                Text(verbatim: Self.installCommand)
                     .font(.body.monospaced())
                     .textSelection(.enabled)
             }

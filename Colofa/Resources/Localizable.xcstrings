@@ -1550,6 +1550,306 @@
         "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "提交前请先完成或中止进行中的 Git 操作。" } },
         "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "提交前請先完成或中止進行中的 Git 操作。" } }
       }
+    },
+    "additions" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Additions" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "追加行" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "추가된 줄" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "新增行" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "新增行" } }
+      }
+    },
+    "deletions" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Deletions" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "削除行" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "삭제된 줄" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "删除行" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "刪除行" } }
+      }
+    },
+    "diffBeyondLimit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Diff Too Large to Render" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "差分が大きすぎて表示できません" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "차이가 너무 커서 표시할 수 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "差异过大，无法渲染" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "差異過大，無法算繪" } }
+      }
+    },
+    "diffBeyondLimitDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Colofa stopped reading this patch at its limit. The counts below come from Git rather than from the patch." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Colofa は上限でこのパッチの読み込みを止めました。以下の集計はパッチではなく Git によるものです。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Colofa는 한도에서 이 패치 읽기를 멈췄습니다. 아래 수치는 패치가 아니라 Git에서 나온 것입니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Colofa 已在上限处停止读取此补丁。下列计数来自 Git，而非补丁本身。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Colofa 已在上限處停止讀取此修補檔。下列計數來自 Git，而非修補檔本身。" } }
+      }
+    },
+    "diffBinaryContent" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Binary File" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "バイナリファイル" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "바이너리 파일" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "二进制文件" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "二進位檔案" } }
+      }
+    },
+    "diffBinaryContentDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Binary content has no lines to compare." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "バイナリの内容には比較できる行がありません。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "바이너리 내용에는 비교할 줄이 없습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "二进制内容没有可比较的行。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "二進位內容沒有可比較的行。" } }
+      }
+    },
+    "diffChangedFiles" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Changed Files" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "変更されたファイル" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "변경된 파일" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "改动的文件" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "變更的檔案" } }
+      }
+    },
+    "diffLayout" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Diff Layout" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "差分レイアウト" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "차이 레이아웃" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "差异布局" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "差異佈局" } }
+      }
+    },
+    "diffLines" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Lines" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "行数" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "줄 수" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "行数" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "行數" } }
+      }
+    },
+    "diffLoadFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Diff Could Not Be Loaded" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "差分を読み込めませんでした" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "차이를 불러오지 못함" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法加载差异" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法載入差異" } }
+      }
+    },
+    "diffModeChanged" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "File Mode Changed" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ファイルモードが変更されました" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "파일 모드 변경됨" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "文件模式已更改" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "檔案模式已變更" } }
+      }
+    },
+    "diffMoreThan" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "More than %@" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "%@ 超" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "%@ 초과" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "超过 %@" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "超過 %@" } }
+      }
+    },
+    "diffNewCommit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "New Commit" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "変更後のコミット" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "새 커밋" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "变更后提交" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "變更後提交" } }
+      }
+    },
+    "diffNoNewlineAtEndOfFile" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No newline at end of file" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ファイル末尾に改行がありません" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "파일 끝에 줄바꿈 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "文件末尾没有换行符" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "檔案結尾沒有換行符號" } }
+      }
+    },
+    "diffNoTextualChanges" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No Textual Changes" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "テキストの変更はありません" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "텍스트 변경 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "没有文本改动" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "沒有文字變更" } }
+      }
+    },
+    "diffNoTextualChangesDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Git reports this path as changed but has no lines to show." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Git はこのパスを変更ありと報告していますが、表示する行はありません。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Git은 이 경로가 변경되었다고 보고하지만 표시할 줄이 없습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Git 报告此路径已更改，但没有可显示的行。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Git 回報此路徑已變更，但沒有可顯示的行。" } }
+      }
+    },
+    "diffNotLoadedAutomatically" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Diff Not Loaded Automatically" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "差分は自動で読み込まれません" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "차이를 자동으로 불러오지 않음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "差异未自动加载" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "差異未自動載入" } }
+      }
+    },
+    "diffNotLoadedAutomaticallyDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This patch is larger than the size Colofa renders without being asked." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "このパッチは Colofa が確認なしに表示するサイズを超えています。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 패치는 Colofa가 묻지 않고 표시하는 크기를 넘습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "此补丁超过 Colofa 无需询问即渲染的大小。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "此修補檔超過 Colofa 無需詢問即算繪的大小。" } }
+      }
+    },
+    "diffOldCommit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Old Commit" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "変更前のコミット" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이전 커밋" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "变更前提交" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "變更前提交" } }
+      }
+    },
+    "diffPathNotInWorkingTree" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This path is no longer in the working tree, so there is no file to open." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "このパスはワーキングツリーに存在しないため、開けるファイルがありません。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 경로는 작업 트리에 없으므로 열 파일이 없습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "此路径已不在工作树中，没有可打开的文件。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "此路徑已不在工作樹中，沒有可開啟的檔案。" } }
+      }
+    },
+    "diffRenamedFrom" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Renamed from %@" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "%@ から名前変更" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "%@에서 이름 변경됨" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "由 %@ 重命名" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "由 %@ 重新命名" } }
+      }
+    },
+    "diffSize" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Size" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "サイズ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "크기" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "大小" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "大小" } }
+      }
+    },
+    "diffSubmodule" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Submodule" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "サブモジュール" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "서브모듈" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "子模块" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "子模組" } }
+      }
+    },
+    "diffUnavailableForConflict" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This Diff is unavailable until the Conflict is resolved." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "この差分は競合が解決されるまで利用できません。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 차이는 충돌이 해결될 때까지 사용할 수 없습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "在冲突解决之前无法查看此差异。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "在衝突解決之前無法檢視此差異。" } }
+      }
+    },
+    "loadDiffAnyway" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Load Anyway" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "それでも読み込む" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "그래도 불러오기" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "仍然加载" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "仍然載入" } }
+      }
+    },
+    "loadingDiff" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Loading Diff…" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "差分を読み込み中…" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "차이 불러오는 중…" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "正在加载差异…" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "正在載入差異…" } }
+      }
+    },
+    "openInDefaultEditor" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Open in Default Editor" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "デフォルトのエディタで開く" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "기본 편집기에서 열기" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "在默认编辑器中打开" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "在預設編輯器中開啟" } }
+      }
+    },
+    "reloadDiff" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Reload Diff" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "差分を再読み込み" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "차이 다시 불러오기" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "重新加载差异" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "重新載入差異" } }
+      }
+    },
+    "splitLayout" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Split" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "並列表示" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "분할 보기" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "并排视图" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "並排檢視" } }
+      }
+    },
+    "unifiedLayout" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Unified" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "統合表示" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "통합 보기" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "统一视图" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "統一檢視" } }
+      }
     }
   },
   "version" : "1.0"

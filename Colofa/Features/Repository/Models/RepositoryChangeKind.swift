@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum RepositoryChangeKind: Equatable, Sendable {
+enum RepositoryChangeKind: Hashable, Sendable {
     case modified
     case added
     case deleted

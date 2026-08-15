@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Testing
 @testable import Colofa
 
 /// An isolated real-Git fixture that never reads the developer's configuration.
@@ -80,6 +81,66 @@ final class GitTestRepository {
         )
     }
 
+    /// A stand-in Git that writes one line and then blocks for `seconds` without writing more.
+    ///
+    /// It makes a slow command deterministic: a test can act while it is known to still be
+    /// running, rather than racing real Git and hoping the timing lands.
+    ///
+    /// - Parameter readyURL: Created after the first line is written, so a test can wait for the
+    ///   command to actually be running and blocked instead of assuming it by sleeping.
+    func createSlowGit(at executableURL: URL, seconds: Int, readyURL: URL) throws {
+        try writeExecutableGit(
+            at: executableURL,
+            body: """
+            echo "diff --git a/slow.txt b/slow.txt"
+            echo "ready" > "\(readyURL.normalizedFilePath)"
+            sleep \(seconds)
+            echo "done"
+            """
+        )
+    }
+
+    /// Waits for a stand-in Git to report that it is running.
+    func waitForReadySignal(at url: URL, timeout: Duration = .seconds(10)) async throws {
+        let deadline = ContinuousClock.now.advanced(by: timeout)
+        while !FileManager.default.fileExists(atPath: url.normalizedFilePath) {
+            try #require(
+                ContinuousClock.now < deadline,
+                "The stand-in Git never reported that it was running"
+            )
+            try await Task.sleep(for: .milliseconds(5))
+        }
+    }
+
+    func createMutationRecordingGit(at executableURL: URL, eventsURL: URL) throws {
+        try writeExecutableGit(
+            at: executableURL,
+            body: """
+            echo "$1-start" >> "\(eventsURL.normalizedFilePath)"
+            sleep 0.1
+            echo "$1-end" >> "\(eventsURL.normalizedFilePath)"
+            """
+        )
+    }
+
+    /// Every stand-in answers `--version` the way Colofa's discovery expects, so it is accepted
+    /// as a Git before the behaviour under test begins.
+    private func writeExecutableGit(at executableURL: URL, body: String) throws {
+        let script = """
+        #!/bin/sh
+        if [ "$1" = "--version" ]; then
+            echo "git version 2.0.0"
+            exit 0
+        fi
+        \(body)
+        """
+        try Data(script.utf8).write(to: executableURL)
+        try FileManager.default.setAttributes(
+            [.posixPermissions: 0o755],
+            ofItemAtPath: executableURL.normalizedFilePath
+        )
+    }
+
     @discardableResult
     func createCommit(
         in repositoryURL: URL,
@@ -116,24 +177,6 @@ final class GitTestRepository {
         return repositoryURL.appending(path: name, directoryHint: .isDirectory)
     }
 
-    func createMutationRecordingGit(at executableURL: URL, eventsURL: URL) throws {
-        let script = """
-        #!/bin/sh
-        if [ "$1" = "--version" ]; then
-            echo "git version 2.0.0"
-            exit 0
-        fi
-        echo "$1-start" >> "\(eventsURL.normalizedFilePath)"
-        sleep 0.1
-        echo "$1-end" >> "\(eventsURL.normalizedFilePath)"
-        """
-        try Data(script.utf8).write(to: executableURL)
-        try FileManager.default.setAttributes(
-            [.posixPermissions: 0o755],
-            ofItemAtPath: executableURL.normalizedFilePath
-        )
-    }
-
     @discardableResult
     func git(_ arguments: [String], in directoryURL: URL? = nil) throws -> String {
         try rawGit(arguments, in: directoryURL)
@@ -148,7 +191,9 @@ final class GitTestRepository {
         return record.hasSuffix("\n") ? String(record.dropLast()) : record
     }
 
-    private func rawGit(_ arguments: [String], in directoryURL: URL? = nil) throws -> String {
+    /// Git's output exactly as written, with none of the trimming `git(_:in:)` applies. Measuring
+    /// a patch needs those bytes intact.
+    func rawGit(_ arguments: [String], in directoryURL: URL? = nil) throws -> String {
         let outputPipe = Pipe()
         let process = Process()
         process.executableURL = gitURL
