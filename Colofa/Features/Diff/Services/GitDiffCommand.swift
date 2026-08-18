@@ -49,6 +49,25 @@ nonisolated struct GitDiffCommand: Equatable, Sendable {
                     + ["--", "/dev/null", path],
                 successfulExitStatuses: [0, 1]
             )
+        case .commit(let objectID, let parentObjectID, let paths):
+            if let parentObjectID {
+                // Naming both ends rather than spelling `^` keeps a merge comparing against the
+                // first parent it actually has, which is the parent History walked through.
+                Self(
+                    arguments: trackedPrefix + ["diff"] + output + trackedOptions
+                        + [parentObjectID, objectID, "--"] + paths,
+                    successfulExitStatuses: [0]
+                )
+            } else {
+                // Nothing to compare against, so Git compares against an empty tree and the
+                // Commit reads as everything it introduced. `--root` is what makes it answer at
+                // all rather than printing nothing.
+                Self(
+                    arguments: trackedPrefix + ["show", "--root", "--format="] + output
+                        + trackedOptions + [objectID, "--"] + paths,
+                    successfulExitStatuses: [0]
+                )
+            }
         }
     }
 

@@ -21,6 +21,15 @@ struct RepositoryService: Sendable {
     /// Repository state does not carry it, and its cost is paid only for the current selection.
     let loadDiff: @Sendable (DiffLoadRequest) async throws -> DiffLoadResult
 
+    /// Reads one page of the History reachable from a Ref. Separate from `load` for the same
+    /// reason a Diff is: a Repository has more History than any snapshot should carry, and only
+    /// the selected Ref's pages are ever paid for.
+    let loadHistory: @Sendable (HistoryPageRequest) async throws -> HistoryPage
+
+    /// Reads the message and changed paths of one selected Commit, which a page deliberately
+    /// leaves unread.
+    let loadCommitDetail: @Sendable (HistoryCommitDetailRequest) async throws -> HistoryCommitDetail
+
     static func live() -> Self {
         let backend = GitRepositoryService()
 
@@ -36,6 +45,12 @@ struct RepositoryService: Sendable {
             },
             loadDiff: { request in
                 try await backend.loadDiff(request)
+            },
+            loadHistory: { request in
+                try await backend.loadHistory(request)
+            },
+            loadCommitDetail: { request in
+                try await backend.loadCommitDetail(request)
             }
         )
     }
@@ -46,7 +61,9 @@ struct RepositoryService: Sendable {
             availability: { .unavailable },
             load: { _ in throw RepositoryOpenError.gitUnavailable },
             runMutation: { _, _, _ in throw RepositoryOpenError.gitUnavailable },
-            loadDiff: { _ in throw RepositoryOpenError.gitUnavailable }
+            loadDiff: { _ in throw RepositoryOpenError.gitUnavailable },
+            loadHistory: { _ in throw RepositoryOpenError.gitUnavailable },
+            loadCommitDetail: { _ in throw RepositoryOpenError.gitUnavailable }
         )
     }
 
@@ -62,6 +79,12 @@ struct RepositoryService: Sendable {
             },
             loadDiff: { request in
                 try await backend.loadDiff(request)
+            },
+            loadHistory: { request in
+                try await backend.loadHistory(request)
+            },
+            loadCommitDetail: { request in
+                try await backend.loadCommitDetail(request)
             }
         )
     }

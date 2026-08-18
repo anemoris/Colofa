@@ -1850,6 +1850,266 @@
         "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "统一视图" } },
         "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "統一檢視" } }
       }
+    },
+    "commitAuthor" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Author" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "作成者" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "작성자" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "作者" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "作者" } }
+      }
+    },
+    "commitAuthored" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Authored" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "作成日時" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "작성 시각" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "创作时间" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "創作時間" } }
+      }
+    },
+    "commitCommitted" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Committed" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "コミット日時" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "커밋 시각" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "提交时间" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "提交時間" } }
+      }
+    },
+    "commitCommitter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Committer" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "コミッター" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "커미터" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "提交者" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "提交者" } }
+      }
+    },
+    "commitMerge" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Merge Commit" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "マージコミット" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "병합 커밋" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "合并提交" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "合併提交" } }
+      }
+    },
+    "commitObjectID" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "SHA" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "SHA" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "SHA" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "SHA" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "SHA" } }
+      }
+    },
+    "commitParents" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Parents" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "親コミット" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "부모 커밋" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "父提交" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "父提交" } }
+      }
+    },
+    "commitRefs" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Refs" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "参照" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "참조" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "引用" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "參考" } }
+      }
+    },
+    "commitRoot" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "First commit in this repository" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "このリポジトリの最初のコミット" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 저장소의 첫 커밋" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "本仓库的首个提交" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "本儲存庫的首個提交" } }
+      }
+    },
+    "commitShallowBoundary" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Shallow clone boundary. Earlier history was not fetched." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "シャロークローンの境界です。これより前の履歴は取得されていません。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "얕은 클론의 경계입니다. 이전 히스토리는 가져오지 않았습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "浅克隆边界。更早的历史未被获取。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "淺複製邊界。更早的歷史未被取得。" } }
+      }
+    },
+    "copyBranchName" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Copy Branch Name" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ブランチ名をコピー" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "브랜치 이름 복사" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "拷贝分支名称" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "拷貝分支名稱" } }
+      }
+    },
+    "copySHA" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Copy SHA" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "SHA をコピー" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "SHA 복사" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "拷贝 SHA" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "拷貝 SHA" } }
+      }
+    },
+    "historyLoadFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "History Could Not Be Read" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "履歴を読み込めませんでした" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "히스토리를 읽을 수 없습니다" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法读取历史" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法讀取歷史" } }
+      }
+    },
+    "historyRefLocalBranch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Branch" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ブランチ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "브랜치" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "分支" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "分支" } }
+      }
+    },
+    "historyRefRemoteBranch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Remote Branch" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "リモートブランチ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "원격 브랜치" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "远程分支" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "遠端分支" } }
+      }
+    },
+    "historyRefTag" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Tag" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "タグ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "태그" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "标签" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "標籤" } }
+      }
+    },
+    "historyUnbornDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This branch has no commits yet, so nothing is reachable from it." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "このブランチにはまだコミットがないため、到達できる履歴はありません。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 브랜치에는 아직 커밋이 없어 도달할 수 있는 항목이 없습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "该分支尚无提交，因此没有可到达的历史。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "此分支尚無提交，因此沒有可到達的歷史。" } }
+      }
+    },
+    "loadMoreHistory" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Load More" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "さらに読み込む" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "더 불러오기" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "载入更多" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "載入更多" } }
+      }
+    },
+    "loadingHistory" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Loading History" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "履歴を読み込み中" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "히스토리 불러오는 중" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "正在载入历史" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "正在載入歷史" } }
+      }
+    },
+    "noCommitSelected" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No Commit Selected" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "コミットが選択されていません" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "선택된 커밋 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "未选择提交" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "未選擇提交" } }
+      }
+    },
+    "noCommitSelectedDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Select a commit to inspect its details." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "詳細を確認するコミットを選択してください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "세부 정보를 볼 커밋을 선택하십시오." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "选择一个提交以查看其详情。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "選擇一個提交以查看其詳情。" } }
+      }
+    },
+    "reloadHistory" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Reload History" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "履歴を再読み込み" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "히스토리 다시 불러오기" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "重新载入历史" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "重新載入歷史" } }
+      }
+    },
+    "viewHistory" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "View History" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "履歴を表示" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "히스토리 보기" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "查看历史" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "查看歷史" } }
+      }
+    },
+    "historyScope" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Commits Shown" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "表示するコミット" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "표시할 커밋" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "显示的提交" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "顯示的提交" } }
+      }
+    },
+    "historyScopeFirstParent" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "First Parent" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "第一親" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "첫 번째 부모" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "第一父" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "第一父" } }
+      }
+    },
+    "historyScopeReachable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Reachable" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "到達可能" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "도달 가능" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "可到达" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "可到達" } }
+      }
     }
   },
   "version" : "1.0"

@@ -67,4 +67,14 @@ struct RepositorySnapshot: Equatable, Identifiable, Sendable {
     }
 
     var id: URL { rootURL }
+
+    /// The Refs this read reported, which is what a Ref selection made against an earlier read
+    /// has to be checked against.
+    var references: RepositoryReferences {
+        RepositoryReferences(
+            localBranches: localBranches,
+            remoteBranches: remoteBranches,
+            tags: tags
+        )
+    }
 }

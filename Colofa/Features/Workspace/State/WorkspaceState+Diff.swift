@@ -15,10 +15,22 @@ extension WorkspaceState {
     /// a modification that becomes a deletion — and the Repository read is part of it because a
     /// file's content can change without its entry in the Repository doing so.
     struct DiffIdentity: Hashable, Sendable {
-        let repositoryURL: URL
-        let selection: RepositoryChangeSelection
-        let kind: RepositoryChangeKind
+        let key: DiffKey
+        let kind: RepositoryChangeKind?
         let generation: Int
+    }
+
+    /// What the Diff pane is being asked for, before anything is read.
+    ///
+    /// A Conflict is neither a patch nor an absence of one: Git describes it as a combined Diff
+    /// of every side, which is not a review Colofa can honestly present, so it is a target of its
+    /// own rather than a load that fails.
+    private enum DiffTarget {
+        case none
+        case conflicted
+        /// - Parameter path: Where the comparison is on disk, when it is about one path. A Commit
+        ///   is about every path it touched, so it has none.
+        case patch(DiffKey, path: String?, kind: RepositoryChangeKind?)
     }
 
     /// One comparison inside one Repository.
@@ -33,74 +45,98 @@ extension WorkspaceState {
     }
 
     var diffIdentity: DiffIdentity? {
-        guard let repository,
-              let selection = selectedChange,
-              let change = change(for: selection) else {
+        guard case .patch(let key, _, let kind) = diffTarget else {
             return nil
         }
-        return DiffIdentity(
-            repositoryURL: repository.rootURL,
-            selection: selection,
-            kind: change.kind,
-            generation: repositoryGeneration
-        )
+        return DiffIdentity(key: key, kind: kind, generation: repositoryGeneration)
+    }
+
+    /// What the current selection asks the Diff pane for, in whichever section owns it.
+    ///
+    /// Changes select a path, History selects a Commit, and both end in the same read-only
+    /// presentation — the difference is only what Git is asked to compare.
+    private var diffTarget: DiffTarget {
+        guard let repository else {
+            return .none
+        }
+        switch selectedSection {
+        case .changes:
+            guard let selection = selectedChange,
+                  let change = change(for: selection) else {
+                return .none
+            }
+            // An unmerged path has no two-sided comparison to show until it is resolved.
+            guard !change.isConflict else {
+                return .conflicted
+            }
+            return .patch(
+                DiffKey(
+                    repositoryURL: repository.rootURL,
+                    source: DiffSource(change: change, isStaged: selection.isStaged)
+                ),
+                path: selection.path,
+                kind: change.kind
+            )
+        case .history:
+            // One file of the Commit, not the whole of it: the selection names the file, the
+            // same way it names a path in Changes.
+            guard let commit = selectedCommit, let file = selectedCommitFile else {
+                return .none
+            }
+            return .patch(
+                DiffKey(
+                    repositoryURL: repository.rootURL,
+                    source: .commit(
+                        objectID: commit.objectID,
+                        parentObjectID: commit.comparisonParentObjectID,
+                        paths: file.gitPathspecs
+                    )
+                ),
+                path: file.newPath,
+                kind: nil
+            )
+        case .stashes:
+            return .none
+        }
     }
 
     /// Reads the patch for the current selection, or clears the pane when there is nothing to
     /// read. A selection that disappeared leaves no Diff behind.
     func loadDiff() async {
-        guard let repository,
-              let selection = selectedChange,
-              let change = change(for: selection) else {
+        switch diffTarget {
+        case .none:
             clearDiff()
-            return
-        }
-        guard !change.isConflict else {
-            // An unmerged path has no two-sided comparison to show until it is resolved.
+        case .conflicted:
             clearDiff(showing: .conflicted)
-            return
+        case .patch(let key, let path, let kind):
+            if key != loadedDiffKey {
+                confirmedDiffKey = nil
+            }
+            // A path whose Change became a different one — a modification that became a deletion
+            // — keeps its source but no longer describes the same comparison, so the previous
+            // patch is cleared rather than left up while the new one is read. Re-reading the same
+            // Change after an ordinary reload is what must not flicker.
+            let describesTheSameChange = key == loadedDiffKey && kind == loadedDiffKind
+            loadedDiffKind = kind
+            await load(key, path: path, showsLoading: !describesTheSameChange)
         }
-
-        let key = DiffKey(
-            repositoryURL: repository.rootURL,
-            source: DiffSource(change: change, isStaged: selection.isStaged)
-        )
-        if key != loadedDiffKey {
-            confirmedDiffKey = nil
-        }
-        // A path whose Change became a different one — a modification that became a deletion —
-        // keeps its source but no longer describes the same comparison, so the previous patch is
-        // cleared rather than left up while the new one is read. Re-reading the same Change after
-        // an ordinary reload is what must not flicker.
-        let describesTheSameChange = key == loadedDiffKey && change.kind == loadedDiffKind
-        loadedDiffKind = change.kind
-        await load(key, path: selection.path, showsLoading: !describesTheSameChange)
     }
 
     /// Renders a patch above an automatic limit after the user asked for it. The hard limits
     /// still apply: this raises the bound reading stops at rather than removing one.
     func loadDiffAnyway() async {
-        guard case .confirmationRequired = diff,
-              let repository,
-              let selection = selectedChange,
-              let change = change(for: selection),
-              !change.isConflict else {
-            return
-        }
         // What the offer is answered with is read for what the workspace is on now, not for what
-        // it was on when the offer was made. The key is rebuilt from the current Repository and
-        // selection and has to be the very one the offer was made for: a selection that moved
+        // it was on when the offer was made. The target is rebuilt from the current Repository
+        // and selection and has to be the very one the offer was made for: a selection that moved
         // while the offer stood — before its own read has run — takes the offer with it, rather
-        // than confirming the previous comparison against the new path.
-        let key = DiffKey(
-            repositoryURL: repository.rootURL,
-            source: DiffSource(change: change, isStaged: selection.isStaged)
-        )
-        guard key == loadedDiffKey else {
+        // than confirming the previous comparison against the new one.
+        guard case .confirmationRequired = diff,
+              case .patch(let key, let path, _) = diffTarget,
+              key == loadedDiffKey else {
             return
         }
         confirmedDiffKey = key
-        await load(key, path: selection.path, showsLoading: true)
+        await load(key, path: path, showsLoading: true)
     }
 
     /// Drops whatever the pane held, optionally leaving one state in its place.
@@ -125,7 +161,7 @@ extension WorkspaceState {
 
     private func load(
         _ key: DiffKey,
-        path: String,
+        path: String?,
         showsLoading: Bool
     ) async {
         diffLoadID += 1
@@ -151,7 +187,7 @@ extension WorkspaceState {
             diff = Self.state(for: result)
             // Only a patch beyond a hard limit offers to open the file elsewhere, so the file
             // system is asked about it then rather than on every selection.
-            guard case .beyondHardLimit = result else {
+            guard case .beyondHardLimit = result, let path else {
                 return
             }
             let fileURL = await Self.existingFileURL(at: path, in: key.repositoryURL)

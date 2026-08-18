@@ -92,6 +92,16 @@ actor GitRepositoryService {
         try await GitDiffLoader(git: try await resolvedGit()).load(request)
     }
 
+    func loadHistory(_ request: HistoryPageRequest) async throws -> HistoryPage {
+        try await GitHistoryReader(git: try await resolvedGit()).page(request)
+    }
+
+    func loadCommitDetail(
+        _ request: HistoryCommitDetailRequest
+    ) async throws -> HistoryCommitDetail {
+        try await GitHistoryReader(git: try await resolvedGit()).commitDetail(request)
+    }
+
     func runMutation(
         _ arguments: [String],
         standardInput: String? = nil,
@@ -145,7 +155,7 @@ actor GitRepositoryService {
             tags: references.tags,
             stagedChanges: status.stagedChanges,
             unstagedChanges: status.unstagedChanges,
-            operation: operation(in: gitDirectoryURL),
+            operation: GitOperationReader.operation(inGitDirectoryAt: gitDirectoryURL),
             totalCommitCount: try await totalCommitCount(
                 head: status.head,
                 using: git,
@@ -220,31 +230,6 @@ actor GitRepositoryService {
             throw GitOutputParsingError()
         }
         return count
-    }
-
-    private func operation(in gitDirectoryURL: URL) -> RepositoryOperation? {
-        let fileManager = FileManager.default
-        if fileManager.fileExists(atPath: gitDirectoryURL.appending(path: "rebase-merge").path) {
-            return .rebase
-        }
-        let rebaseApplyURL = gitDirectoryURL.appending(path: "rebase-apply")
-        if fileManager.fileExists(atPath: rebaseApplyURL.path) {
-            return fileManager.fileExists(
-                atPath: rebaseApplyURL.appending(path: "applying").path
-            ) ? .am : .rebase
-        }
-        if fileManager.fileExists(
-            atPath: gitDirectoryURL.appending(path: "CHERRY_PICK_HEAD").path
-        ) {
-            return .cherryPick
-        }
-        if fileManager.fileExists(atPath: gitDirectoryURL.appending(path: "MERGE_HEAD").path) {
-            return .merge
-        }
-        if fileManager.fileExists(atPath: gitDirectoryURL.appending(path: "REVERT_HEAD").path) {
-            return .revert
-        }
-        return nil
     }
 
     private func containsGitMetadata(atOrAbove selectedURL: URL) -> Bool {

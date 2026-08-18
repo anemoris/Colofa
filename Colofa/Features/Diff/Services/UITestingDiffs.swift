@@ -30,11 +30,12 @@ nonisolated enum UITestingDiffs {
     static let slowPath = "slow.txt"
 
     static func result(for request: DiffLoadRequest) async throws -> DiffLoadResult {
-        if request.source.path == slowPath {
+        let path = request.source.path ?? ""
+        if path == slowPath {
             try await UITestingSlowDiff.waitForRelease(in: request.repositoryURL)
             return .diff(try parse(textPatch))
         }
-        return switch request.source.path {
+        return switch path {
         case renamedPath:
             .diff(try parse(renamedPatch))
         case binaryPath:

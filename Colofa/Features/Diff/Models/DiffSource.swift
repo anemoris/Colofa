@@ -18,12 +18,22 @@ nonisolated enum DiffSource: Hashable, Sendable {
     case workingTree(paths: [String])
     /// A path Git does not track yet, compared against nothing.
     case untracked(path: String)
+    /// What one Commit changed, compared against `parentObjectID`.
+    ///
+    /// The parent is carried rather than spelled `^`: a root Commit has none, and so does the
+    /// boundary Commit of a shallow Repository, where Git reports no parent because it does not
+    /// have the one that exists.
+    ///
+    /// `paths` narrows the comparison to one file the way a Change does, so reading a Commit
+    /// costs one file rather than all of them and a size limit is reached by a file rather than
+    /// by a Commit. Empty means the whole Commit, which is what counting its changed files needs.
+    case commit(objectID: String, parentObjectID: String?, paths: [String] = [])
 
-    /// The path the comparison is about. A rename lists its old path too, but the change is
-    /// still about where the file now is.
-    var path: String {
+    /// The path the comparison is about, or `nil` when it is about more than one. A rename lists
+    /// its old path too, but the change is still about where the file now is.
+    var path: String? {
         switch self {
-        case .index(let paths), .workingTree(let paths): paths.first ?? ""
+        case .index(let paths), .workingTree(let paths), .commit(_, _, let paths): paths.first
         case .untracked(let path): path
         }
     }

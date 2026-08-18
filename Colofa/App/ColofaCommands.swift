@@ -22,6 +22,14 @@ struct ColofaCommands: Commands {
                 .disabled(!state.canReplaceRepository)
         }
 
+        CommandGroup(after: .pasteboard) {
+            Divider()
+            Button(String(localized: .copySHA), action: state.copyCommitObjectID)
+                .disabled(state.copyableCommitObjectID == nil)
+            Button(String(localized: .copyBranchName), action: state.copyBranchName)
+                .disabled(state.copyableBranchName == nil)
+        }
+
         CommandGroup(after: .sidebar) {
             Toggle(String(localized: .repositoryInfo), isOn: $state.isShowingInspector)
         }

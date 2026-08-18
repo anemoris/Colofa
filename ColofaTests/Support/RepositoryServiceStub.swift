@@ -18,9 +18,17 @@ actor RepositoryServiceStub {
     private let diffResults: [String: DiffLoadResult]
     private let diffError: RepositoryOpenError?
     private let diffDelay: Duration?
+    private let historyCommits: [GitReference: [HistoryCommit]]
+    /// What the first-parent walk reports, when a test cares that the two walks differ.
+    private let firstParentCommits: [GitReference: [HistoryCommit]]
+    private let historyFailingOffsets: Set<Int>
+    private let historyDelay: Duration?
+    private let commitDetails: [String: HistoryCommitDetail]
     private var snapshots: [URL: [RepositorySnapshot]]
     private var mutations: [RecordedMutation] = []
     private var diffRequests: [DiffLoadRequest] = []
+    private var historyRequests: [HistoryPageRequest] = []
+    private var commitDetailRequests: [HistoryCommitDetailRequest] = []
 
     struct RecordedMutation: Equatable, Sendable {
         let arguments: [String]
@@ -36,7 +44,12 @@ actor RepositoryServiceStub {
         mutationDelay: Duration? = nil,
         diffResults: [String: DiffLoadResult] = [:],
         diffError: RepositoryOpenError? = nil,
-        diffDelay: Duration? = nil
+        diffDelay: Duration? = nil,
+        historyCommits: [GitReference: [HistoryCommit]] = [:],
+        firstParentCommits: [GitReference: [HistoryCommit]] = [:],
+        historyFailingOffsets: Set<Int> = [],
+        historyDelay: Duration? = nil,
+        commitDetails: [String: HistoryCommitDetail] = [:]
     ) {
         self.gitAvailability = gitAvailability
         self.snapshots = snapshots
@@ -47,6 +60,11 @@ actor RepositoryServiceStub {
         self.diffResults = diffResults
         self.diffError = diffError
         self.diffDelay = diffDelay
+        self.historyCommits = historyCommits
+        self.firstParentCommits = firstParentCommits
+        self.historyFailingOffsets = historyFailingOffsets
+        self.historyDelay = historyDelay
+        self.commitDetails = commitDetails
     }
 
     nonisolated var service: RepositoryService {
@@ -62,6 +80,12 @@ actor RepositoryServiceStub {
             },
             loadDiff: { request in
                 try await self.diff(request)
+            },
+            loadHistory: { request in
+                try await self.history(request)
+            },
+            loadCommitDetail: { request in
+                try await self.commitDetail(request)
             }
         )
     }
@@ -76,6 +100,14 @@ actor RepositoryServiceStub {
 
     func recordedDiffRequests() -> [DiffLoadRequest] {
         diffRequests
+    }
+
+    func recordedHistoryRequests() -> [HistoryPageRequest] {
+        historyRequests
+    }
+
+    func recordedCommitDetailRequests() -> [HistoryCommitDetailRequest] {
+        commitDetailRequests
     }
 
     private func load(_ url: URL) async throws -> RepositorySnapshot {
@@ -107,13 +139,63 @@ actor RepositoryServiceStub {
         if let diffError {
             throw diffError
         }
-        guard let result = diffResults[request.source.path] else {
+        guard let result = diffResults[Self.diffKey(of: request.source)] else {
             throw RepositoryOpenError.notRepository
         }
         if request.isConfirmed, case .confirmationRequired(let summary) = result {
             return .diff(Diff(files: [], measurement: summary.measurement))
         }
         return result
+    }
+
+    /// Pages the fixture the same way Git does: from an offset into one walk, reporting whether
+    /// anything follows the page rather than whether the page came back full.
+    private func history(_ request: HistoryPageRequest) async throws -> HistoryPage {
+        historyRequests.append(request)
+        if let historyDelay {
+            try await Task.sleep(for: historyDelay)
+        }
+        if historyFailingOffsets.contains(request.offset) {
+            throw RepositoryOpenError.commandFailed(
+                GitFailureDetails(command: "git log", output: "History read failed")
+            )
+        }
+        let walk = request.scope == .firstParent
+            ? firstParentCommits[request.reference] ?? historyCommits[request.reference]
+            : historyCommits[request.reference]
+        guard let commits = walk else {
+            throw RepositoryOpenError.notRepository
+        }
+        guard request.offset < commits.count else {
+            return HistoryPage(commits: [], hasMore: false)
+        }
+        let end = min(request.offset + request.pageSize, commits.count)
+        return HistoryPage(
+            commits: Array(commits[request.offset..<end]),
+            hasMore: end < commits.count
+        )
+    }
+
+    private func commitDetail(
+        _ request: HistoryCommitDetailRequest
+    ) async throws -> HistoryCommitDetail {
+        commitDetailRequests.append(request)
+        guard let detail = commitDetails[request.objectID] else {
+            throw RepositoryOpenError.notRepository
+        }
+        return detail
+    }
+
+    /// A patch is keyed by the path it is about, and a whole Commit — which is about all of
+    /// them — by its object ID.
+    private nonisolated static func diffKey(of source: DiffSource) -> String {
+        if let path = source.path {
+            return path
+        }
+        if case .commit(let objectID, _, _) = source {
+            return objectID
+        }
+        return ""
     }
 
     private func mutate(_ arguments: [String], standardInput: String?) async throws {

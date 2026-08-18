@@ -18,8 +18,13 @@ Early development. What works today, against real repositories, through the `git
 - A repository inspector showing effective Git configuration, with editing for `user.name`, `user.email`, and `http.proxy` in either repository or global scope
 - Diffs for the selected staged or unstaged change, in unified or split layout, with renames showing both paths, submodules showing both commits, and binary files showing metadata instead of invented text
 - Size limits enforced while the patch is still being read: anything past 2 MiB or 20,000 lines waits for you to ask for it, and anything past 10 MiB or 100,000 lines is summarised rather than rendered
+- Browsing the history of any local branch, remote branch, or tag by selecting it — inspection only, never a checkout: 200 topologically ordered commits at a time, with a Load More that appends the next page without duplicates or gaps
+- Two ways to read that history, both of them Git's own answers: every reachable commit, or `--first-parent` — the ref's own line, where a side branch is represented by the merge that integrated it rather than by its commits
+- Commit details for the selected commit: full message, SHA, author and committer with both times, parents, refs, and the paths it changed, with a root commit and a shallow-clone boundary stated as the different things they are
+- Reading a commit one file at a time, the way the working set is read: clicking a changed path asks Git for that path's patch, so a large commit stays browsable and a size limit is reached by a file rather than by a commit
+- Copying the selected commit's full SHA or the selected branch's name
 
-Still missing: hunk staging, history, branch operations, fetch, pull, push, stashes, merge, and rebase. Their toolbar buttons already hold their places, disabled. The interface was settled first as the design target, and the backend is working its way up to it.
+Still missing: hunk staging, branch operations, fetch, pull, push, stashes, merge, and rebase. Their toolbar buttons already hold their places, disabled. The interface was settled first as the design target, and the backend is working its way up to it.
 
 ## The window
 

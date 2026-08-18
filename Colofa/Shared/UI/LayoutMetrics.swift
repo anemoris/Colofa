@@ -28,6 +28,20 @@ enum LayoutMetrics {
     static let defaultWindowWidth = 1180.0
     static let defaultWindowHeight = 720.0
 
+    /// The History pane's own dimensions, kept apart from the window's for the same reason the
+    /// Diff pane's are: they answer to the density of a Commit list rather than to a column.
+    enum History {
+
+        /// How much of the detail column the Commit's own metadata may take before it scrolls.
+        /// A Commit message has no upper bound, and neither the changed paths nor the Diff below
+        /// it may be pushed off screen by one.
+        static let maximumDetailHeight = 200.0
+
+        /// How much the changed paths may take. They sit above the Diff rather than inside the
+        /// scrolling metadata, because choosing one is what the pane is for.
+        static let maximumChangedFilesHeight = 160.0
+    }
+
     /// The Diff pane's own density. Dense code review needs tighter spacing than the system
     /// defaults give, so it is grouped rather than mixed into the window's dimensions above.
     enum Diff {

@@ -34,6 +34,14 @@ actor UITestingRepositoryService {
         try await UITestingDiffs.result(for: request)
     }
 
+    func loadHistory(_ request: HistoryPageRequest) -> HistoryPage {
+        UITestingHistory.page(for: request)
+    }
+
+    func loadCommitDetail(_ request: HistoryCommitDetailRequest) -> HistoryCommitDetail {
+        UITestingHistory.detail(for: request)
+    }
+
     func runMutation(
         _ command: [String],
         standardInput: String? = nil,
