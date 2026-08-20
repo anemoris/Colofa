@@ -35,6 +35,8 @@ struct WorkspaceContentView: View {
             } else if let repository = state.repository {
                 if section == .changes {
                     RepositoryChangesView(repository: repository)
+                } else if section == .history {
+                    HistoryView()
                 } else {
                     ContentUnavailableView {
                         Label {

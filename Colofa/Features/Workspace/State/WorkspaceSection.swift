@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum WorkspaceSection: String, CaseIterable, Identifiable {
+enum WorkspaceSection: String, CaseIterable, Identifiable, Sendable {
     case changes
     case history
     case stashes

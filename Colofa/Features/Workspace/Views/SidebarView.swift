@@ -18,7 +18,9 @@ struct SidebarView: View {
             RepositoryPickerButton()
             Divider()
 
-            List(selection: $state.selectedSection) {
+            // One selection for sections and Refs alike: a Ref that stayed highlighted while
+            // Changes was on screen would claim to be showing something it is not.
+            List(selection: $state.sidebarSelection) {
                 Section(String(localized: .workspace)) {
                     ForEach(WorkspaceSection.allCases) { section in
                         Label {
@@ -26,7 +28,7 @@ struct SidebarView: View {
                         } icon: {
                             Image(systemName: section.systemImage)
                         }
-                        .tag(section)
+                        .tag(SidebarSelection.section(section))
                         .accessibilityIdentifier(section.accessibilityIdentifier)
                     }
                 }
@@ -37,14 +39,17 @@ struct SidebarView: View {
                             head: repository.head,
                             showsCurrentBranchIndicator: true
                         )
+                            .tag(SidebarSelection.reference(.head))
                             .accessibilityIdentifier("repository.head")
+                            .contextMenu {
+                                SidebarReferenceMenu(reference: .head)
+                            }
                         ForEach(repository.localBranches, id: \.self) { branch in
                             if repository.head != .branch(branch) {
-                                Label {
-                                    Text(verbatim: branch)
-                                } icon: {
-                                    Image(systemName: "arrow.triangle.branch")
-                                }
+                                SidebarReferenceLabel(
+                                    reference: .localBranch(branch),
+                                    systemImage: "arrow.triangle.branch"
+                                )
                             }
                         }
                     } else {
@@ -64,11 +69,10 @@ struct SidebarView: View {
                             }
                         }
                         ForEach(repository.remoteBranches, id: \.self) { branch in
-                            Label {
-                                Text(verbatim: branch)
-                            } icon: {
-                                Image(systemName: "arrow.triangle.branch")
-                            }
+                            SidebarReferenceLabel(
+                                reference: .remoteBranch(branch),
+                                systemImage: "arrow.triangle.branch"
+                            )
                                 .foregroundStyle(.secondary)
                         }
                     } else {
@@ -80,11 +84,7 @@ struct SidebarView: View {
                 Section(String(localized: .tags)) {
                     if let repository = state.repository, !repository.tags.isEmpty {
                         ForEach(repository.tags, id: \.self) { tag in
-                            Label {
-                                Text(verbatim: tag)
-                            } icon: {
-                                Image(systemName: "tag")
-                            }
+                            SidebarReferenceLabel(reference: .tag(tag), systemImage: "tag")
                         }
                     } else {
                         Label(.noTags, systemImage: "tag")
@@ -93,6 +93,42 @@ struct SidebarView: View {
                 }
             }
             .listStyle(.sidebar)
+        }
+    }
+}
+
+/// One selectable Ref. Selecting it inspects its History; it never checks anything out.
+private struct SidebarReferenceLabel: View {
+    let reference: GitReference
+    let systemImage: String
+
+    var body: some View {
+        Label {
+            Text(verbatim: reference.name ?? "")
+        } icon: {
+            Image(systemName: systemImage)
+        }
+        .tag(SidebarSelection.reference(reference))
+        .accessibilityIdentifier(reference.accessibilityIdentifier)
+        .contextMenu {
+            SidebarReferenceMenu(reference: reference)
+        }
+    }
+}
+
+private struct SidebarReferenceMenu: View {
+    @Environment(WorkspaceState.self) private var state
+    let reference: GitReference
+
+    var body: some View {
+        Button(.viewHistory) {
+            state.select(.reference(reference))
+        }
+        if state.branchName(of: reference) != nil {
+            Button(.copyBranchName) {
+                state.copyBranchName(of: reference)
+            }
+            .accessibilityIdentifier("repository.ref.copyBranchName")
         }
     }
 }

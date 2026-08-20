@@ -12,7 +12,6 @@ import Observation
 @MainActor
 @Observable
 final class WorkspaceState {
-    var selectedSection = WorkspaceSection.changes
     var isPresentingRepositoryPicker = false
     var isShowingInspector = false
     var configurationEditingScope = GitConfigurationEditScope.repository
@@ -21,9 +20,16 @@ final class WorkspaceState {
     var isConfirmingHistoryRewrite = false
     var isShowingStaleAmendAlert = false
 
-    /// Which layout the Diff pane uses. Deliberately not persisted: it is how the user wants to
-    /// read this session, not state belonging to the Repository.
+    // Not private: the History extension in WorkspaceState+History.swift owns both of these, and
+    // Swift keeps `private` within one file. Nothing else writes to them.
+    var storedSidebarSelection = SidebarSelection.section(.changes)
+    var historyPresentation = HistoryPresentation()
+
+    /// Which layout the Diff pane uses, and which walk History reads. Deliberately not
+    /// persisted, and deliberately outside `historyPresentation`: both are how the user wants to
+    /// read this session rather than state belonging to a Repository or a Ref.
     var diffLayout = DiffLayout.unified
+    var historyScope = HistoryScope.reachable
 
     // Not private: the Diff extension in WorkspaceState+Diff.swift owns everything below, and
     // Swift keeps `private` within one file. Nothing else writes to them.
@@ -51,6 +57,7 @@ final class WorkspaceState {
     // Not private: the Diff extension reads patches through it directly, because a Diff is not
     // published Repository state and does not travel with a snapshot.
     let repositoryService: RepositoryService
+    let pasteboard: PasteboardWriter
     private let userDefaults: UserDefaults
     private let launchArguments: [String]
     private var hasStarted = false
@@ -64,10 +71,12 @@ final class WorkspaceState {
 
     init(
         repositoryService: RepositoryService = .live(),
+        pasteboard: PasteboardWriter = .live(),
         userDefaults: UserDefaults = .standard,
         launchArguments: [String] = ProcessInfo.processInfo.arguments
     ) {
         self.repositoryService = repositoryService
+        self.pasteboard = pasteboard
         self.userDefaults = userDefaults
         self.launchArguments = launchArguments
     }
@@ -347,6 +356,7 @@ extension WorkspaceState {
             reconcileAmendDraft()
         }
         updateSelectedChange(for: repository)
+        updateHistoryReference(for: repository, isSameRepository: isSameRepository)
         repositoryFailure = nil
         guard !isUITesting else {
             return

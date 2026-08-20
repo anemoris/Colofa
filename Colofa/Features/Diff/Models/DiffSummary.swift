@@ -35,6 +35,12 @@ nonisolated struct DiffFileSummary: Equatable, Identifiable, Sendable {
 
     var isBinary: Bool { stats == nil }
 
+    /// Rename detection needs both paths in the pathspec, which is why a renamed file asks for
+    /// its old path as well.
+    var gitPathspecs: [String] {
+        isRenamed ? [newPath, oldPath].compactMap { $0 } : [newPath]
+    }
+
     var isRenamed: Bool {
         guard let oldPath else {
             return false

@@ -280,7 +280,7 @@ struct WorkspaceStateDiffTests {
         await state.refresh()
 
         #expect(state.diffIdentity != initial)
-        #expect(state.diffIdentity?.selection == initial.selection)
+        #expect(state.diffIdentity?.key == initial.key)
     }
 
     @Test

@@ -159,7 +159,9 @@ struct StagingIntegrationTests {
             availability: { await backend.availability() },
             load: { try await backend.loadRepository(at: $0) },
             runMutation: { try await backend.runMutation($0, standardInput: $1, in: $2) },
-        loadDiff: { try await backend.loadDiff($0) }
+            loadDiff: { try await backend.loadDiff($0) },
+            loadHistory: { try await backend.loadHistory($0) },
+            loadCommitDetail: { try await backend.loadCommitDetail($0) }
         )
     }
 }

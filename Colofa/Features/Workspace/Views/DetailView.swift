@@ -28,8 +28,11 @@ private struct DetailContentView: View {
     var body: some View {
         @Bindable var state = state
 
-        if let selection = state.selectedChange,
-           let change = state.change(for: selection) {
+        if state.selectedSection == .history {
+            HistoryCommitDetailView()
+        } else if state.selectedSection == .changes,
+                  let selection = state.selectedChange,
+                  let change = state.change(for: selection) {
             VStack(spacing: 0) {
                 VStack(alignment: .leading) {
                     HStack {

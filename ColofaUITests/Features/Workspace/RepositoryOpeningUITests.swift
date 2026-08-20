@@ -58,9 +58,10 @@ final class RepositoryOpeningUITests: XCTestCase {
         )
 
         application.descendants(matching: .any)["baseline.section.history"].click()
+        // History shows what HEAD reaches, which this Repository has.
         XCTAssertTrue(
-            application.descendants(matching: .any)["baseline.empty.history"]
-                .waitForExistence(timeout: 2)
+            application.descendants(matching: .any)["repository.history"]
+                .waitForExistence(timeout: 5)
         )
         application.descendants(matching: .any)["baseline.section.stashes"].click()
         XCTAssertTrue(
