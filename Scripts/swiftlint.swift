@@ -81,14 +81,22 @@ private func writeJSON(_ value: Any, to url: URL) throws {
     try data.write(to: url, options: .atomic)
 }
 
+/// Rewrites SwiftLint's own locations into the committed `repo:///` form.
+///
+/// SwiftLint has written both plain paths and `file://` URLs across versions, and a plain path may
+/// itself be absolute or already relative to the repository root the lint ran from. All three
+/// describe the same file, so all three are accepted and only one is ever written.
 private func portableBaseline(from nativeURL: URL, repositoryURL: URL) throws -> Any {
     let root = repositoryURL.path + "/"
     return try rewriteFiles(in: readJSON(at: nativeURL)) { file in
-        guard let url = URL(string: file), url.isFileURL else {
-            throw ScriptError.message("Baseline contains an invalid file URL.")
+        let path = file.hasPrefix("file://") ? URL(string: file)?.path : file
+        guard let path, !path.isEmpty else {
+            throw ScriptError.message("Baseline contains an invalid file location.")
         }
 
-        let path = url.path
+        guard path.hasPrefix("/") else {
+            return repositoryPrefix + path
+        }
         guard path.hasPrefix(root) else {
             throw ScriptError.message("Baseline contains a file outside the repository.")
         }
@@ -111,7 +119,9 @@ private func nativeBaseline(from portableURL: URL, repositoryURL: URL) throws ->
             throw ScriptError.message("Baseline contains an invalid repository-relative path.")
         }
 
-        return repositoryURL.appending(path: relativePath).absoluteString
+        // A plain path rather than a `file://` URL: SwiftLint matches a baseline entry against
+        // the location it reports for the file, and it reports a path.
+        return repositoryURL.appending(path: relativePath).path
     }
 }
 

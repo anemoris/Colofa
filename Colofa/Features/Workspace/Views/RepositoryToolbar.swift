@@ -30,10 +30,20 @@ struct RepositoryToolbar: ToolbarContent {
                 .help(String(localized: .pushHelp))
                 .disabled(true)
 
-            Button(.newBranch, systemImage: "arrow.triangle.branch", action: unavailableAction)
+            Button(
+                .newBranch,
+                systemImage: "arrow.triangle.branch",
+                action: state.beginCreatingBranch
+            )
                 .labelStyle(.iconOnly)
-                .help(String(localized: .newBranchHelp))
-                .disabled(true)
+                .help(
+                    String(
+                        localized: state.branchCreationUnavailabilityReason?.message
+                            ?? .newBranchHelp
+                    )
+                )
+                .disabled(!state.canBeginCreatingBranch)
+                .accessibilityIdentifier("repository.toolbar.newBranch")
 
             Button(.stash, systemImage: "tray.and.arrow.down", action: unavailableAction)
                 .labelStyle(.iconOnly)

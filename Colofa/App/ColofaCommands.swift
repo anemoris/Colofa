@@ -55,10 +55,10 @@ struct ColofaCommands: Commands {
         }
 
         CommandMenu(String(localized: .branchMenu)) {
-            Button(String(localized: .newBranch), action: unavailableAction)
-                .disabled(true)
-            Button(String(localized: .checkout), action: unavailableAction)
-                .disabled(true)
+            Button(String(localized: .newBranch), action: state.beginCreatingBranch)
+                .disabled(!state.canBeginCreatingBranch)
+            Button(String(localized: .checkout), action: checkoutSelectedReference)
+                .disabled(!state.canCheckoutSelectedReference)
             Button(String(localized: .merge), action: unavailableAction)
                 .disabled(true)
             Button(String(localized: .rebase), action: unavailableAction)
@@ -71,6 +71,12 @@ struct ColofaCommands: Commands {
     }
 
     private func unavailableAction() {
+    }
+
+    private func checkoutSelectedReference() {
+        Task {
+            await state.checkoutSelectedReference()
+        }
     }
 
     private func stageAll() {

@@ -124,11 +124,22 @@ private struct SidebarReferenceMenu: View {
         Button(.viewHistory) {
             state.select(.reference(reference))
         }
+        if state.checkoutTarget(for: reference) != nil {
+            Button(.checkout, action: checkout)
+                .disabled(!state.canCheckout(reference))
+                .accessibilityIdentifier("repository.ref.checkout")
+        }
         if state.branchName(of: reference) != nil {
             Button(.copyBranchName) {
                 state.copyBranchName(of: reference)
             }
             .accessibilityIdentifier("repository.ref.copyBranchName")
+        }
+    }
+
+    private func checkout() {
+        Task {
+            await state.checkout(reference)
         }
     }
 }

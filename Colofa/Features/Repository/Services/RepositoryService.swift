@@ -30,6 +30,14 @@ struct RepositoryService: Sendable {
     /// leaves unread.
     let loadCommitDetail: @Sendable (HistoryCommitDetailRequest) async throws -> HistoryCommitDetail
 
+    /// Asks Git whether it would accept one branch name, so Colofa accepts exactly the names Git
+    /// accepts rather than reproducing its rules.
+    let validateBranchName: @Sendable (BranchNameValidationRequest) async throws -> Bool
+
+    /// Reads which paths a Ref would rewrite, which is what lets a Checkout Git refused name the
+    /// local work it protected.
+    let loadCheckoutComparison: @Sendable (CheckoutComparisonRequest) async throws -> CheckoutComparison
+
     static func live() -> Self {
         let backend = GitRepositoryService()
 
@@ -51,6 +59,12 @@ struct RepositoryService: Sendable {
             },
             loadCommitDetail: { request in
                 try await backend.loadCommitDetail(request)
+            },
+            validateBranchName: { request in
+                try await backend.validateBranchName(request)
+            },
+            loadCheckoutComparison: { request in
+                try await backend.loadCheckoutComparison(request)
             }
         )
     }
@@ -63,7 +77,9 @@ struct RepositoryService: Sendable {
             runMutation: { _, _, _ in throw RepositoryOpenError.gitUnavailable },
             loadDiff: { _ in throw RepositoryOpenError.gitUnavailable },
             loadHistory: { _ in throw RepositoryOpenError.gitUnavailable },
-            loadCommitDetail: { _ in throw RepositoryOpenError.gitUnavailable }
+            loadCommitDetail: { _ in throw RepositoryOpenError.gitUnavailable },
+            validateBranchName: { _ in throw RepositoryOpenError.gitUnavailable },
+            loadCheckoutComparison: { _ in throw RepositoryOpenError.gitUnavailable }
         )
     }
 
@@ -85,6 +101,12 @@ struct RepositoryService: Sendable {
             },
             loadCommitDetail: { request in
                 try await backend.loadCommitDetail(request)
+            },
+            validateBranchName: { request in
+                await backend.validateBranchName(request)
+            },
+            loadCheckoutComparison: { request in
+                await backend.loadCheckoutComparison(request)
             }
         )
     }

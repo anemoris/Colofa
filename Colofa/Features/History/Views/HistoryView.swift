@@ -136,10 +136,30 @@ private struct HistoryListView: View {
             ForEach(timeline.commits) { commit in
                 HistoryCommitRow(commit: commit)
                     .tag(commit.objectID)
+                    .contextMenu {
+                        HistoryCommitMenu(commit: commit)
+                    }
             }
         }
         .listStyle(.inset)
         .accessibilityIdentifier("repository.history")
+    }
+}
+
+/// What a Commit itself offers. Creating a branch here is the one action a row carries, and it
+/// only opens the dialog: nothing is created or checked out until that dialog says so.
+private struct HistoryCommitMenu: View {
+    @Environment(WorkspaceState.self) private var state
+    let commit: HistoryCommit
+
+    var body: some View {
+        Button(.createBranchHere, action: createBranch)
+            .disabled(!state.canBeginCreatingBranch)
+            .accessibilityIdentifier("repository.history.createBranch")
+    }
+
+    private func createBranch() {
+        state.beginCreatingBranch(at: commit)
     }
 }
 

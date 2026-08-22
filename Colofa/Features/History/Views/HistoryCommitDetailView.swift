@@ -25,6 +25,8 @@ struct HistoryCommitDetailView: View {
                 .frame(maxHeight: LayoutMetrics.History.maximumDetailHeight)
                 .scrollIndicators(.hidden)
 
+                HistoryCommitBranchButton(commit: commit)
+
                 Divider()
 
                 if let files = state.commitDetail?.detail?.changedFiles {
@@ -113,6 +115,38 @@ private struct HistoryCommitMessageView: View {
                 EmptyView()
             }
         }
+    }
+}
+
+/// Create Branch Here, as a visible control rather than only a right-click.
+///
+/// It opens the New Branch dialog on this Commit; the branch is created only once that dialog is
+/// confirmed, so reading History still never changes the Repository on its own.
+///
+/// Its own band below the scrolling metadata rather than the last row inside it, for the reason
+/// the changed paths sit outside too: a Commit message has no upper bound, and a control the user
+/// has to scroll a bounded region to reach is not a visible one.
+private struct HistoryCommitBranchButton: View {
+    @Environment(WorkspaceState.self) private var state
+    let commit: HistoryCommit
+
+    var body: some View {
+        Button(.createBranchHere, systemImage: "arrow.triangle.branch", action: createBranch)
+            .disabled(!state.canBeginCreatingBranch)
+            .help(
+                String(
+                    localized: state.branchCreationUnavailabilityReason?.message
+                        ?? .createBranchHereHelp
+                )
+            )
+            .accessibilityIdentifier("repository.commit.createBranch")
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal)
+            .padding(.bottom, LayoutMetrics.Diff.bandVerticalPadding)
+    }
+
+    private func createBranch() {
+        state.beginCreatingBranch(at: commit)
     }
 }
 

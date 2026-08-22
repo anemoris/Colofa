@@ -40,6 +40,13 @@ nonisolated enum UITestingArgument {
     /// Removes all working-tree changes so the collapsed clean-workspace Amend affordance appears.
     static let cleanCommitState = "--ui-testing-clean-commit-state"
 
+    /// Serves a Repository with local branches, remote branches, and a tag, and no Conflict or
+    /// active operation standing in the way of a Checkout.
+    static let branchState = "--ui-testing-branch-state"
+
+    /// Makes every Checkout fail the way Git refuses one that would overwrite local work.
+    static let checkoutBlocked = "--ui-testing-checkout-blocked"
+
     /// Serves the Changes whose Diffs cover text, rename, binary, submodule, and both size limits.
     static let diffState = "--ui-testing-diff-state"
 

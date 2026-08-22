@@ -10,7 +10,9 @@
 import Foundation
 
 actor UITestingRepositoryService {
-    private let arguments: [String]
+    /// Not private: the branch extension in UITestingRepositoryService+Branches.swift reads the
+    /// same launch arguments, and Swift keeps `private` within one file.
+    let arguments: [String]
     private var snapshot: RepositorySnapshot?
 
     init(arguments: [String]) {
@@ -42,12 +44,21 @@ actor UITestingRepositoryService {
         UITestingHistory.detail(for: request)
     }
 
+    func validateBranchName(_ request: BranchNameValidationRequest) -> Bool {
+        UITestingBranches.isValidName(request.name)
+    }
+
+    func loadCheckoutComparison(_ request: CheckoutComparisonRequest) -> CheckoutComparison {
+        UITestingBranches.comparison(arguments: arguments)
+    }
+
     func runMutation(
         _ command: [String],
         standardInput: String? = nil,
         in repositoryURL: URL
     ) throws {
         try throwRequestedMutationFailure()
+        try throwRequestedCheckoutRefusal(of: command)
         guard let snapshot, snapshot.rootURL == repositoryURL else {
             throw RepositoryOpenError.notRepository
         }
@@ -70,6 +81,11 @@ actor UITestingRepositoryService {
                 upstream: committedUpstream(in: snapshot, isAmending: isAmending),
                 totalCommitCount: snapshot.totalCommitCount + (isAmending ? 0 : 1)
             )
+            return
+        }
+
+        if let branched = branchMutation(command, in: snapshot) {
+            self.snapshot = branched
             return
         }
 
@@ -210,11 +226,15 @@ actor UITestingRepositoryService {
 
     /// Copies `snapshot`, overriding only the fields a mutation touched.
     ///
+    /// Not private: the branch extension in UITestingRepositoryService+Branches.swift builds its
+    /// own snapshots through it, and Swift keeps `private` within one file.
+    ///
     /// `RepositorySnapshot` has no `with`-style API, so every stub mutation would otherwise
     /// restate all of its fields and silently drop whichever one a future property forgot.
-    private func replacing(
+    func replacing(
         in snapshot: RepositorySnapshot,
         head: RepositoryHead? = nil,
+        localBranches: [String]? = nil,
         staged: [RepositoryChange]? = nil,
         unstaged: [RepositoryChange]? = nil,
         headCommit: RepositoryHeadCommit? = nil,
@@ -230,7 +250,7 @@ actor UITestingRepositoryService {
             headCommit: headCommit ?? snapshot.headCommit,
             upstream: upstream ?? snapshot.upstream,
             remotes: snapshot.remotes,
-            localBranches: snapshot.localBranches,
+            localBranches: localBranches ?? snapshot.localBranches,
             remoteBranches: snapshot.remoteBranches,
             tags: snapshot.tags,
             stagedChanges: staged ?? snapshot.stagedChanges,

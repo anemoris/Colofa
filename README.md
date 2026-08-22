@@ -23,8 +23,11 @@ Early development. What works today, against real repositories, through the `git
 - Commit details for the selected commit: full message, SHA, author and committer with both times, parents, refs, and the paths it changed, with a root commit and a shallow-clone boundary stated as the different things they are
 - Reading a commit one file at a time, the way the working set is read: clicking a changed path asks Git for that path's patch, so a large commit stays browsable and a size limit is reached by a file rather than by a commit
 - Copying the selected commit's full SHA or the selected branch's name
+- Creating a local branch from current HEAD or from any commit in history, through one dialog that shows the start point read-only, validates the name with Git itself, and offers Check Out New Branch enabled by default and optional
+- Explicit checkout of a local branch, a remote branch — which becomes a same-name local tracking branch, or switches to the local branch of that name when one already exists, so a commit only you have is never dropped — or a tag, which enters detached HEAD visibly and can be attached again by creating a branch from it
+- Compatible staged and unstaged changes travel with a checkout exactly as Git allows; one that would overwrite uncommitted work is refused with the paths it protected and what to do with them. There is no Force Checkout, no Smart Checkout, and no automatic stash
 
-Still missing: hunk staging, branch operations, fetch, pull, push, stashes, merge, and rebase. Their toolbar buttons already hold their places, disabled. The interface was settled first as the design target, and the backend is working its way up to it.
+Still missing: hunk staging, deleting branches, fetch, pull, push, stashes, merge, and rebase. Their toolbar buttons already hold their places, disabled. The interface was settled first as the design target, and the backend is working its way up to it.
 
 ## The window
 

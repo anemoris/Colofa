@@ -42,6 +42,16 @@ enum LayoutMetrics {
         static let maximumChangedFilesHeight = 160.0
     }
 
+    /// The New Branch dialog's own dimensions. A sheet is sized by its content rather than by
+    /// the window it belongs to, so its width lives apart from the window's.
+    enum Branch {
+        static let dialogWidth = 420.0
+
+        /// How much of Git's own refusal the dialog shows before it scrolls, so a long message
+        /// cannot push the name field and its buttons off a sheet.
+        static let maximumFailureOutputHeight = 120.0
+    }
+
     /// The Diff pane's own density. Dense code review needs tighter spacing than the system
     /// defaults give, so it is grouped rather than mixed into the window's dimensions above.
     enum Diff {
