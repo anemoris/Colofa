@@ -24,11 +24,21 @@ actor RepositoryServiceStub {
     private let historyFailingOffsets: Set<Int>
     private let historyDelay: Duration?
     private let commitDetails: [String: HistoryCommitDetail]
+    /// The names this fixture's Git refuses, so a test can drive the invalid-name answer without
+    /// depending on Git's real rules, which the integration tests cover.
+    private let invalidBranchNames: Set<String>
+    /// What stands between the dialog and Git's answer, so a test can drive the case where the
+    /// name was never the problem.
+    private let branchNameValidationError: RepositoryOpenError?
+    private let checkoutComparison: CheckoutComparison
+    private let checkoutComparisonError: RepositoryOpenError?
     private var snapshots: [URL: [RepositorySnapshot]]
     private var mutations: [RecordedMutation] = []
     private var diffRequests: [DiffLoadRequest] = []
     private var historyRequests: [HistoryPageRequest] = []
     private var commitDetailRequests: [HistoryCommitDetailRequest] = []
+    private var branchNameRequests: [BranchNameValidationRequest] = []
+    private var checkoutComparisonRequests: [CheckoutComparisonRequest] = []
 
     struct RecordedMutation: Equatable, Sendable {
         let arguments: [String]
@@ -49,7 +59,11 @@ actor RepositoryServiceStub {
         firstParentCommits: [GitReference: [HistoryCommit]] = [:],
         historyFailingOffsets: Set<Int> = [],
         historyDelay: Duration? = nil,
-        commitDetails: [String: HistoryCommitDetail] = [:]
+        commitDetails: [String: HistoryCommitDetail] = [:],
+        invalidBranchNames: Set<String> = [],
+        branchNameValidationError: RepositoryOpenError? = nil,
+        checkoutComparison: CheckoutComparison = .empty,
+        checkoutComparisonError: RepositoryOpenError? = nil
     ) {
         self.gitAvailability = gitAvailability
         self.snapshots = snapshots
@@ -65,6 +79,10 @@ actor RepositoryServiceStub {
         self.historyFailingOffsets = historyFailingOffsets
         self.historyDelay = historyDelay
         self.commitDetails = commitDetails
+        self.invalidBranchNames = invalidBranchNames
+        self.branchNameValidationError = branchNameValidationError
+        self.checkoutComparison = checkoutComparison
+        self.checkoutComparisonError = checkoutComparisonError
     }
 
     nonisolated var service: RepositoryService {
@@ -86,6 +104,12 @@ actor RepositoryServiceStub {
             },
             loadCommitDetail: { request in
                 try await self.commitDetail(request)
+            },
+            validateBranchName: { request in
+                try await self.validateBranchName(request)
+            },
+            loadCheckoutComparison: { request in
+                try await self.comparison(request)
             }
         )
     }
@@ -108,6 +132,32 @@ actor RepositoryServiceStub {
 
     func recordedCommitDetailRequests() -> [HistoryCommitDetailRequest] {
         commitDetailRequests
+    }
+
+    func recordedBranchNameRequests() -> [BranchNameValidationRequest] {
+        branchNameRequests
+    }
+
+    func recordedCheckoutComparisonRequests() -> [CheckoutComparisonRequest] {
+        checkoutComparisonRequests
+    }
+
+    private func validateBranchName(_ request: BranchNameValidationRequest) throws -> Bool {
+        branchNameRequests.append(request)
+        if let branchNameValidationError {
+            throw branchNameValidationError
+        }
+        return !invalidBranchNames.contains(request.name)
+    }
+
+    private func comparison(
+        _ request: CheckoutComparisonRequest
+    ) throws -> CheckoutComparison {
+        checkoutComparisonRequests.append(request)
+        if let checkoutComparisonError {
+            throw checkoutComparisonError
+        }
+        return checkoutComparison
     }
 
     private func load(_ url: URL) async throws -> RepositorySnapshot {

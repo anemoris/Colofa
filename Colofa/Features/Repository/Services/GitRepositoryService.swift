@@ -102,6 +102,16 @@ actor GitRepositoryService {
         try await GitHistoryReader(git: try await resolvedGit()).commitDetail(request)
     }
 
+    func validateBranchName(_ request: BranchNameValidationRequest) async throws -> Bool {
+        try await GitBranchReader(git: try await resolvedGit()).isValidBranchName(request)
+    }
+
+    func loadCheckoutComparison(
+        _ request: CheckoutComparisonRequest
+    ) async throws -> CheckoutComparison {
+        try await GitBranchReader(git: try await resolvedGit()).comparison(request)
+    }
+
     func runMutation(
         _ arguments: [String],
         standardInput: String? = nil,

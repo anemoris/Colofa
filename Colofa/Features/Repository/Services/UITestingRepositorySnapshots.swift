@@ -21,6 +21,9 @@ nonisolated enum UITestingRepositorySnapshots {
         if arguments.contains(UITestingArgument.committableState) {
             return committable(at: url, arguments: arguments)
         }
+        if arguments.contains(UITestingArgument.branchState) {
+            return branchState(at: url)
+        }
         if arguments.contains(UITestingArgument.realRepositoryState) {
             return realState(at: url, arguments: arguments)
         }
@@ -123,6 +126,32 @@ nonisolated enum UITestingRepositorySnapshots {
             configuration: arguments.contains(UITestingArgument.missingCommitIdentity)
                 ? .empty
                 : configuration(at: url)
+        )
+    }
+
+    /// A Repository whose Refs can actually be checked out: local branches, a remote branch with
+    /// no local counterpart yet, a tag, and neither a Conflict nor an active operation in the way.
+    private static func branchState(at url: URL) -> RepositorySnapshot {
+        RepositorySnapshot(
+            name: url.lastPathComponent,
+            rootURL: url,
+            gitDirectoryURL: url.appending(path: ".git"),
+            head: .branch("main"),
+            headCommit: RepositoryHeadCommit(
+                objectID: "ui-branch-head",
+                summary: "Fixture commit"
+            ),
+            remotes: [RepositoryRemote(name: "origin", url: "ssh://example.invalid/Colofa.git")],
+            localBranches: ["feature/真实", "main"],
+            remoteBranches: ["origin/feature", "origin/main"],
+            tags: ["v1.0-测试"],
+            unstagedChanges: [
+                RepositoryChange(path: UITestingBranches.blockedUntrackedPath, kind: .untracked),
+                RepositoryChange(path: UITestingBranches.blockedModifiedPath, kind: .modified),
+            ],
+            totalCommitCount: 12,
+            gitObjectSize: 4_096,
+            configuration: configuration(at: url)
         )
     }
 

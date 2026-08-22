@@ -38,6 +38,18 @@ extension XCUIApplication {
         )
     }
 
+    /// A stubbed application whose restored Repository has Refs to check out and nothing
+    /// standing in the way of one.
+    static func configuredForBranchState(
+        path: String,
+        additionalArguments: [String] = []
+    ) -> XCUIApplication {
+        configuredForRepository(
+            path: path,
+            additionalArguments: [UITestingArgument.branchState] + additionalArguments
+        )
+    }
+
     /// A stubbed application whose restored Repository reports a fully populated Git state.
     static func configuredForRealRepositoryState(
         path: String,

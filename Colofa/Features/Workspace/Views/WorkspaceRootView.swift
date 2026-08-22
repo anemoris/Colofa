@@ -57,6 +57,9 @@ struct WorkspaceRootView: View {
         } message: {
             Text(state.repositoryFailureMessage ?? .gitMutationFailedDescription)
         }
+        .sheet(isPresented: $state.isCreatingBranch) {
+            NewBranchSheet()
+        }
         .alert(
             String(localized: .amendCancelledHeadChangedTitle),
             isPresented: $state.isShowingStaleAmendAlert

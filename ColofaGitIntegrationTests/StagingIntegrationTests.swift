@@ -161,7 +161,9 @@ struct StagingIntegrationTests {
             runMutation: { try await backend.runMutation($0, standardInput: $1, in: $2) },
             loadDiff: { try await backend.loadDiff($0) },
             loadHistory: { try await backend.loadHistory($0) },
-            loadCommitDetail: { try await backend.loadCommitDetail($0) }
+            loadCommitDetail: { try await backend.loadCommitDetail($0) },
+            validateBranchName: { try await backend.validateBranchName($0) },
+            loadCheckoutComparison: { try await backend.loadCheckoutComparison($0) }
         )
     }
 }

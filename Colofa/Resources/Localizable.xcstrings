@@ -41,6 +41,206 @@
         "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "落後" } }
       }
     },
+    "checkoutBlockedMorePaths" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "…and %@ more" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "…ほか %@ 件" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "…외 %@개" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "…以及另外 %@ 个" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "…以及另外 %@ 個" } }
+      }
+    },
+    "checkoutBlockedByLocalWork" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This uncommitted work would be overwritten by the Checkout:\n\n%@\n\nCommit or Stash the tracked changes, and move or remove the untracked files." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "コミットされていない次の作業は、チェックアウトによって上書きされます:\n\n%@\n\n追跡中の変更はコミットまたはスタッシュし、追跡されていないファイルは移動または削除してください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "커밋되지 않은 다음 작업은 체크아웃이 덮어씁니다:\n\n%@\n\n추적 중인 변경 사항은 커밋하거나 스태시하고, 추적되지 않는 파일은 옮기거나 삭제하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "以下尚未提交的工作会被签出覆盖：\n\n%@\n\n请提交或贮藏已跟踪的更改，并移动或删除未跟踪的文件。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "以下尚未提交的工作會被簽出覆蓋：\n\n%@\n\n請提交或儲藏已追蹤的更改，並移動或刪除未追蹤的檔案。" } }
+      }
+    },
+    "checkoutBlockedByUntrackedFiles" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "These untracked files would be overwritten by the Checkout:\n\n%@\n\nMove or remove them first." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "次の追跡されていないファイルは、チェックアウトによって上書きされます:\n\n%@\n\n先に移動または削除してください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "다음 추적되지 않는 파일은 체크아웃이 덮어씁니다:\n\n%@\n\n먼저 옮기거나 삭제하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "以下未跟踪的文件会被签出覆盖：\n\n%@\n\n请先移动或删除它们。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "以下未追蹤的檔案會被簽出覆蓋：\n\n%@\n\n請先移動或刪除它們。" } }
+      }
+    },
+    "checkoutBlockedByLocalChanges" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "These files have local changes the Checkout would overwrite:\n\n%@\n\nCommit or Stash them first." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "次のファイルには、チェックアウトによって上書きされるローカルの変更があります:\n\n%@\n\n先にコミットするかスタッシュしてください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "다음 파일에는 체크아웃이 덮어쓸 로컬 변경 사항이 있습니다:\n\n%@\n\n먼저 커밋하거나 스태시하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "以下文件的本地更改会被签出覆盖：\n\n%@\n\n请先提交或贮藏这些更改。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "以下檔案的本機更改會被簽出覆蓋：\n\n%@\n\n請先提交或儲藏這些更改。" } }
+      }
+    },
+    "checkoutBlockedTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Cannot Check Out “%@”" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "「%@」をチェックアウトできません" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "“%@”을(를) 체크아웃할 수 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法签出“%@”" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法簽出「%@」" } }
+      }
+    },
+    "checkoutFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Checkout Failed" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "チェックアウトに失敗しました" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "체크아웃 실패" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "签出失败" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "簽出失敗" } }
+      }
+    },
+    "branchActionUnavailableMutationInProgress" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Another Git command is still running." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "別の Git コマンドがまだ実行中です。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "다른 Git 명령이 아직 실행 중입니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "另一条 Git 命令仍在运行。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "另一條 Git 命令仍在執行。" } }
+      }
+    },
+    "branchActionUnavailableConflict" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Resolve every Conflict before checking out another Ref." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "他の参照をチェックアウトする前に、すべてのコンフリクトを解決してください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "다른 참조를 체크아웃하기 전에 모든 충돌을 해결하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "签出其他引用前请先解决所有冲突。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "簽出其他參照前請先解決所有衝突。" } }
+      }
+    },
+    "branchActionUnavailableOperationInProgress" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Finish or abort the Git operation in progress before checking out another Ref." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "他の参照をチェックアウトする前に、進行中の Git 操作を完了するか中止してください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "다른 참조를 체크아웃하기 전에 진행 중인 Git 작업을 완료하거나 중단하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "签出其他引用前请先完成或中止进行中的 Git 操作。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "簽出其他參照前請先完成或中止進行中的 Git 操作。" } }
+      }
+    },
+    "branchActionUnavailableAlreadyCheckedOut" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This Ref is already checked out." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "この参照はすでにチェックアウトされています。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 참조는 이미 체크아웃되어 있습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "该引用已经签出。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "該參照已經簽出。" } }
+      }
+    },
+    "branchActionUnavailableUnbornBranch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This branch has no Commit yet, so a new branch has nothing to start at." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "このブランチにはまだコミットがないため、新しいブランチの起点がありません。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 브랜치에는 아직 커밋이 없어 새 브랜치가 시작할 지점이 없습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "该分支尚无提交，新分支没有可用的起始点。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "該分支尚無提交，新分支沒有可用的起始點。" } }
+      }
+    },
+    "branchActionUnavailableNoRepository" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Open a Repository first." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "先にリポジトリを開いてください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "먼저 저장소를 여세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "请先打开仓库。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "請先開啟儲存庫。" } }
+      }
+    },
+    "branchNameAlreadyExists" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "A local branch with this name already exists." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "この名前のローカルブランチはすでに存在します。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "같은 이름의 로컬 브랜치가 이미 있습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "已存在同名的本地分支。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "已存在同名的本機分支。" } }
+      }
+    },
+    "branchNameCheckFailedDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Git could not be asked whether this name is acceptable." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "この名前を使用できるかどうか Git に問い合わせられませんでした。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 이름을 사용할 수 있는지 Git에 확인하지 못했습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法向 Git 询问该名称是否可用。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法向 Git 詢問該名稱是否可用。" } }
+      }
+    },
+    "branchNameInvalid" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Git does not accept this branch name. Avoid spaces, “..”, “~”, “^”, “:”, “?”, “*”, “[”, and “\\”, and do not begin with “-” or end with “/” or “.lock”." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Git はこのブランチ名を受け付けません。スペースや「..」「~」「^」「:」「?」「*」「[」「\\」は使えず、「-」で始めることも「/」や「.lock」で終えることもできません。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Git이 이 브랜치 이름을 허용하지 않습니다. 공백과 “..”, “~”, “^”, “:”, “?”, “*”, “[”, “\\”는 쓸 수 없고, “-”로 시작하거나 “/” 또는 “.lock”으로 끝날 수 없습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Git 不接受该分支名称。不能包含空格、“..”、“~”、“^”、“:”、“?”、“*”、“[”、“\\”，也不能以“-”开头或以“/”“.lock”结尾。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Git 不接受該分支名稱。不能包含空格、「..」、「~」、「^」、「:」、「?」、「*」、「[」、「\\」，也不能以「-」開頭或以「/」、「.lock」結尾。" } }
+      }
+    },
+    "checkoutNewBranch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Check Out New Branch" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "新規ブランチをチェックアウト" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "새 브랜치 체크아웃" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "签出新建的分支" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "簽出新增的分支" } }
+      }
+    },
+    "branchStartPointCommit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Selected Commit" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "選択したコミット" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "선택한 커밋" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "所选提交" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "所選提交" } }
+      }
+    },
+    "branchStartPointHead" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Current HEAD" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "現在の HEAD" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "현재 HEAD" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "当前 HEAD" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "目前 HEAD" } }
+      }
+    },
+    "branchStartPoint" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Start Point" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "開始地点" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "시작 지점" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "起始点" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "起始點" } }
+      }
+    },
+    "branchName" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Branch Name" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ブランチ名" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "브랜치 이름" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "分支名称" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "分支名稱" } }
+      }
+    },
     "cherryPickInProgress" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -69,6 +269,46 @@
         "ko" : { "stringUnit" : { "state" : "translated", "value" : "충돌" } },
         "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "冲突" } },
         "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "衝突" } }
+      }
+    },
+    "createBranchFailedDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Git refused to create the branch." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Git はブランチの作成を拒否しました。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Git이 브랜치 생성을 거부했습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Git 拒绝创建该分支。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Git 拒絕建立該分支。" } }
+      }
+    },
+    "createBranchHereHelp" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Create a branch starting at this Commit" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "このコミットを起点にブランチを作成" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 커밋을 시작 지점으로 브랜치 생성" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "以此提交为起点创建分支" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "以此提交為起點建立分支" } }
+      }
+    },
+    "createBranchHere" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Create Branch Here" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ここにブランチを作成" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "여기에 브랜치 생성" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "在此创建分支" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "在此建立分支" } }
+      }
+    },
+    "createBranch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Create Branch" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ブランチを作成" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "브랜치 생성" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "创建分支" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "建立分支" } }
       }
     },
     "currentBranch" : {

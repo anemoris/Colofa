@@ -11,6 +11,14 @@ import Foundation
 enum RepositoryFailurePresentation: Sendable {
     case repositoryOpenAlert(RepositoryOpenError)
     case mutationAlert(RepositoryOpenError, title: LocalizedStringResource)
+    /// A Checkout Git refused because it would have overwritten local work, named path by path.
+    /// Git's own output stays one click away, so an explanation Colofa assembled never stands in
+    /// for what Git actually said.
+    case checkoutRefusedAlert(
+        CheckoutObstruction,
+        reference: String,
+        error: RepositoryOpenError
+    )
     case details(GitFailureDetails, message: LocalizedStringResource)
 
     var title: LocalizedStringResource? {
@@ -19,6 +27,8 @@ enum RepositoryFailurePresentation: Sendable {
             error.title
         case .mutationAlert(_, let title):
             title
+        case .checkoutRefusedAlert(_, let reference, _):
+            .checkoutBlockedTitle(reference)
         case .details:
             nil
         }
@@ -30,6 +40,8 @@ enum RepositoryFailurePresentation: Sendable {
             error.message
         case .mutationAlert(let error, _):
             Self.mutationMessage(for: error)
+        case .checkoutRefusedAlert(let obstruction, _, _):
+            obstruction.message
         case .details(_, let message):
             message
         }
@@ -44,10 +56,20 @@ enum RepositoryFailurePresentation: Sendable {
     }
 
     var canShowDetails: Bool {
-        if case .mutationAlert(let error, _) = self {
+        switch self {
+        case .mutationAlert(let error, _), .checkoutRefusedAlert(_, _, let error):
             error.failureDetails != nil
-        } else {
+        case .repositoryOpenAlert, .details:
             false
+        }
+    }
+
+    /// Whether this is one of the alerts a command failure raises, which share one presentation:
+    /// a title, a message, and the offer to read what Git actually wrote.
+    var isMutationAlert: Bool {
+        switch self {
+        case .mutationAlert, .checkoutRefusedAlert: true
+        case .repositoryOpenAlert, .details: false
         }
     }
 
@@ -59,6 +81,8 @@ enum RepositoryFailurePresentation: Sendable {
             error.failureDetails.map { .details($0, message: error.message) }
         case .mutationAlert(let error, _):
             error.failureDetails.map { .details($0, message: Self.mutationMessage(for: error)) }
+        case .checkoutRefusedAlert(let obstruction, _, let error):
+            error.failureDetails.map { .details($0, message: obstruction.message) }
         case .details:
             nil
         }
