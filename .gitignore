@@ -20,6 +20,7 @@ xcuserdata/
 # Xcode build output
 build/
 DerivedData/
+.derivedData/
 *.ipa
 *.dSYM.zip
 *.dSYM

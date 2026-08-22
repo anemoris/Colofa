@@ -83,6 +83,26 @@ nonisolated enum UITestingArgument {
     /// Reports an in-progress revert.
     static let revert = "--ui-testing-revert"
 
+    /// Serves a Repository with two remotes, a remote branch, and a tag, so Fetch and Fetch Tags
+    /// have something real to refresh.
+    static let fetchState = "--ui-testing-fetch-state"
+
+    /// Leaves the fetch fixture with a single remote, which is the case Fetch Tags answers
+    /// without asking.
+    static let singleRemote = "--ui-testing-single-remote"
+
+    /// Configures the fixture's second remote as one Git skips when fetching all of them.
+    static let skipFetchAll = "--ui-testing-skip-fetch-all"
+
+    /// Makes the fixture's second remote fail, so a partial Fetch can be asserted.
+    static let fetchFailure = "--ui-testing-fetch-failure"
+
+    /// Makes every Fetch block long enough to be cancelled.
+    static let slowFetch = "--ui-testing-slow-fetch"
+
+    /// Makes Fetch Tags fail the way Git refuses to replace a local tag of the same name.
+    static let tagConflict = "--ui-testing-tag-conflict"
+
     /// Seeds the app's `lastRepositoryPath` default, which drives Repository restoration.
     /// Unlike the flags above this is a `UserDefaults` argument and takes a following value.
     static let lastRepositoryPath = "-lastRepositoryPath"

@@ -32,6 +32,20 @@ actor RepositoryServiceStub {
     private let branchNameValidationError: RepositoryOpenError?
     private let checkoutComparison: CheckoutComparison
     private let checkoutComparisonError: RepositoryOpenError?
+    /// Which remotes this fixture's Git excludes from a Fetch of every remote.
+    private let skippedRemotes: Set<String>
+    private let skippedRemotesError: RepositoryOpenError?
+    /// The remotes whose Fetch fails, so partial success can be driven without a real network.
+    private let failingRemotes: Set<String>
+    /// What Git wrote while refusing, so a test can drive a refusal that names a tag and one
+    /// that names something else entirely.
+    private let networkFailureOutput: String
+    private let networkMutationDelay: Duration?
+    private let tagConflict: TagFetchConflict
+    private let tagConflictError: RepositoryOpenError?
+    /// How long the second, explanatory read blocks, so a test can act while it is known to
+    /// still be out at the remote.
+    private let tagConflictDelay: Duration?
     private var snapshots: [URL: [RepositorySnapshot]]
     private var mutations: [RecordedMutation] = []
     private var diffRequests: [DiffLoadRequest] = []
@@ -39,6 +53,8 @@ actor RepositoryServiceStub {
     private var commitDetailRequests: [HistoryCommitDetailRequest] = []
     private var branchNameRequests: [BranchNameValidationRequest] = []
     private var checkoutComparisonRequests: [CheckoutComparisonRequest] = []
+    private var networkMutations: [[String]] = []
+    private var tagConflictRequests: [TagConflictRequest] = []
 
     struct RecordedMutation: Equatable, Sendable {
         let arguments: [String]
@@ -63,7 +79,15 @@ actor RepositoryServiceStub {
         invalidBranchNames: Set<String> = [],
         branchNameValidationError: RepositoryOpenError? = nil,
         checkoutComparison: CheckoutComparison = .empty,
-        checkoutComparisonError: RepositoryOpenError? = nil
+        checkoutComparisonError: RepositoryOpenError? = nil,
+        skippedRemotes: Set<String> = [],
+        skippedRemotesError: RepositoryOpenError? = nil,
+        failingRemotes: Set<String> = [],
+        networkFailureOutput: String = "fatal: could not read from remote repository",
+        networkMutationDelay: Duration? = nil,
+        tagConflict: TagFetchConflict = .empty,
+        tagConflictError: RepositoryOpenError? = nil,
+        tagConflictDelay: Duration? = nil
     ) {
         self.gitAvailability = gitAvailability
         self.snapshots = snapshots
@@ -83,6 +107,14 @@ actor RepositoryServiceStub {
         self.branchNameValidationError = branchNameValidationError
         self.checkoutComparison = checkoutComparison
         self.checkoutComparisonError = checkoutComparisonError
+        self.skippedRemotes = skippedRemotes
+        self.skippedRemotesError = skippedRemotesError
+        self.failingRemotes = failingRemotes
+        self.networkFailureOutput = networkFailureOutput
+        self.networkMutationDelay = networkMutationDelay
+        self.tagConflict = tagConflict
+        self.tagConflictError = tagConflictError
+        self.tagConflictDelay = tagConflictDelay
     }
 
     nonisolated var service: RepositoryService {
@@ -110,36 +142,17 @@ actor RepositoryServiceStub {
             },
             loadCheckoutComparison: { request in
                 try await self.comparison(request)
+            },
+            loadSkippedRemotes: { _ in
+                try await self.skipped()
+            },
+            loadTagConflicts: { request in
+                try await self.conflicts(request)
+            },
+            runNetworkMutation: { arguments, _ in
+                try await self.networkMutate(arguments)
             }
         )
-    }
-
-    func recordedMutations() -> [RecordedMutation] {
-        mutations
-    }
-
-    func recordedArguments() -> [[String]] {
-        mutations.map(\.arguments)
-    }
-
-    func recordedDiffRequests() -> [DiffLoadRequest] {
-        diffRequests
-    }
-
-    func recordedHistoryRequests() -> [HistoryPageRequest] {
-        historyRequests
-    }
-
-    func recordedCommitDetailRequests() -> [HistoryCommitDetailRequest] {
-        commitDetailRequests
-    }
-
-    func recordedBranchNameRequests() -> [BranchNameValidationRequest] {
-        branchNameRequests
-    }
-
-    func recordedCheckoutComparisonRequests() -> [CheckoutComparisonRequest] {
-        checkoutComparisonRequests
     }
 
     private func validateBranchName(_ request: BranchNameValidationRequest) throws -> Bool {
@@ -257,4 +270,92 @@ actor RepositoryServiceStub {
             throw mutationError
         }
     }
+}
+
+/// Everything the fixture was asked to do, in the order it was asked.
+extension RepositoryServiceStub {
+    func recordedMutations() -> [RecordedMutation] {
+        mutations
+    }
+
+    func recordedArguments() -> [[String]] {
+        mutations.map(\.arguments)
+    }
+
+    func recordedDiffRequests() -> [DiffLoadRequest] {
+        diffRequests
+    }
+
+    func recordedHistoryRequests() -> [HistoryPageRequest] {
+        historyRequests
+    }
+
+    func recordedCommitDetailRequests() -> [HistoryCommitDetailRequest] {
+        commitDetailRequests
+    }
+
+    func recordedBranchNameRequests() -> [BranchNameValidationRequest] {
+        branchNameRequests
+    }
+
+    func recordedCheckoutComparisonRequests() -> [CheckoutComparisonRequest] {
+        checkoutComparisonRequests
+    }
+
+}
+
+/// What the fixture answers about Fetch.
+///
+/// Grouped apart because these behave differently from the rest: the command they stand in for
+/// can be stopped, and one remote failing says nothing about the next.
+extension RepositoryServiceStub {
+    /// Every command that contacted a remote, in the order it ran.
+    func recordedNetworkMutations() -> [[String]] {
+        networkMutations
+    }
+
+    func recordedTagConflictRequests() -> [TagConflictRequest] {
+        tagConflictRequests
+    }
+
+    private func skipped() throws -> Set<String> {
+        if let skippedRemotesError {
+            throw skippedRemotesError
+        }
+        return skippedRemotes
+    }
+
+    private func conflicts(_ request: TagConflictRequest) async throws -> TagFetchConflict {
+        tagConflictRequests.append(request)
+        if let tagConflictDelay {
+            try await Task.sleep(for: tagConflictDelay)
+        }
+        if let tagConflictError {
+            throw tagConflictError
+        }
+        return tagConflict
+    }
+
+    /// Answers the way a real Fetch does: it can be stopped while it runs, and one remote failing
+    /// says nothing about the next.
+    private func networkMutate(_ arguments: [String]) async throws {
+        networkMutations.append(arguments)
+        if let networkMutationDelay {
+            try await Task.sleep(for: networkMutationDelay)
+        }
+        // Read the way Git reads it rather than off the end: a tag Fetch carries its refspec
+        // after the remote, so the last argument is not the remote it contacted.
+        guard let remote = FetchCommand.remote(of: arguments),
+              failingRemotes.contains(remote) else {
+            return
+        }
+        throw RepositoryOpenError.commandFailed(
+            GitFailureDetails(
+                command: "git fetch",
+                output: networkFailureOutput,
+                exitStatus: 128
+            )
+        )
+    }
+
 }

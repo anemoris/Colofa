@@ -15,10 +15,7 @@ struct RepositoryToolbar: ToolbarContent {
         @Bindable var state = state
 
         ToolbarItemGroup {
-            Button(.fetch, systemImage: "arrow.triangle.2.circlepath", action: unavailableAction)
-                .labelStyle(.iconOnly)
-                .help(String(localized: .fetchHelp))
-                .disabled(true)
+            FetchToolbarButton()
 
             Button(.pull, systemImage: "arrow.down", action: unavailableAction)
                 .labelStyle(.iconOnly)
@@ -61,5 +58,41 @@ struct RepositoryToolbar: ToolbarContent {
     }
 
     private func unavailableAction() {
+    }
+}
+
+/// Fetch, and the Cancel it becomes while it runs.
+///
+/// A network command has no duration Colofa can promise, so stopping one stays reachable for as
+/// long as it runs — and it stays in the same place, because that is where the user pressed
+/// Fetch. The spinner is the progress; the button around it is the way out.
+private struct FetchToolbarButton: View {
+    @Environment(WorkspaceState.self) private var state
+
+    var body: some View {
+        if let progress = state.fetchProgress {
+            Button(action: state.cancelFetch) {
+                ProgressView()
+                    .controlSize(.small)
+            }
+            .help(String(localized: progress.description))
+            .accessibilityLabel(Text(.cancelFetch))
+            .accessibilityValue(Text(progress.description))
+            .accessibilityIdentifier("repository.toolbar.cancelFetch")
+        } else {
+            Button(.fetch, systemImage: "arrow.triangle.2.circlepath", action: fetch)
+                .labelStyle(.iconOnly)
+                .help(
+                    String(localized: state.fetchUnavailabilityReason?.message ?? .fetchHelp)
+                )
+                .disabled(!state.canFetch)
+                .accessibilityIdentifier("repository.toolbar.fetch")
+        }
+    }
+
+    private func fetch() {
+        Task {
+            await state.fetch()
+        }
     }
 }

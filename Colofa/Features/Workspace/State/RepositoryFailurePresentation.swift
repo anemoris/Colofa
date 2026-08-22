@@ -19,6 +19,12 @@ enum RepositoryFailurePresentation: Sendable {
         reference: String,
         error: RepositoryOpenError
     )
+    /// A Fetch of every remote that ran no command, or that one remote refused after another
+    /// had already answered. The outcome names the remotes; Git's own output stays one click
+    /// away, so an explanation Colofa assembled never stands in for what Git actually said.
+    case fetchAlert(FetchOutcome)
+    /// A Fetch Tags Git refused, with the local tags it kept when Colofa could name them.
+    case tagFetchAlert(TagFetchConflict?, remote: String, error: RepositoryOpenError)
     case details(GitFailureDetails, message: LocalizedStringResource)
 
     var title: LocalizedStringResource? {
@@ -29,6 +35,10 @@ enum RepositoryFailurePresentation: Sendable {
             title
         case .checkoutRefusedAlert(_, let reference, _):
             .checkoutBlockedTitle(reference)
+        case .fetchAlert(let outcome):
+            outcome.title
+        case .tagFetchAlert(let conflict, let remote, _):
+            conflict == nil ? .fetchTagsFailed : .fetchTagsRefusedTitle(remote)
         case .details:
             nil
         }
@@ -42,6 +52,10 @@ enum RepositoryFailurePresentation: Sendable {
             Self.mutationMessage(for: error)
         case .checkoutRefusedAlert(let obstruction, _, _):
             obstruction.message
+        case .fetchAlert(let outcome):
+            outcome.message
+        case .tagFetchAlert(let conflict, _, let error):
+            conflict?.message ?? Self.mutationMessage(for: error)
         case .details(_, let message):
             message
         }
@@ -57,8 +71,11 @@ enum RepositoryFailurePresentation: Sendable {
 
     var canShowDetails: Bool {
         switch self {
-        case .mutationAlert(let error, _), .checkoutRefusedAlert(_, _, let error):
+        case .mutationAlert(let error, _), .checkoutRefusedAlert(_, _, let error),
+            .tagFetchAlert(_, _, let error):
             error.failureDetails != nil
+        case .fetchAlert(let outcome):
+            outcome.error?.failureDetails != nil
         case .repositoryOpenAlert, .details:
             false
         }
@@ -68,7 +85,7 @@ enum RepositoryFailurePresentation: Sendable {
     /// a title, a message, and the offer to read what Git actually wrote.
     var isMutationAlert: Bool {
         switch self {
-        case .mutationAlert, .checkoutRefusedAlert: true
+        case .mutationAlert, .checkoutRefusedAlert, .fetchAlert, .tagFetchAlert: true
         case .repositoryOpenAlert, .details: false
         }
     }
@@ -83,6 +100,14 @@ enum RepositoryFailurePresentation: Sendable {
             error.failureDetails.map { .details($0, message: Self.mutationMessage(for: error)) }
         case .checkoutRefusedAlert(let obstruction, _, let error):
             error.failureDetails.map { .details($0, message: obstruction.message) }
+        case .fetchAlert(let outcome):
+            outcome.error?.failureDetails.flatMap { details in
+                outcome.message.map { .details(details, message: $0) }
+            }
+        case .tagFetchAlert(let conflict, _, let error):
+            error.failureDetails.map {
+                .details($0, message: conflict?.message ?? Self.mutationMessage(for: error))
+            }
         case .details:
             nil
         }

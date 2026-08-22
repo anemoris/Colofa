@@ -26,8 +26,11 @@ Early development. What works today, against real repositories, through the `git
 - Creating a local branch from current HEAD or from any commit in history, through one dialog that shows the start point read-only, validates the name with Git itself, and offers Check Out New Branch enabled by default and optional
 - Explicit checkout of a local branch, a remote branch — which becomes a same-name local tracking branch, or switches to the local branch of that name when one already exists, so a commit only you have is never dropped — or a tag, which enters detached HEAD visibly and can be attached again by creating a branch from it
 - Compatible staged and unstaged changes travel with a checkout exactly as Git allows; one that would overwrite uncommitted work is refused with the paths it protected and what to do with them. There is no Force Checkout, no Smart Checkout, and no automatic stash
+- Fetching every remote your Git configuration allows a fetch of all of them to contact, one at a time, preserving each remote's own refspec, tag, prune, hook, and transport settings. A remote that fails is named while the ones that answered stay refreshed, and a slow one can be stopped from either the toolbar button or the Repository menu — after which the state on screen is read back from Git rather than assumed
+- Fetch Tags in the Tags section, which downloads every tag from one remote — used directly when there is only one, chosen from a dialog with `origin` preselected when there are several. Local tags are never force-updated or pruned, and that holds even in a repository configured with `fetch.pruneTags` or a `+refs/tags/*` refspec — an explicit tag download names its own non-forcing refspec instead of inheriting one. A tag the remote points elsewhere is kept, and the refusal names it
+- Nothing contacts a remote on its own. There is no periodic fetch, no fetch when the window becomes active, and the status bar reports when Colofa itself last fetched
 
-Still missing: hunk staging, deleting branches, fetch, pull, push, stashes, merge, and rebase. Their toolbar buttons already hold their places, disabled. The interface was settled first as the design target, and the backend is working its way up to it.
+Still missing: hunk staging, deleting branches, pull, push, stashes, merge, and rebase. Their toolbar buttons already hold their places, disabled. The interface was settled first as the design target, and the backend is working its way up to it.
 
 ## The window
 
@@ -144,6 +147,10 @@ swift Scripts/swiftlint.swift --write-baseline
 Colofa/
   App/                       App entry point and menu bar commands
   Features/
+    Remotes/
+      Models/                Fetch plans, outcomes, and tag conflicts
+      Services/              Remote-facing Git reads
+      Views/                 The Fetch Tags dialog
     Repository/
       Models/                Value types for status, refs, config, failures
       Services/              Git CLI invocation and output parsing

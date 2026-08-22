@@ -51,6 +51,8 @@ struct StatusBarView: View {
                 }
                 .accessibilityLabel(Text(.changes))
                 .accessibilityIdentifier("repository.changeCount")
+
+                LastFetchLabel(date: state.lastFetchDate)
             }
 
             if state.isLoadingRepository {
@@ -72,5 +74,37 @@ struct StatusBarView: View {
     private func upstreamAccessibilityValue(_ upstream: RepositoryUpstream) -> String {
         "\(upstream.name), \(String(localized: .ahead)) \(upstream.ahead), "
             + "\(String(localized: .behind)) \(upstream.behind)"
+    }
+}
+
+/// When Colofa last fetched this Repository.
+///
+/// App-owned metadata rather than something Git records, so it says nothing about work another
+/// client did — and a Repository Colofa has never fetched says exactly that rather than borrowing
+/// a time from somewhere else.
+private struct LastFetchLabel: View {
+    let date: Date?
+
+    var body: some View {
+        Label {
+            if let date {
+                Text(date, format: .relative(presentation: .named))
+            } else {
+                Text(.lastFetchNever)
+            }
+        } icon: {
+            Image(systemName: "clock.arrow.circlepath")
+                .accessibilityHidden(true)
+        }
+        .accessibilityLabel(Text(.lastFetch))
+        .accessibilityValue(Text(verbatim: accessibilityValue))
+        .accessibilityIdentifier("repository.lastFetch")
+    }
+
+    private var accessibilityValue: String {
+        guard let date else {
+            return String(localized: .lastFetchNever)
+        }
+        return date.formatted(.relative(presentation: .named))
     }
 }

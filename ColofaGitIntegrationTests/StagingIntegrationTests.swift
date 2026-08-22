@@ -163,7 +163,10 @@ struct StagingIntegrationTests {
             loadHistory: { try await backend.loadHistory($0) },
             loadCommitDetail: { try await backend.loadCommitDetail($0) },
             validateBranchName: { try await backend.validateBranchName($0) },
-            loadCheckoutComparison: { try await backend.loadCheckoutComparison($0) }
+            loadCheckoutComparison: { try await backend.loadCheckoutComparison($0) },
+            loadSkippedRemotes: { try await backend.loadSkippedRemotes(in: $0) },
+            loadTagConflicts: { try await backend.loadTagConflicts($0) },
+            runNetworkMutation: { try await backend.runNetworkMutation($0, in: $1) }
         )
     }
 }

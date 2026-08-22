@@ -2350,6 +2350,236 @@
         "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "可到达" } },
         "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "可到達" } }
       }
+    },
+    "cancelFetch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Cancel Fetch" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "フェッチをキャンセル" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "페치 취소" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "取消获取" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "取消擷取" } }
+      }
+    },
+    "fetchFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Fetch Failed" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "フェッチに失敗しました" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "페치 실패" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "获取失败" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "擷取失敗" } }
+      }
+    },
+    "fetchInProgress" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Fetching…" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "フェッチ中…" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "페치 중…" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "正在获取…" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "正在擷取…" } }
+      }
+    },
+    "fetchingRemote" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Fetching “%@”…" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "「%@」をフェッチ中…" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "“%@” 페치 중…" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "正在获取“%@”…" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "正在擷取「%@」…" } }
+      }
+    },
+    "fetchNothingEligibleDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Git is configured to skip every remote when fetching all of them." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "すべてのリモートをフェッチする際、Git はすべてのリモートをスキップするよう設定されています。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "모든 원격 저장소를 페치할 때 Git이 전부 건너뛰도록 설정되어 있습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Git 已配置为在获取全部远程时跳过每一个远程。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Git 已設定為擷取全部遠端時跳過每一個遠端。" } }
+      }
+    },
+    "fetchNothingEligibleTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Nothing to Fetch" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "フェッチ対象がありません" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "페치할 항목 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "没有可获取的远程" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "沒有可擷取的遠端" } }
+      }
+    },
+    "fetchPartiallyFailedDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Colofa could not fetch %@. The other remotes were refreshed." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Colofa は %@ をフェッチできませんでした。ほかのリモートは更新されました。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Colofa에서 %@을(를) 페치하지 못했습니다. 다른 원격 저장소는 새로 고쳐졌습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Colofa 无法获取 %@。其余远程已刷新。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Colofa 無法擷取 %@。其餘遠端已重新整理。" } }
+      }
+    },
+    "fetchPlanFailedDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Colofa could not read which remotes Git allows a Fetch of all remotes to contact." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "すべてのリモートのフェッチが対象にできるリモートを、Git から読み取れませんでした。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "모든 원격 저장소를 페치할 때 Git이 허용하는 대상을 읽지 못했습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Colofa 无法读取 Git 允许「获取全部远程」联系哪些远程。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Colofa 無法讀取 Git 允許「擷取全部遠端」聯絡哪些遠端。" } }
+      }
+    },
+    "fetchRemotesFailedDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Colofa could not fetch %@." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Colofa は %@ をフェッチできませんでした。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Colofa에서 %@을(를) 페치하지 못했습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Colofa 无法获取 %@。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Colofa 無法擷取 %@。" } }
+      }
+    },
+    "fetchTags" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Fetch Tags" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "タグをフェッチ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "태그 페치" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "获取标签" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "擷取標籤" } }
+      }
+    },
+    "fetchTagsFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Fetch Tags Failed" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "タグのフェッチに失敗しました" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "태그 페치 실패" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "获取标签失败" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "擷取標籤失敗" } }
+      }
+    },
+    "fetchTagsHelp" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Download every tag from one remote" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "1 つのリモートからすべてのタグをダウンロード" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "원격 저장소 하나에서 모든 태그 다운로드" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "从一个远程下载全部标签" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "從一個遠端下載全部標籤" } }
+      }
+    },
+    "fetchTagsRefusedDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "These local tags point at different objects on the remote, so Git kept them. Every other tag was downloaded.\n\n%@" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "次のローカルタグはリモートでは別のオブジェクトを指しているため、Git はローカルのタグを保持しました。ほかのタグはすべてダウンロードされています。\n\n%@" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "다음 로컬 태그는 원격에서 다른 객체를 가리키므로 Git이 로컬 태그를 유지했습니다. 나머지 태그는 모두 다운로드되었습니다.\n\n%@" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "以下本地标签在远程指向不同的对象，因此 Git 保留了本地版本。其余标签均已下载。\n\n%@" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "以下本機標籤在遠端指向不同的物件，因此 Git 保留了本機版本。其餘標籤均已下載。\n\n%@" } }
+      }
+    },
+    "fetchTagsRefusedMoreTags" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "…and %@ more" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "…ほか %@ 件" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "…외 %@개" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "…以及另外 %@ 个" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "…以及另外 %@ 個" } }
+      }
+    },
+    "fetchTagsRefusedTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Local Tags Kept from “%@”" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "「%@」のタグは適用されませんでした" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "“%@”의 태그를 적용하지 않음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "已保留本地标签（来自“%@”）" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "已保留本機標籤（來自「%@」）" } }
+      }
+    },
+    "fetchTagsRemoteDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Choose the remote to download tags from. Existing local tags are never replaced or removed." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "タグのダウンロード元となるリモートを選択してください。既存のローカルタグが置き換えられたり削除されたりすることはありません。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "태그를 다운로드할 원격 저장소를 선택하세요. 기존 로컬 태그는 대체되거나 삭제되지 않습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "选择下载标签的远程。现有的本地标签不会被替换或删除。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "選擇下載標籤的遠端。現有的本機標籤不會被取代或刪除。" } }
+      }
+    },
+    "fetchUnavailableFetchInProgress" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "A Fetch is already running." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "フェッチがすでに実行中です。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "페치가 이미 실행 중입니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "已有一次获取正在运行。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "已有一次擷取正在執行。" } }
+      }
+    },
+    "fetchUnavailableMutationInProgress" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Another Git command is still running." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "別の Git コマンドがまだ実行中です。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "다른 Git 명령이 아직 실행 중입니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "另一条 Git 命令仍在运行。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "另一條 Git 命令仍在執行。" } }
+      }
+    },
+    "fetchUnavailableNoRemotes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This Repository has no configured remote." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "このリポジトリにはリモートが設定されていません。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 저장소에는 구성된 원격 저장소가 없습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "此仓库未配置远程。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "此儲存庫未設定遠端。" } }
+      }
+    },
+    "fetchUnavailableNoRepository" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Open a Repository first." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "先にリポジトリを開いてください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "먼저 저장소를 여세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "请先打开仓库。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "請先開啟儲存庫。" } }
+      }
+    },
+    "lastFetch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Last Fetch" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "最終フェッチ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "마지막 페치" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "上次获取" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "上次擷取" } }
+      }
+    },
+    "lastFetchNever" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Never" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "なし" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "从未" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "從未" } }
+      }
+    },
+    "remote" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Remote" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "リモート" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "원격 저장소" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "远程" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "遠端" } }
+      }
     }
   },
   "version" : "1.0"

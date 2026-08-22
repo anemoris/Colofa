@@ -279,6 +279,10 @@ nonisolated struct GitProcess: Sendable {
         }
 
         guard exitStatus == 0 else {
+            // A cancelled command ended because Colofa killed Git, so neither its status nor its
+            // output describes anything Git decided. Reporting either as a failure would blame
+            // Git for the user pressing Cancel.
+            try Task.checkCancellation()
             throw RepositoryOpenError.commandFailed(
                 failureDetails(
                     of: command,

@@ -17,7 +17,10 @@ struct RepositoryInspector: View {
                 .font(.headline)
 
             if let repository = state.repository {
-                RepositoryInformationView(repository: repository)
+                RepositoryInformationView(
+                    repository: repository,
+                    lastFetchDate: state.lastFetchDate
+                )
             } else {
                 ContentUnavailableView {
                     Label(.noRepositorySelected, systemImage: "folder.badge.questionmark")

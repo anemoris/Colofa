@@ -60,6 +60,9 @@ struct WorkspaceRootView: View {
         .sheet(isPresented: $state.isCreatingBranch) {
             NewBranchSheet()
         }
+        .sheet(isPresented: $state.isChoosingTagFetchRemote) {
+            FetchTagsSheet()
+        }
         .alert(
             String(localized: .amendCancelledHeadChangedTitle),
             isPresented: $state.isShowingStaleAmendAlert
