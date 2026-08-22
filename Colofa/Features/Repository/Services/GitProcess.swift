@@ -269,12 +269,11 @@ nonisolated struct GitProcess: Sendable {
         do {
             (output, errorOutput) = try await (standardOutput, standardError)
         } catch {
+            // A read Colofa ended by cancelling it describes nothing Git decided, so it is
+            // reported as the Cancel rather than as a command that failed.
+            try Task.checkCancellation()
             throw RepositoryOpenError.commandFailed(
-                failureDetails(
-                    of: command,
-                    output: error.localizedDescription,
-                    exitStatus: exitStatus
-                )
+                failureDetails(of: command, output: error.localizedDescription, exitStatus: exitStatus)
             )
         }
 
