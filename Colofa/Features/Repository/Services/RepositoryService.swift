@@ -38,6 +38,19 @@ struct RepositoryService: Sendable {
     /// local work it protected.
     let loadCheckoutComparison: @Sendable (CheckoutComparisonRequest) async throws -> CheckoutComparison
 
+    /// Reads which remotes Git's configuration excludes from a Fetch of every remote. Asked when
+    /// Fetch runs rather than with a snapshot: it decides what a command does, not what the
+    /// Repository is.
+    let loadSkippedRemotes: @Sendable (URL) async throws -> Set<String>
+
+    /// Reads which local tags a remote's tags of the same name would have replaced, which is what
+    /// lets a Fetch Tags Git refused name the tags it kept.
+    let loadTagConflicts: @Sendable (TagConflictRequest) async throws -> TagFetchConflict
+
+    /// Runs one command that contacts a remote. Separate from `runMutation` because it can be
+    /// stopped: a network command has no duration Colofa can promise the user.
+    let runNetworkMutation: @Sendable ([String], URL) async throws -> Void
+
     static func live() -> Self {
         let backend = GitRepositoryService()
 
@@ -65,6 +78,15 @@ struct RepositoryService: Sendable {
             },
             loadCheckoutComparison: { request in
                 try await backend.loadCheckoutComparison(request)
+            },
+            loadSkippedRemotes: { url in
+                try await backend.loadSkippedRemotes(in: url)
+            },
+            loadTagConflicts: { request in
+                try await backend.loadTagConflicts(request)
+            },
+            runNetworkMutation: { arguments, url in
+                try await backend.runNetworkMutation(arguments, in: url)
             }
         )
     }
@@ -79,7 +101,10 @@ struct RepositoryService: Sendable {
             loadHistory: { _ in throw RepositoryOpenError.gitUnavailable },
             loadCommitDetail: { _ in throw RepositoryOpenError.gitUnavailable },
             validateBranchName: { _ in throw RepositoryOpenError.gitUnavailable },
-            loadCheckoutComparison: { _ in throw RepositoryOpenError.gitUnavailable }
+            loadCheckoutComparison: { _ in throw RepositoryOpenError.gitUnavailable },
+            loadSkippedRemotes: { _ in throw RepositoryOpenError.gitUnavailable },
+            loadTagConflicts: { _ in throw RepositoryOpenError.gitUnavailable },
+            runNetworkMutation: { _, _ in throw RepositoryOpenError.gitUnavailable }
         )
     }
 
@@ -107,6 +132,15 @@ struct RepositoryService: Sendable {
             },
             loadCheckoutComparison: { request in
                 await backend.loadCheckoutComparison(request)
+            },
+            loadSkippedRemotes: { _ in
+                await backend.skippedRemotes()
+            },
+            loadTagConflicts: { request in
+                await backend.tagConflicts(request)
+            },
+            runNetworkMutation: { arguments, url in
+                try await backend.runNetworkMutation(arguments, in: url)
             }
         )
     }

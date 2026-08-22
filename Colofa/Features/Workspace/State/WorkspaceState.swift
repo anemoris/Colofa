@@ -24,6 +24,29 @@ final class WorkspaceState {
     /// WorkspaceState+Branches.swift owns it, and Swift keeps `private` within one file.
     var branchCreation: BranchCreationDraft?
 
+    // Not private: the Fetch extension in WorkspaceState+Fetch.swift owns everything below, and
+    // Swift keeps `private` within one file. Nothing else writes to them.
+
+    /// The Fetch running right now, or `nil` when none is. Its presence is what turns the
+    /// toolbar's Fetch into the Cancel that stops it.
+    var fetchProgress: FetchProgress?
+
+    /// The open Fetch Tags dialog, or `nil` when none is.
+    var tagFetchSelection: TagFetchSelection?
+
+    /// The running Fetch's own task, which is what Cancel cancels. Unlike a mutation, a command
+    /// that contacts a remote has no duration Colofa can promise, so it stays interruptible.
+    ///
+    /// It covers the whole of what talks to the remote, including the second read that explains
+    /// a refused Fetch Tags, so nothing outlives the Cancel that stops it.
+    var fetchTask: Task<FetchReport, Never>?
+
+    /// When Colofa last fetched the open Repository, or `nil` when it never has.
+    ///
+    /// App-owned metadata: Git records no such time, so this is Colofa's own answer about
+    /// Colofa's own work rather than something read out of the Repository.
+    var lastFetchDate: Date?
+
     // Not private: the History extension in WorkspaceState+History.swift owns both of these, and
     // Swift keeps `private` within one file. Nothing else writes to them.
     var storedSidebarSelection = SidebarSelection.section(.changes)
@@ -66,7 +89,10 @@ final class WorkspaceState {
     // published Repository state and does not travel with a snapshot.
     let repositoryService: RepositoryService
     let pasteboard: PasteboardWriter
-    private let userDefaults: UserDefaults
+
+    /// Not private: the Fetch extension persists the app-owned last-Fetch time through it, and
+    /// Swift keeps `private` within one file.
+    let userDefaults: UserDefaults
     private let launchArguments: [String]
     private var hasStarted = false
     private var repositoryLoadID = 0
@@ -227,7 +253,7 @@ final class WorkspaceState {
     }
 
     var canReplaceRepository: Bool {
-        !isPerformingMutation
+        !isPerformingMutation && !isFetching
     }
 }
 
@@ -309,9 +335,12 @@ extension WorkspaceState {
         repositoryGeneration += 1
         if !isSameRepository {
             // A message written for one Repository must not follow the user into another, and
-            // neither may a New Branch dialog whose start point belongs to the previous one.
+            // neither may a New Branch dialog whose start point belongs to the previous one, nor
+            // a Fetch Tags dialog: its remote was chosen from the previous Repository's remotes,
+            // and confirming it here would contact a remote of this one that the user never saw.
             commitDraft.clear()
             branchCreation = nil
+            tagFetchSelection = nil
             isConfirmingHistoryRewrite = false
             isShowingStaleAmendAlert = false
         } else if !isRewritingHead {
@@ -319,6 +348,12 @@ extension WorkspaceState {
         }
         updateSelectedChange(for: repository)
         updateHistoryReference(for: repository, isSameRepository: isSameRepository)
+        if !isSameRepository {
+            // App-owned metadata, so it is read when a Repository arrives rather than on every
+            // reload: a reload of the same Repository must not overwrite the time the Fetch that
+            // started it just recorded.
+            lastFetchDate = storedFetchDate(of: repository.rootURL)
+        }
         repositoryFailure = nil
         guard !isUITesting else {
             return
@@ -330,11 +365,16 @@ extension WorkspaceState {
     }
 
     // Not private: the configuration extension in WorkspaceState+Configuration.swift needs it.
+    //
+    // A running Fetch holds the Repository the same way a mutation does: it writes refs, and a
+    // second command landing in the middle of one would race it.
     var canMutateRepository: Bool {
-        !isPerformingMutation && activeReplacementLoadID == nil
+        !isPerformingMutation && !isFetching && activeReplacementLoadID == nil
     }
 
-    private var isUITesting: Bool {
+    /// Not private: the Fetch extension keeps app-owned state out of a UI test's defaults through
+    /// it, and Swift keeps `private` within one file.
+    var isUITesting: Bool {
 #if DEBUG
         launchArguments.contains(UITestingArgument.enabled)
 #else

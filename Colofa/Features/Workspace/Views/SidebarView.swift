@@ -90,9 +90,38 @@ struct SidebarView: View {
                         Label(.noTags, systemImage: "tag")
                             .foregroundStyle(.secondary)
                     }
+                    FetchTagsButton()
                 }
             }
             .listStyle(.sidebar)
+        }
+    }
+}
+
+/// Fetch Tags, which lives in the Tags section it adds to.
+///
+/// Tags outside a fetched branch's History only arrive when they are asked for, so the action
+/// sits beside the tags rather than in the toolbar, where it would read as part of the ordinary
+/// Fetch it deliberately is not.
+private struct FetchTagsButton: View {
+    @Environment(WorkspaceState.self) private var state
+
+    var body: some View {
+        Button(action: fetchTags) {
+            Label(.fetchTags, systemImage: "arrow.down.circle")
+                .frame(maxWidth: .infinity, alignment: .leading)
+                // The whole row answers the click, not only the words in it.
+                .contentShape(.rect)
+        }
+        .buttonStyle(.plain)
+        .help(String(localized: state.fetchUnavailabilityReason?.message ?? .fetchTagsHelp))
+        .disabled(!state.canFetchTags)
+        .accessibilityIdentifier("repository.tags.fetch")
+    }
+
+    private func fetchTags() {
+        Task {
+            await state.fetchTags()
         }
     }
 }

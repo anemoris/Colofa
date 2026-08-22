@@ -24,6 +24,9 @@ nonisolated enum UITestingRepositorySnapshots {
         if arguments.contains(UITestingArgument.branchState) {
             return branchState(at: url)
         }
+        if arguments.contains(UITestingArgument.fetchState) {
+            return fetchState(at: url, arguments: arguments)
+        }
         if arguments.contains(UITestingArgument.realRepositoryState) {
             return realState(at: url, arguments: arguments)
         }
@@ -149,6 +152,29 @@ nonisolated enum UITestingRepositorySnapshots {
                 RepositoryChange(path: UITestingBranches.blockedUntrackedPath, kind: .untracked),
                 RepositoryChange(path: UITestingBranches.blockedModifiedPath, kind: .modified),
             ],
+            totalCommitCount: 12,
+            gitObjectSize: 4_096,
+            configuration: configuration(at: url)
+        )
+    }
+
+    /// A Repository with remotes worth fetching: a remote branch a Fetch can add to, a tag a
+    /// Fetch Tags can add to, and no Conflict or active operation in the way.
+    private static func fetchState(at url: URL, arguments: [String]) -> RepositorySnapshot {
+        RepositorySnapshot(
+            name: url.lastPathComponent,
+            rootURL: url,
+            gitDirectoryURL: url.appending(path: ".git"),
+            head: .branch("main"),
+            headCommit: RepositoryHeadCommit(
+                objectID: "ui-fetch-head",
+                summary: "Fixture commit"
+            ),
+            upstream: RepositoryUpstream(name: "origin/main", ahead: 1, behind: 0),
+            remotes: UITestingFetch.remotes(arguments: arguments),
+            localBranches: ["main"],
+            remoteBranches: ["origin/main"],
+            tags: [UITestingFetch.conflictingTag],
             totalCommitCount: 12,
             gitObjectSize: 4_096,
             configuration: configuration(at: url)

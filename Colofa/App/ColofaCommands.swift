@@ -35,8 +35,18 @@ struct ColofaCommands: Commands {
         }
 
         CommandMenu(String(localized: .repositoryMenu)) {
-            Button(String(localized: .fetch), action: unavailableAction)
-                .disabled(true)
+            // The toolbar is where a running Fetch is normally stopped, but the toolbar is
+            // something macOS lets the user hide — and hiding it would otherwise leave a Fetch
+            // started from this menu with no way out at all. So the menu carries the same
+            // Cancel rather than only greying Fetch out.
+            if state.isFetching {
+                Button(String(localized: .cancelFetch), action: state.cancelFetch)
+            } else {
+                Button(String(localized: .fetch), action: fetch)
+                    .disabled(!state.canFetch)
+            }
+            Button(String(localized: .fetchTags), action: fetchTags)
+                .disabled(!state.canFetchTags)
             Button(String(localized: .pull), action: unavailableAction)
                 .disabled(true)
             Button(String(localized: .push), action: unavailableAction)
@@ -71,6 +81,18 @@ struct ColofaCommands: Commands {
     }
 
     private func unavailableAction() {
+    }
+
+    private func fetch() {
+        Task {
+            await state.fetch()
+        }
+    }
+
+    private func fetchTags() {
+        Task {
+            await state.fetchTags()
+        }
     }
 
     private func checkoutSelectedReference() {

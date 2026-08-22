@@ -50,6 +50,17 @@ extension XCUIApplication {
         )
     }
 
+    /// A stubbed application whose restored Repository has remotes worth fetching.
+    static func configuredForFetchState(
+        path: String,
+        additionalArguments: [String] = []
+    ) -> XCUIApplication {
+        configuredForRepository(
+            path: path,
+            additionalArguments: [UITestingArgument.fetchState] + additionalArguments
+        )
+    }
+
     /// A stubbed application whose restored Repository reports a fully populated Git state.
     static func configuredForRealRepositoryState(
         path: String,

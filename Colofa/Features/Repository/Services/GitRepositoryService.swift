@@ -279,3 +279,46 @@ actor GitRepositoryService {
         }
     }
 }
+
+/// The commands that contact a remote, and the read-only questions they need answered first.
+///
+/// Grouped apart from the rest because they behave differently: they can be stopped, they are the
+/// only commands whose duration Colofa cannot bound, and what they are allowed to contact comes
+/// out of Git's configuration rather than out of a snapshot.
+extension GitRepositoryService {
+    func loadSkippedRemotes(in repositoryURL: URL) async throws -> Set<String> {
+        try await GitRemoteReader(git: try await resolvedGit())
+            .skippedRemotes(in: repositoryURL)
+    }
+
+    func loadTagConflicts(_ request: TagConflictRequest) async throws -> TagFetchConflict {
+        try await GitRemoteReader(git: try await resolvedGit()).tagConflicts(request)
+    }
+
+    /// Runs one command that contacts a remote.
+    ///
+    /// Unlike `runMutation`, this one can be stopped. A network command has no duration Colofa
+    /// can promise, and ending one leaves the Repository's refs exactly as far along as Git had
+    /// already written them — which is a state a reload reports truthfully. It still queues
+    /// behind whatever mutation is already running, so stopping it can never interrupt an index
+    /// write somebody else started.
+    func runNetworkMutation(_ arguments: [String], in repositoryURL: URL) async throws {
+        let previousMutation = mutationTail
+        let mutation = Task { [self] in
+            await previousMutation?.value
+            // Cancelled while queued behind another command: nothing should be launched at all.
+            try Task.checkCancellation()
+            _ = try await resolvedGit().text(arguments, in: repositoryURL)
+        }
+        mutationTail = Task {
+            _ = await mutation.result
+        }
+
+        // The queued task is unstructured, so cancellation has to be forwarded to it by hand.
+        try await withTaskCancellationHandler {
+            try await mutation.value
+        } onCancel: {
+            mutation.cancel()
+        }
+    }
+}

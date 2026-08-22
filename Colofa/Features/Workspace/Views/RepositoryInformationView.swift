@@ -11,6 +11,9 @@ import SwiftUI
 struct RepositoryInformationView: View {
     let repository: RepositorySnapshot
 
+    /// When Colofa last fetched this Repository, which Git itself records nowhere.
+    let lastFetchDate: Date?
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading) {
@@ -60,6 +63,14 @@ struct RepositoryInformationView: View {
                         Text(verbatim: remote.name)
                     }
                 }
+                LabeledContent(String(localized: .lastFetch)) {
+                    if let lastFetchDate {
+                        Text(lastFetchDate, format: .relative(presentation: .named))
+                    } else {
+                        Text(.lastFetchNever)
+                    }
+                }
+                .accessibilityIdentifier("repository.information.lastFetch")
                 // Identity is the Repository, not the snapshot: the configuration fields keep
                 // an unsaved draft in `@State`, which must survive a refresh of the same
                 // Repository but must be discarded when a different one is opened.

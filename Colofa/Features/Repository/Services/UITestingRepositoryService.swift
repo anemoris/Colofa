@@ -32,6 +32,21 @@ actor UITestingRepositoryService {
         return snapshot
     }
 
+    /// The Repository the stub currently reports, for an extension that mutates it.
+    ///
+    /// Not private: the Fetch extension in UITestingRepositoryService+Fetch.swift reads and
+    /// replaces it, and Swift keeps `private` within one file.
+    func currentSnapshot(at url: URL) -> RepositorySnapshot? {
+        guard let snapshot, snapshot.rootURL == url else {
+            return nil
+        }
+        return snapshot
+    }
+
+    func publish(_ snapshot: RepositorySnapshot) {
+        self.snapshot = snapshot
+    }
+
     func loadDiff(_ request: DiffLoadRequest) async throws -> DiffLoadResult {
         try await UITestingDiffs.result(for: request)
     }
@@ -235,6 +250,8 @@ actor UITestingRepositoryService {
         in snapshot: RepositorySnapshot,
         head: RepositoryHead? = nil,
         localBranches: [String]? = nil,
+        remoteBranches: [String]? = nil,
+        tags: [String]? = nil,
         staged: [RepositoryChange]? = nil,
         unstaged: [RepositoryChange]? = nil,
         headCommit: RepositoryHeadCommit? = nil,
@@ -251,8 +268,8 @@ actor UITestingRepositoryService {
             upstream: upstream ?? snapshot.upstream,
             remotes: snapshot.remotes,
             localBranches: localBranches ?? snapshot.localBranches,
-            remoteBranches: snapshot.remoteBranches,
-            tags: snapshot.tags,
+            remoteBranches: remoteBranches ?? snapshot.remoteBranches,
+            tags: tags ?? snapshot.tags,
             stagedChanges: staged ?? snapshot.stagedChanges,
             unstagedChanges: unstaged ?? snapshot.unstagedChanges,
             operation: snapshot.operation,

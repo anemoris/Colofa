@@ -74,6 +74,28 @@ final class GitTestRepository {
         return remoteURL
     }
 
+    /// A working repository cloned from `remoteURL`, so it starts with a real `origin` and real
+    /// remote-tracking refs rather than ones a test assembled by hand.
+    func createClone(of remoteURL: URL, named name: String) throws -> URL {
+        let repositoryURL = rootURL.appending(path: name, directoryHint: .isDirectory)
+        _ = try git(
+            ["clone", remoteURL.normalizedFilePath, repositoryURL.normalizedFilePath]
+        )
+        return repositoryURL
+    }
+
+    /// A stand-in Git that reports it is running and then blocks as the process itself, so
+    /// terminating it closes the pipes rather than leaving a child holding them open.
+    func createBlockingGit(at executableURL: URL, seconds: Int, readyURL: URL) throws {
+        try writeExecutableGit(
+            at: executableURL,
+            body: """
+            echo "ready" > "\(readyURL.normalizedFilePath)"
+            exec sleep \(seconds)
+            """
+        )
+    }
+
     func addRemote(_ remoteURL: URL, named name: String, to repositoryURL: URL) throws {
         _ = try git(
             ["remote", "add", name, remoteURL.normalizedFilePath],

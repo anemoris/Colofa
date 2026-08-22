@@ -52,6 +52,12 @@ enum LayoutMetrics {
         static let maximumFailureOutputHeight = 120.0
     }
 
+    /// The Fetch Tags dialog's own dimensions. A sheet is sized by its content rather than by
+    /// the window it belongs to, so its width lives apart from the window's.
+    enum Remote {
+        static let dialogWidth = 380.0
+    }
+
     /// The Diff pane's own density. Dense code review needs tighter spacing than the system
     /// defaults give, so it is grouped rather than mixed into the window's dimensions above.
     enum Diff {
