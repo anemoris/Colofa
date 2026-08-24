@@ -166,7 +166,7 @@ struct StagingIntegrationTests {
             loadCheckoutComparison: { try await backend.loadCheckoutComparison($0) },
             loadSkippedRemotes: { try await backend.loadSkippedRemotes(in: $0) },
             loadTagConflicts: { try await backend.loadTagConflicts($0) },
-            runNetworkMutation: { try await backend.runNetworkMutation($0, in: $1) }
+            runNetworkMutation: { try await backend.runNetworkMutation($0, in: $1, responder: $2) }
         )
     }
 }

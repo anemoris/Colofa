@@ -2580,6 +2580,296 @@
         "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "远程" } },
         "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "遠端" } }
       }
+    },
+    "authenticationUsernameTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Username Required" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ユーザ名が必要です" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "사용자 이름 필요" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "需要用户名" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "需要使用者名稱" } }
+      }
+    },
+    "authenticationPasswordTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Password Required" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "パスワードが必要です" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "비밀번호 필요" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "需要密码" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "需要密碼" } }
+      }
+    },
+    "authenticationPassphraseTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Passphrase Required" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "パスフレーズが必要です" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "암호 구문 필요" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "需要密钥口令" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "需要金鑰通行密碼" } }
+      }
+    },
+    "authenticationHostKeyTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "New SSH Host" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "未知の SSH ホスト" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "새 SSH 호스트" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "新的 SSH 主机" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "新的 SSH 主機" } }
+      }
+    },
+    "authenticationHostKeyChangedTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "SSH Host Key Changed" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "SSH ホスト鍵が変更されました" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "SSH 호스트 키가 변경됨" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "SSH 主机密钥已更改" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "SSH 主機金鑰已變更" } }
+      }
+    },
+    "authenticationHostKeyUnverifiedTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "SSH Host Not Verified" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "SSH ホストを確認できません" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "SSH 호스트가 확인되지 않음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "未验证 SSH 主机" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "未驗證 SSH 主機" } }
+      }
+    },
+    "authenticationDeclinedTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Authentication Canceled" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "認証をキャンセルしました" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "인증이 취소됨" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "已取消身份验证" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "已取消驗證" } }
+      }
+    },
+    "authenticationRequestTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Authentication Request" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "認証リクエスト" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "인증 요청" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "身份验证请求" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "驗證請求" } }
+      }
+    },
+    "authenticationUsernameMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Git needs the account name for this remote. Your configured credential helpers had no answer for it." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Git はこのリモートのアカウント名を必要としています。設定済みの認証情報ヘルパーからは得られませんでした。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Git에 이 원격 저장소의 계정 이름이 필요합니다. 구성된 자격 증명 헬퍼에서는 얻지 못했습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Git 需要此远程的账户名。已配置的凭据助手未能提供。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Git 需要此遠端的帳號名稱。已設定的憑證輔助程式未能提供。" } }
+      }
+    },
+    "authenticationPasswordMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Git needs a password or personal access token for this remote. Your configured credential helpers had no answer for it." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Git はこのリモートのパスワードまたはパーソナルアクセストークンを必要としています。設定済みの認証情報ヘルパーからは得られませんでした。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Git에 이 원격 저장소의 비밀번호 또는 개인 액세스 토큰이 필요합니다. 구성된 자격 증명 헬퍼에서는 얻지 못했습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Git 需要此远程的密码或个人访问令牌。已配置的凭据助手未能提供。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Git 需要此遠端的密碼或個人存取權杖。已設定的憑證輔助程式未能提供。" } }
+      }
+    },
+    "authenticationPassphraseMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "OpenSSH needs the passphrase that decrypts this private key. Your SSH agent had no answer for it." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "OpenSSH はこの秘密鍵を復号するパスフレーズを必要としています。ssh-agent からは得られませんでした。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "OpenSSH에 이 개인 키를 복호화할 암호 구문이 필요합니다. ssh-agent에서는 얻지 못했습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "OpenSSH 需要用于解密此私钥的口令。ssh-agent 未能提供。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "OpenSSH 需要用來解密此私密金鑰的通行密碼。ssh-agent 未能提供。" } }
+      }
+    },
+    "authenticationHostKeyMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "OpenSSH has never connected to this host. Compare the fingerprint with the one the host's operator published before continuing." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "OpenSSH がこのホストに接続するのは初めてです。続ける前に、フィンガープリントをホストの運用者が公開している値と照合してください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "OpenSSH가 이 호스트에 연결한 적이 없습니다. 계속하기 전에 지문을 호스트 운영자가 게시한 값과 대조하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "OpenSSH 从未连接过此主机。请先将指纹与主机运营方公布的值核对，再继续。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "OpenSSH 從未連線至此主機。請先將指紋與主機營運方公布的值核對，再繼續。" } }
+      }
+    },
+    "authenticationHostKeyChangedMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "OpenSSH recorded a different key for this host, so the connection was refused. Colofa offers no way to continue. Confirm the change with the host's operator, then update your known_hosts file yourself." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "OpenSSH はこのホストに別の鍵を記録しているため、接続は拒否されました。Colofa には続行する手段はありません。ホストの運用者に変更を確認したうえで、known_hosts ファイルをご自身で更新してください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "OpenSSH가 이 호스트에 대해 다른 키를 기록해 두었으므로 연결이 거부되었습니다. Colofa는 계속할 방법을 제공하지 않습니다. 호스트 운영자에게 변경 사실을 확인한 뒤 known_hosts 파일을 직접 업데이트하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "OpenSSH 为此主机记录的是另一个密钥，因此连接已被拒绝。Colofa 不提供继续的方式。请先向主机运营方确认此变更，再自行更新 known_hosts 文件。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "OpenSSH 為此主機記錄的是另一個金鑰，因此連線已遭拒。Colofa 不提供繼續的方式。請先向主機營運方確認此變更，再自行更新 known_hosts 檔案。" } }
+      }
+    },
+    "authenticationHostKeyUnverifiedMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "OpenSSH could not verify this host's key, so the connection was refused. Nothing was sent to the remote." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "OpenSSH はこのホストの鍵を検証できなかったため、接続は拒否されました。リモートには何も送信されていません。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "OpenSSH가 이 호스트의 키를 확인하지 못해 연결이 거부되었습니다. 원격 저장소로 전송된 내용은 없습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "OpenSSH 无法验证此主机的密钥，因此连接已被拒绝。未向远程发送任何内容。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "OpenSSH 無法驗證此主機的金鑰，因此連線已遭拒。未向遠端傳送任何內容。" } }
+      }
+    },
+    "authenticationDeclinedMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Git had no credentials for this remote and none were provided, so the command stopped. Nothing was changed." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Git はこのリモートの認証情報を持たず、入力もされなかったため、コマンドは停止しました。変更は行われていません。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Git에 이 원격 저장소의 자격 증명이 없고 입력도 되지 않아 명령이 중단되었습니다. 변경된 내용은 없습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Git 没有此远程的凭据，也未获得凭据，因此命令已停止。未发生任何更改。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Git 沒有此遠端的憑證，也未取得憑證，因此指令已停止。未發生任何變更。" } }
+      }
+    },
+    "authenticationChannelUnavailableTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Cannot Ask for Credentials" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "認証情報を確認できません" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "자격 증명을 요청할 수 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法请求凭据" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法請求憑證" } }
+      }
+    },
+    "authenticationChannelUnavailableMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Colofa could not open the channel Git and OpenSSH ask for credentials through, so the command ran without any way to reach you. Try again; if it keeps happening, check that your temporary folder is writable. (%@)" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Git と OpenSSH が認証情報を尋ねるためのチャネルを Colofa が開けなかったため、コマンドはお尋ねする手段のないまま実行されました。もう一度お試しください。繰り返し発生する場合は、一時フォルダに書き込めるかご確認ください。（%@）" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Git과 OpenSSH가 자격 증명을 요청하는 채널을 Colofa가 열지 못해, 명령이 사용자에게 물어볼 방법 없이 실행되었습니다. 다시 시도하세요. 계속 발생하면 임시 폴더에 쓸 수 있는지 확인하세요. (%@)" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Colofa 无法打开 Git 与 OpenSSH 用来询问凭据的通道，因此该命令在无法向你提问的情况下运行。请重试；若持续出现，请检查临时文件夹是否可写。（%@）" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Colofa 無法開啟 Git 與 OpenSSH 用來詢問憑證的通道，因此該指令在無法向你提問的情況下執行。請重試；若持續出現，請檢查暫存資料夾是否可寫入。（%@）" } }
+      }
+    },
+    "authenticationRequestMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Git asked a question Colofa does not recognize. It is shown below exactly as it was asked, and your answer is treated as a secret." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Colofa が認識できない質問を Git が行いました。原文をそのまま以下に示します。入力内容は秘密として扱われます。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Colofa가 인식하지 못하는 질문을 Git이 보냈습니다. 아래에 원문 그대로 표시되며, 입력한 내용은 비밀로 취급됩니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Git 提出了 Colofa 无法识别的问题。原文如下所示，你的回答将按机密处理。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Git 提出了 Colofa 無法識別的問題。原文如下所示，你的回答將視為機密處理。" } }
+      }
+    },
+    "authenticationUsernameField" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Username" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ユーザ名" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "사용자 이름" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "用户名" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "使用者名稱" } }
+      }
+    },
+    "authenticationPasswordField" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Password or Token" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "パスワードまたはトークン" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "비밀번호 또는 토큰" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "密码或令牌" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "密碼或權杖" } }
+      }
+    },
+    "authenticationPassphraseField" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Passphrase" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "パスフレーズ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "암호 구문" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "口令" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "通行密碼" } }
+      }
+    },
+    "authenticationAnswerField" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Answer" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "回答" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "답변" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "回答" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "回答" } }
+      }
+    },
+    "authenticationTrustHost" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Trust and Continue" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "信頼して続ける" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "신뢰하고 계속" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "信任并继续" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "信任並繼續" } }
+      }
+    },
+    "authenticationContinue" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Continue" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "続ける" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "계속" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "继续" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "繼續" } }
+      }
+    },
+    "authenticationHost" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Host" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ホスト" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "호스트" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "主机" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "主機" } }
+      }
+    },
+    "authenticationFingerprint" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Fingerprint" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "フィンガープリント" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "지문" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "指纹" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "指紋" } }
+      }
+    },
+    "authenticationKey" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Key" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "鍵" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "키" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "密钥" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "金鑰" } }
+      }
+    },
+    "authenticationSubject" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Request" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "リクエスト" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "요청" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "请求" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "請求" } }
+      }
+    },
+    "authenticationEphemeralNote" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Colofa does not save this. Whether it is remembered is decided by your credential helper, Keychain, or SSH agent." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Colofa はこの内容を保存しません。記憶するかどうかは、認証情報ヘルパー、キーチェーン、ssh-agent が決めます。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Colofa는 이 내용을 저장하지 않습니다. 기억할지 여부는 자격 증명 헬퍼, 키체인, ssh-agent가 결정합니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Colofa 不会保存此内容。是否记住由你的凭据助手、钥匙串或 ssh-agent 决定。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Colofa 不會儲存此內容。是否記住由你的憑證輔助程式、鑰匙圈或 ssh-agent 決定。" } }
+      }
     }
   },
   "version" : "1.0"

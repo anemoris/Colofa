@@ -20,6 +20,38 @@ nonisolated struct GitProcess: Sendable {
     let executableURL: URL
     let environment: [String: String]
 
+    /// What this command learned while it ran that must not be repeated back, which is only ever
+    /// an Authentication Request's question and answer.
+    ///
+    /// Standard input is known before a command starts and travels with the command below.
+    /// A secret the command asked for halfway through is not, so it is collected while the
+    /// command runs and read here when its failure details are built.
+    let secrets: GitSecretRedaction?
+
+    /// Told what process a command of this Git is running as, as soon as it has one.
+    ///
+    /// Only an Authentication Request channel needs it. It answers questions for the command that
+    /// asked them, and telling that command's own programs apart from anything else holding its
+    /// environment means knowing which process they descend from. Every other caller leaves it
+    /// out.
+    let didLaunch: (@Sendable (pid_t) -> Void)?
+
+    /// - Parameter secrets: Where a command that can ask for one registers it. Only the commands
+    ///   that contact a remote ever can, so every other caller leaves it out.
+    /// - Parameter didLaunch: Called once per command, on the caller's thread, the moment the
+    ///   process exists.
+    init(
+        executableURL: URL,
+        environment: [String: String],
+        secrets: GitSecretRedaction? = nil,
+        didLaunch: (@Sendable (pid_t) -> Void)? = nil
+    ) {
+        self.executableURL = executableURL
+        self.environment = environment
+        self.secrets = secrets
+        self.didLaunch = didLaunch
+    }
+
     /// What ran, kept together so failures can name it without threading two more parameters
     /// through every step.
     private struct Command {
@@ -229,6 +261,9 @@ nonisolated struct GitProcess: Sendable {
     private func launch(_ process: Process, running command: Command) throws {
         do {
             try process.run()
+            // Reported before anything is read from the process, because whatever it starts can
+            // connect back the moment it exists.
+            didLaunch?(process.processIdentifier)
         } catch {
             if !FileManager.default.isExecutableFile(atPath: executableURL.normalizedFilePath) {
                 throw RepositoryOpenError.gitUnavailable
@@ -299,23 +334,14 @@ nonisolated struct GitProcess: Sendable {
         output: String,
         exitStatus: Int32? = nil
     ) -> GitFailureDetails {
-        GitFailureDetails(
-            command: GitOutputRedaction.redactingLocation(
-                of: command.directoryURL,
-                in: GitOutputRedaction.redactingSensitiveValues(
-                    command.sensitiveValues,
-                    in: (["git"] + command.arguments).map(\.debugDescription).joined(separator: " ")
-                )
-            ),
-            output: String(
-                GitOutputRedaction.redactingLocation(
-                    of: command.directoryURL,
-                    in: GitOutputRedaction.redactingSensitiveValues(
-                        command.sensitiveValues,
-                        in: output.replacing("\0", with: "")
-                    )
-                ).prefix(4_000)
-            ),
+        GitOutputRedaction.failureDetails(
+            of: command.arguments,
+            in: command.directoryURL,
+            // Read here rather than when the command was built: an Authentication Request's
+            // answer exists only because the command asked for it while it was already running.
+            sensitiveValues: (command.sensitiveValues + (secrets?.values ?? []))
+                .sorted { $0.count > $1.count },
+            output: output,
             exitStatus: exitStatus
         )
     }

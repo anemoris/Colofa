@@ -41,6 +41,22 @@ final class WorkspaceState {
     /// a refused Fetch Tags, so nothing outlives the Cancel that stops it.
     var fetchTask: Task<FetchReport, Never>?
 
+    // Not private: the authentication extension in WorkspaceState+Authentication.swift owns the
+    // three below, and Swift keeps `private` within one file. Nothing else writes to them.
+
+    /// The Authentication Request on screen, or `nil` when nothing is asking. It exists only
+    /// while the command that asked is waiting for it, and nothing about it is written anywhere.
+    var authenticationRequest: AuthenticationRequest?
+
+    /// What has been typed into the open Authentication Request, held for exactly as long as the
+    /// field is on screen and cleared in the same step that hands it over.
+    var authenticationAnswer = ""
+
+    /// The command waiting for an answer, resumed exactly once. Excluded from observation: it is
+    /// how the answer travels, not something a view reads.
+    @ObservationIgnored
+    var pendingAuthentication: CheckedContinuation<AuthenticationResponse, Never>?
+
     /// When Colofa last fetched the open Repository, or `nil` when it never has.
     ///
     /// App-owned metadata: Git records no such time, so this is Colofa's own answer about

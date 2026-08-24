@@ -3,6 +3,7 @@ strict: true
 # Lint all first-party Swift source, tests, support code, and scripts.
 included:
   - Colofa
+  - ColofaAskPass
   - ColofaTests
   - ColofaUITests
   - ColofaGitIntegrationTests

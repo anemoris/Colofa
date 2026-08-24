@@ -225,7 +225,8 @@ extension WorkspaceState {
             do {
                 try await repositoryService.runNetworkMutation(
                     FetchCommand.fetch(remote),
-                    repository.rootURL
+                    repository.rootURL,
+                    authenticationResponder
                 )
                 fetched.append(remote)
             } catch is CancellationError {
@@ -249,7 +250,8 @@ extension WorkspaceState {
         do {
             try await repositoryService.runNetworkMutation(
                 FetchCommand.fetchTags(from: remote),
-                repository.rootURL
+                repository.rootURL,
+                authenticationResponder
             )
             return .fetched([remote])
         } catch is CancellationError {
@@ -266,6 +268,19 @@ extension WorkspaceState {
         of work: FetchWork,
         in repository: RepositorySnapshot
     ) async -> RepositoryFailurePresentation {
+        // Asked first, because a connection that was never trusted or never authenticated
+        // explains both a Fetch and a Fetch Tags better than either of their own answers does.
+        //
+        // What the command itself decided is preferred over what its output says: prompt text is
+        // redacted out of that output, so a refusal Colofa made from a prompt cannot be
+        // recognized there again. The output still answers for a refusal that reached no prompt
+        // at all, which is how OpenSSH usually refuses a key it already recorded.
+        if let error = outcome.error,
+           let details = error.failureDetails,
+           let failure = details.authenticationFailure
+               ?? AuthenticationFailure.detect(in: details.output) {
+            return .authenticationAlert(failure, error: error)
+        }
         guard case .tags(let remote) = work, let error = outcome.error else {
             return .fetchAlert(outcome)
         }

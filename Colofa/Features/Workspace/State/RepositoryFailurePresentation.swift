@@ -25,6 +25,10 @@ enum RepositoryFailurePresentation: Sendable {
     case fetchAlert(FetchOutcome)
     /// A Fetch Tags Git refused, with the local tags it kept when Colofa could name them.
     case tagFetchAlert(TagFetchConflict?, remote: String, error: RepositoryOpenError)
+    /// A command that failed over the connection's identity rather than over what it was asked
+    /// to do. It offers no way to continue: a host key Colofa would accept on the user's behalf
+    /// is a host key nobody checked.
+    case authenticationAlert(AuthenticationFailure, error: RepositoryOpenError)
     case details(GitFailureDetails, message: LocalizedStringResource)
 
     var title: LocalizedStringResource? {
@@ -39,6 +43,8 @@ enum RepositoryFailurePresentation: Sendable {
             outcome.title
         case .tagFetchAlert(let conflict, let remote, _):
             conflict == nil ? .fetchTagsFailed : .fetchTagsRefusedTitle(remote)
+        case .authenticationAlert(let failure, _):
+            failure.title
         case .details:
             nil
         }
@@ -56,6 +62,8 @@ enum RepositoryFailurePresentation: Sendable {
             outcome.message
         case .tagFetchAlert(let conflict, _, let error):
             conflict?.message ?? Self.mutationMessage(for: error)
+        case .authenticationAlert(let failure, _):
+            failure.message
         case .details(_, let message):
             message
         }
@@ -72,7 +80,7 @@ enum RepositoryFailurePresentation: Sendable {
     var canShowDetails: Bool {
         switch self {
         case .mutationAlert(let error, _), .checkoutRefusedAlert(_, _, let error),
-            .tagFetchAlert(_, _, let error):
+            .tagFetchAlert(_, _, let error), .authenticationAlert(_, let error):
             error.failureDetails != nil
         case .fetchAlert(let outcome):
             outcome.error?.failureDetails != nil
@@ -85,8 +93,11 @@ enum RepositoryFailurePresentation: Sendable {
     /// a title, a message, and the offer to read what Git actually wrote.
     var isMutationAlert: Bool {
         switch self {
-        case .mutationAlert, .checkoutRefusedAlert, .fetchAlert, .tagFetchAlert: true
-        case .repositoryOpenAlert, .details: false
+        case .mutationAlert, .checkoutRefusedAlert, .fetchAlert, .tagFetchAlert,
+            .authenticationAlert:
+            true
+        case .repositoryOpenAlert, .details:
+            false
         }
     }
 
@@ -108,6 +119,8 @@ enum RepositoryFailurePresentation: Sendable {
             error.failureDetails.map {
                 .details($0, message: conflict?.message ?? Self.mutationMessage(for: error))
             }
+        case .authenticationAlert(let failure, let error):
+            error.failureDetails.map { .details($0, message: failure.message) }
         case .details:
             nil
         }

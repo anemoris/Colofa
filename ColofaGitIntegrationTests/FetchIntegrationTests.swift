@@ -281,7 +281,8 @@ struct FetchIntegrationTests {
         let fetching = Task {
             try await backend.runNetworkMutation(
                 FetchCommand.fetch("origin"),
-                in: repositoryURL
+                in: repositoryURL,
+                responder: .refusing
             )
         }
         try await fixture.waitForReadySignal(at: readyURL)

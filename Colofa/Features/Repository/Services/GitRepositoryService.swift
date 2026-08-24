@@ -11,14 +11,25 @@ import Foundation
 actor GitRepositoryService {
     private let candidateURLs: [URL]
     private let environment: [String: String]
+
+    /// The executable Git and OpenSSH run to ask for a secret: the AskPass tool bundled beside
+    /// the app, which relays one question and exits.
+    ///
+    /// Injectable so a test can hand a controlled program the same channel a real one gets.
+    private let askPassHelperURL: URL?
+
     private var executableURL: URL?
     private var mutationTail: Task<Void, Never>?
 
     init(
         candidateURLs: [URL] = GitRepositoryService.defaultCandidateURLs(),
-        environment: [String: String] = ProcessInfo.processInfo.environment
+        environment: [String: String] = ProcessInfo.processInfo.environment,
+        askPassHelperURL: URL? = GitRepositoryService.bundledAskPassHelperURL()
     ) {
         self.candidateURLs = candidateURLs
+        self.askPassHelperURL = askPassHelperURL
+        // Keeps Git from waiting on a terminal Colofa does not have. An AskPass program is
+        // consulted before this applies, so a question Colofa can ask is still asked.
         self.environment = environment.merging(["GIT_TERMINAL_PROMPT": "0"]) { _, value in
             value
         }
@@ -259,6 +270,16 @@ actor GitRepositoryService {
         }
     }
 
+    /// The AskPass tool inside the running app, or `nil` when there is none to find — which is
+    /// how a host that is not the app, such as a test runner, ends up without a channel.
+    static func bundledAskPassHelperURL() -> URL? {
+        Bundle.main.url(forAuxiliaryExecutable: askPassHelperName)
+    }
+
+    /// The bundled AskPass tool's product name, which is also what the app copies into its own
+    /// executable directory.
+    static let askPassHelperName = "ColofaAskPass"
+
     private static func defaultCandidateURLs() -> [URL] {
         let pathCandidates = (ProcessInfo.processInfo.environment["PATH"] ?? "")
             .split(separator: ":")
@@ -302,13 +323,33 @@ extension GitRepositoryService {
     /// already written them — which is a state a reload reports truthfully. It still queues
     /// behind whatever mutation is already running, so stopping it can never interrupt an index
     /// write somebody else started.
-    func runNetworkMutation(_ arguments: [String], in repositoryURL: URL) async throws {
+    /// - Parameter responder: Who answers the questions Git and OpenSSH ask while it runs. They
+    ///   only ask once the credential helpers, Keychain integration, and SSH agent the user
+    ///   configured have answered nothing, and the channel that carries the question exists only
+    ///   for the length of this command.
+    func runNetworkMutation(
+        _ arguments: [String],
+        in repositoryURL: URL,
+        responder: AuthenticationResponder
+    ) async throws {
         let previousMutation = mutationTail
         let mutation = Task { [self] in
             await previousMutation?.value
             // Cancelled while queued behind another command: nothing should be launched at all.
             try Task.checkCancellation()
-            _ = try await resolvedGit().text(arguments, in: repositoryURL)
+            let git = try await resolvedGit()
+            let channel = AskPassChannel.opened(
+                pointingAt: askPassHelperURL,
+                answeredBy: responder
+            )
+            // However this command ends — finished, failed, or cancelled — the channel and the
+            // socket behind it go with it.
+            defer { channel.stop() }
+            do {
+                _ = try await channel.authenticating(git).text(arguments, in: repositoryURL)
+            } catch {
+                throw channel.explaining(error)
+            }
         }
         mutationTail = Task {
             _ = await mutation.result

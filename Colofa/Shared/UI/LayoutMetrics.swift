@@ -58,6 +58,19 @@ enum LayoutMetrics {
         static let dialogWidth = 380.0
     }
 
+    /// The Authentication Request dialog's own dimensions. Wider than the Fetch Tags dialog
+    /// because a host key fingerprint is compared character by character and must not wrap into
+    /// something that reads as a different value.
+    enum Authentication {
+        static let dialogWidth = 440.0
+
+        /// How much of a question Colofa could not classify is shown before it scrolls. Such a
+        /// prompt is Git's or OpenSSH's own text, bounded only by what the AskPass channel
+        /// accepts, and a sheet that grew with it would push the buttons that answer it past the
+        /// bottom of the screen.
+        static let promptMaxHeight = 160.0
+    }
+
     /// The Diff pane's own density. Dense code review needs tighter spacing than the system
     /// defaults give, so it is grouped rather than mixed into the window's dimensions above.
     enum Diff {

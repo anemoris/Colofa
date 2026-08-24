@@ -63,6 +63,9 @@ struct WorkspaceRootView: View {
         .sheet(isPresented: $state.isChoosingTagFetchRemote) {
             FetchTagsSheet()
         }
+        .sheet(isPresented: $state.isPresentingAuthenticationRequest) {
+            AuthenticationRequestSheet()
+        }
         .alert(
             String(localized: .amendCancelledHeadChangedTitle),
             isPresented: $state.isShowingStaleAmendAlert
