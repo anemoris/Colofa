@@ -14,6 +14,53 @@ import Foundation
 /// This text reaches the user's screen and Colofa's stored error state, so it is redacted at the
 /// point failure details are built rather than wherever they are displayed.
 nonisolated enum GitOutputRedaction {
+
+    /// What one failed command reports, with the Repository's location and every sensitive value
+    /// already removed from both halves of it.
+    ///
+    /// Built here rather than where the failure was noticed, because this is the only place that
+    /// knows what must not survive into it.
+    ///
+    /// - Parameter output: What Git wrote, bounded so a command that failed loudly cannot carry
+    ///   an unbounded diagnostic into the app's error state.
+    static func failureDetails(
+        of arguments: [String],
+        in directoryURL: URL,
+        sensitiveValues: [String],
+        output: String,
+        exitStatus: Int32?
+    ) -> GitFailureDetails {
+        GitFailureDetails(
+            command: redacting(
+                (["git"] + arguments).map(\.debugDescription).joined(separator: " "),
+                of: directoryURL,
+                sensitiveValues: sensitiveValues
+            ),
+            output: String(
+                redacting(
+                    output.replacing("\0", with: ""),
+                    of: directoryURL,
+                    sensitiveValues: sensitiveValues
+                ).prefix(outputLimit)
+            ),
+            exitStatus: exitStatus
+        )
+    }
+
+    /// How much of what Git wrote a failure carries.
+    private static let outputLimit = 4_000
+
+    private static func redacting(
+        _ text: String,
+        of directoryURL: URL,
+        sensitiveValues: [String]
+    ) -> String {
+        redactingLocation(
+            of: directoryURL,
+            in: redactingSensitiveValues(sensitiveValues, in: text)
+        )
+    }
+
     /// Every spelling of the location is replaced, longest first. Git and hooks report the
     /// canonical path, which on macOS differs from the one the user selected whenever a symlink
     /// such as `/tmp` is involved; without the canonical form that real location would survive.

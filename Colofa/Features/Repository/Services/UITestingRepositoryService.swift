@@ -13,6 +13,14 @@ actor UITestingRepositoryService {
     /// Not private: the branch extension in UITestingRepositoryService+Branches.swift reads the
     /// same launch arguments, and Swift keeps `private` within one file.
     let arguments: [String]
+
+    /// Whether this fixture's Git has already had its one question answered.
+    ///
+    /// Not private: the Fetch extension in UITestingRepositoryService+Fetch.swift is what asks,
+    /// and Swift keeps `private` within one file. A real credential helper is consulted once and
+    /// then holds the answer, so a Fetch of several remotes must not ask again per remote.
+    var hasAskedAuthentication = false
+
     private var snapshot: RepositorySnapshot?
 
     init(arguments: [String]) {

@@ -32,20 +32,28 @@ actor RepositoryServiceStub {
     private let branchNameValidationError: RepositoryOpenError?
     private let checkoutComparison: CheckoutComparison
     private let checkoutComparisonError: RepositoryOpenError?
+    // Not private: the Fetch extension in RepositoryServiceStub+Fetch.swift owns everything a
+    // command that contacts a remote answers with, and Swift keeps `private` within one file.
+
     /// Which remotes this fixture's Git excludes from a Fetch of every remote.
-    private let skippedRemotes: Set<String>
-    private let skippedRemotesError: RepositoryOpenError?
+    let skippedRemotes: Set<String>
+    let skippedRemotesError: RepositoryOpenError?
     /// The remotes whose Fetch fails, so partial success can be driven without a real network.
-    private let failingRemotes: Set<String>
+    let failingRemotes: Set<String>
     /// What Git wrote while refusing, so a test can drive a refusal that names a tag and one
     /// that names something else entirely.
-    private let networkFailureOutput: String
-    private let networkMutationDelay: Duration?
-    private let tagConflict: TagFetchConflict
-    private let tagConflictError: RepositoryOpenError?
+    let networkFailureOutput: String
+    /// The questions this fixture's Git asks, one per command that contacts a remote, so a test
+    /// can drive one prompt, several, or none.
+    let authenticationPrompts: [String]
+    /// What Git writes when a question went unanswered.
+    let authenticationFailureOutput: String
+    let networkMutationDelay: Duration?
+    let tagConflict: TagFetchConflict
+    let tagConflictError: RepositoryOpenError?
     /// How long the second, explanatory read blocks, so a test can act while it is known to
     /// still be out at the remote.
-    private let tagConflictDelay: Duration?
+    let tagConflictDelay: Duration?
     private var snapshots: [URL: [RepositorySnapshot]]
     private var mutations: [RecordedMutation] = []
     private var diffRequests: [DiffLoadRequest] = []
@@ -53,8 +61,15 @@ actor RepositoryServiceStub {
     private var commitDetailRequests: [HistoryCommitDetailRequest] = []
     private var branchNameRequests: [BranchNameValidationRequest] = []
     private var checkoutComparisonRequests: [CheckoutComparisonRequest] = []
-    private var networkMutations: [[String]] = []
-    private var tagConflictRequests: [TagConflictRequest] = []
+    var networkMutations: [[String]] = []
+    var tagConflictRequests: [TagConflictRequest] = []
+    var askedPromptCount = 0
+    var authenticationRequests: [AuthenticationRequest] = []
+    var authenticationResponses: [AuthenticationResponse] = []
+
+    /// What Git writes when a question went unanswered and it had no terminal to fall back to.
+    static let declinedAuthenticationOutput =
+        "fatal: could not read Password for 'https://example.invalid': terminal prompts disabled"
 
     struct RecordedMutation: Equatable, Sendable {
         let arguments: [String]
@@ -84,6 +99,8 @@ actor RepositoryServiceStub {
         skippedRemotesError: RepositoryOpenError? = nil,
         failingRemotes: Set<String> = [],
         networkFailureOutput: String = "fatal: could not read from remote repository",
+        authenticationPrompts: [String] = [],
+        authenticationFailureOutput: String = RepositoryServiceStub.declinedAuthenticationOutput,
         networkMutationDelay: Duration? = nil,
         tagConflict: TagFetchConflict = .empty,
         tagConflictError: RepositoryOpenError? = nil,
@@ -111,6 +128,8 @@ actor RepositoryServiceStub {
         self.skippedRemotesError = skippedRemotesError
         self.failingRemotes = failingRemotes
         self.networkFailureOutput = networkFailureOutput
+        self.authenticationPrompts = authenticationPrompts
+        self.authenticationFailureOutput = authenticationFailureOutput
         self.networkMutationDelay = networkMutationDelay
         self.tagConflict = tagConflict
         self.tagConflictError = tagConflictError
@@ -149,8 +168,8 @@ actor RepositoryServiceStub {
             loadTagConflicts: { request in
                 try await self.conflicts(request)
             },
-            runNetworkMutation: { arguments, _ in
-                try await self.networkMutate(arguments)
+            runNetworkMutation: { arguments, _, responder in
+                try await self.networkMutate(arguments, answeredBy: responder)
             }
         )
     }
@@ -300,62 +319,6 @@ extension RepositoryServiceStub {
 
     func recordedCheckoutComparisonRequests() -> [CheckoutComparisonRequest] {
         checkoutComparisonRequests
-    }
-
-}
-
-/// What the fixture answers about Fetch.
-///
-/// Grouped apart because these behave differently from the rest: the command they stand in for
-/// can be stopped, and one remote failing says nothing about the next.
-extension RepositoryServiceStub {
-    /// Every command that contacted a remote, in the order it ran.
-    func recordedNetworkMutations() -> [[String]] {
-        networkMutations
-    }
-
-    func recordedTagConflictRequests() -> [TagConflictRequest] {
-        tagConflictRequests
-    }
-
-    private func skipped() throws -> Set<String> {
-        if let skippedRemotesError {
-            throw skippedRemotesError
-        }
-        return skippedRemotes
-    }
-
-    private func conflicts(_ request: TagConflictRequest) async throws -> TagFetchConflict {
-        tagConflictRequests.append(request)
-        if let tagConflictDelay {
-            try await Task.sleep(for: tagConflictDelay)
-        }
-        if let tagConflictError {
-            throw tagConflictError
-        }
-        return tagConflict
-    }
-
-    /// Answers the way a real Fetch does: it can be stopped while it runs, and one remote failing
-    /// says nothing about the next.
-    private func networkMutate(_ arguments: [String]) async throws {
-        networkMutations.append(arguments)
-        if let networkMutationDelay {
-            try await Task.sleep(for: networkMutationDelay)
-        }
-        // Read the way Git reads it rather than off the end: a tag Fetch carries its refspec
-        // after the remote, so the last argument is not the remote it contacted.
-        guard let remote = FetchCommand.remote(of: arguments),
-              failingRemotes.contains(remote) else {
-            return
-        }
-        throw RepositoryOpenError.commandFailed(
-            GitFailureDetails(
-                command: "git fetch",
-                output: networkFailureOutput,
-                exitStatus: 128
-            )
-        )
     }
 
 }

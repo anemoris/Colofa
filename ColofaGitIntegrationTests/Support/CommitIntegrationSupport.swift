@@ -11,14 +11,22 @@ import Testing
 @testable import Colofa
 
 /// A Store driving real Git inside `fixture`, isolated from the developer's own configuration.
+/// - Parameters:
+///   - gitURL: Which Git the Store drives, so a suite can substitute a controlled stand-in for
+///     the real one.
+///   - askPassHelperURL: The AskPass program Git and OpenSSH are pointed at. `nil` leaves the
+///     Store without a channel at all, which is what every suite that never authenticates wants.
 @MainActor
 func openedWorkspace(
     _ fixture: GitTestRepository,
-    at repositoryURL: URL
+    at repositoryURL: URL,
+    gitURL: URL = URL(filePath: "/usr/bin/git"),
+    askPassHelperURL: URL? = nil
 ) async -> WorkspaceState {
     let backend = GitRepositoryService(
-        candidateURLs: [URL(filePath: "/usr/bin/git")],
-        environment: fixture.environment
+        candidateURLs: [gitURL],
+        environment: fixture.environment,
+        askPassHelperURL: askPassHelperURL
     )
     let service = RepositoryService(
         availability: { await backend.availability() },
@@ -31,7 +39,7 @@ func openedWorkspace(
         loadCheckoutComparison: { try await backend.loadCheckoutComparison($0) },
         loadSkippedRemotes: { try await backend.loadSkippedRemotes(in: $0) },
         loadTagConflicts: { try await backend.loadTagConflicts($0) },
-        runNetworkMutation: { try await backend.runNetworkMutation($0, in: $1) }
+        runNetworkMutation: { try await backend.runNetworkMutation($0, in: $1, responder: $2) }
     )
     let state = WorkspaceState(repositoryService: service, launchArguments: ["--ui-testing"])
     await state.handleRepositorySelection(.success(repositoryURL))
@@ -39,14 +47,16 @@ func openedWorkspace(
     return state
 }
 
-func writeHook(_ name: String, in repositoryURL: URL, script: String) throws {
+nonisolated func writeHook(_ name: String, in repositoryURL: URL, script: String) throws {
     try writeExecutable(
         at: repositoryURL.appending(path: ".git/hooks").appending(path: name),
         script: script
     )
 }
 
-func writeExecutable(at url: URL, script: String) throws {
+/// Declared `nonisolated` because the project defaults to Main Actor isolation, and writing a
+/// stand-in program is file I/O a suite may do from anywhere.
+nonisolated func writeExecutable(at url: URL, script: String) throws {
     try Data("#!/bin/sh\n\(script)\n".utf8).write(to: url)
     try FileManager.default.setAttributes(
         [.posixPermissions: 0o755],

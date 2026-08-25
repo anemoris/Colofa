@@ -103,6 +103,28 @@ nonisolated enum UITestingArgument {
     /// Makes Fetch Tags fail the way Git refuses to replace a local tag of the same name.
     static let tagConflict = "--ui-testing-tag-conflict"
 
+    /// Makes the fixture's Fetch ask for an HTTPS account name.
+    static let authenticationUsername = "--ui-testing-authentication-username"
+
+    /// Makes the fixture's Fetch ask for an HTTPS password or personal access token.
+    static let authenticationPassword = "--ui-testing-authentication-password"
+
+    /// Makes the fixture's Fetch ask for an SSH private key's passphrase.
+    static let authenticationPassphrase = "--ui-testing-authentication-passphrase"
+
+    /// Makes the fixture's Fetch ask to confirm a host OpenSSH has never seen.
+    static let authenticationHostKey = "--ui-testing-authentication-host-key"
+
+    /// Makes the fixture's Fetch meet a host whose key no longer matches the recorded one.
+    static let authenticationHostKeyChanged = "--ui-testing-authentication-host-key-changed"
+
+    /// Makes the fixture's Fetch ask something Colofa cannot classify.
+    static let authenticationUnrecognized = "--ui-testing-authentication-unrecognized"
+
+    /// Makes the fixture's Fetch ask an unclassifiable question as long as the channel carries,
+    /// which is the size a question Colofa did not write may reach.
+    static let authenticationLongPrompt = "--ui-testing-authentication-long-prompt"
+
     /// Seeds the app's `lastRepositoryPath` default, which drives Repository restoration.
     /// Unlike the flags above this is a `UserDefaults` argument and takes a following value.
     static let lastRepositoryPath = "-lastRepositoryPath"

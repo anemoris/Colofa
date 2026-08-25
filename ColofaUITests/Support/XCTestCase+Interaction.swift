@@ -31,23 +31,7 @@ extension XCTestCase {
             // Selecting all does not remove anything on its own.
             field.typeKey(.delete, modifierFlags: [])
         } else {
-            let pasteboard = NSPasteboard.general
-            let previousItems: [NSPasteboardWriting] = pasteboard.pasteboardItems?.map { item in
-                let copy = NSPasteboardItem()
-                for type in item.types {
-                    if let data = item.data(forType: type) {
-                        copy.setData(data, forType: type)
-                    }
-                }
-                return copy as NSPasteboardWriting
-            } ?? []
-            addTeardownBlock {
-                pasteboard.clearContents()
-                pasteboard.writeObjects(previousItems)
-            }
-            pasteboard.clearContents()
-            pasteboard.setString(text, forType: .string)
-            field.typeKey("v", modifierFlags: [.command])
+            paste(text, into: field)
         }
         XCTAssertTrue(
             waitUntil(NSPredicate(format: "value == %@", text), on: field),
@@ -55,6 +39,65 @@ extension XCTestCase {
             file: #filePath,
             line: line
         )
+    }
+
+    /// Replaces the contents of a secure `field` with `text`.
+    ///
+    /// A secure field reports its contents masked, so what it reports is checked for length and
+    /// deliberately never against the text itself: a field that echoed a secret back would be the
+    /// defect this asserts the absence of.
+    @MainActor
+    func replaceSecureText(
+        of field: XCUIElement,
+        with text: String,
+        line: UInt = #line
+    ) {
+        field.click()
+        field.typeKey("a", modifierFlags: [.command])
+        paste(text, into: field)
+
+        let reported = field.value as? String ?? ""
+        XCTAssertEqual(
+            reported.count,
+            text.count,
+            "Secure field reports \(reported.count) characters after entering \(text.count)",
+            file: #filePath,
+            line: line
+        )
+        XCTAssertNotEqual(
+            reported,
+            text,
+            "A secure field showed what was typed",
+            file: #filePath,
+            line: line
+        )
+    }
+
+    /// Pastes rather than types, for the reason `replaceText(of:with:)` explains. The system
+    /// pasteboard is restored during test teardown.
+    ///
+    /// - Parameter element: What receives the paste. Passing the application rather than a field
+    ///   sends it wherever keyboard focus already is, which is how a test asserts where a window
+    ///   opened focused without clicking anything first.
+    @MainActor
+    func paste(_ text: String, into element: XCUIElement) {
+        let pasteboard = NSPasteboard.general
+        let previousItems: [NSPasteboardWriting] = pasteboard.pasteboardItems?.map { item in
+            let copy = NSPasteboardItem()
+            for type in item.types {
+                if let data = item.data(forType: type) {
+                    copy.setData(data, forType: type)
+                }
+            }
+            return copy as NSPasteboardWriting
+        } ?? []
+        addTeardownBlock {
+            pasteboard.clearContents()
+            pasteboard.writeObjects(previousItems)
+        }
+        pasteboard.clearContents()
+        pasteboard.setString(text, forType: .string)
+        element.typeKey("v", modifierFlags: [.command])
     }
 
     /// Waits for `element` to exist by polling, rather than `waitForExistence`, which first

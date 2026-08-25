@@ -47,9 +47,11 @@ struct RepositoryService: Sendable {
     /// lets a Fetch Tags Git refused name the tags it kept.
     let loadTagConflicts: @Sendable (TagConflictRequest) async throws -> TagFetchConflict
 
-    /// Runs one command that contacts a remote. Separate from `runMutation` because it can be
-    /// stopped: a network command has no duration Colofa can promise the user.
-    let runNetworkMutation: @Sendable ([String], URL) async throws -> Void
+    /// Runs one command that contacts a remote. Separate from `runMutation` for two reasons: it
+    /// can be stopped, because a network command has no duration Colofa can promise the user; and
+    /// it is the only kind of command that can ask for a secret, so it is the only one that
+    /// carries whoever answers.
+    let runNetworkMutation: @Sendable ([String], URL, AuthenticationResponder) async throws -> Void
 
     static func live() -> Self {
         let backend = GitRepositoryService()
@@ -85,8 +87,8 @@ struct RepositoryService: Sendable {
             loadTagConflicts: { request in
                 try await backend.loadTagConflicts(request)
             },
-            runNetworkMutation: { arguments, url in
-                try await backend.runNetworkMutation(arguments, in: url)
+            runNetworkMutation: { arguments, url, responder in
+                try await backend.runNetworkMutation(arguments, in: url, responder: responder)
             }
         )
     }
@@ -104,7 +106,7 @@ struct RepositoryService: Sendable {
             loadCheckoutComparison: { _ in throw RepositoryOpenError.gitUnavailable },
             loadSkippedRemotes: { _ in throw RepositoryOpenError.gitUnavailable },
             loadTagConflicts: { _ in throw RepositoryOpenError.gitUnavailable },
-            runNetworkMutation: { _, _ in throw RepositoryOpenError.gitUnavailable }
+            runNetworkMutation: { _, _, _ in throw RepositoryOpenError.gitUnavailable }
         )
     }
 
@@ -139,8 +141,8 @@ struct RepositoryService: Sendable {
             loadTagConflicts: { request in
                 await backend.tagConflicts(request)
             },
-            runNetworkMutation: { arguments, url in
-                try await backend.runNetworkMutation(arguments, in: url)
+            runNetworkMutation: { arguments, url, responder in
+                try await backend.runNetworkMutation(arguments, in: url, responder: responder)
             }
         )
     }

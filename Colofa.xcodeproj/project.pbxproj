@@ -6,7 +6,18 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		9995B7C0303C8AB200793DAD /* ColofaAskPass in Copy Files */ = {isa = PBXBuildFile; fileRef = 9989F34B303C47CC0092F197 /* ColofaAskPass */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
+		99CBA494303C8A7500AB2414 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9997E6EE301B9D81000A4C84 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9989F34A303C47CC0092F197;
+			remoteInfo = ColofaAskPass;
+		};
 		A90000000000000000000001 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 9997E6EE301B9D81000A4C84 /* Project object */;
@@ -30,7 +41,31 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		9989F349303C47CC0092F197 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		9995B7BF303C8A8C00793DAD /* Copy Files */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 6;
+			files = (
+				9995B7C0303C8AB200793DAD /* ColofaAskPass in Copy Files */,
+			);
+			name = "Copy Files";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		9989F34B303C47CC0092F197 /* ColofaAskPass */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ColofaAskPass; sourceTree = BUILT_PRODUCTS_DIR; };
 		9997E6F6301B9D82000A4C84 /* Colofa.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Colofa.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A10000000000000000000001 /* ColofaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ColofaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A10000000000000000000002 /* ColofaGitIntegrationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ColofaGitIntegrationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -39,9 +74,31 @@
 		C10000000000000000000002 /* Signing.local.xcconfig.example */ = {isa = PBXFileReference; lastKnownFileType = text; path = Signing.local.xcconfig.example; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		99CBA493303C89C000AB2414 /* Exceptions for "Colofa" folder in "ColofaAskPass" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Features/Authentication/Models/AuthenticationResponse.swift,
+				Features/Authentication/Services/GitAskPassHelper.swift,
+				Features/Authentication/Services/GitAskPassMessage.swift,
+				Features/Authentication/Services/GitAskPassSocket.swift,
+				"Shared/Foundation/String+GitBytes.swift",
+			);
+			target = 9989F34A303C47CC0092F197 /* ColofaAskPass */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		9989F34C303C47CC0092F197 /* ColofaAskPass */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = ColofaAskPass;
+			sourceTree = "<group>";
+		};
 		9997E6F8301B9D82000A4C84 /* Colofa */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				99CBA493303C89C000AB2414 /* Exceptions for "Colofa" folder in "ColofaAskPass" target */,
+			);
 			path = Colofa;
 			sourceTree = "<group>";
 		};
@@ -68,6 +125,13 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		9989F348303C47CC0092F197 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9997E6F3301B9D82000A4C84 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -108,6 +172,7 @@
 				A20000000000000000000002 /* ColofaGitIntegrationTests */,
 				A20000000000000000000003 /* ColofaUITests */,
 				B10000000000000000000001 /* SharedTestSupport */,
+				9989F34C303C47CC0092F197 /* ColofaAskPass */,
 				9997E6F7301B9D82000A4C84 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -119,6 +184,7 @@
 				A10000000000000000000001 /* ColofaTests.xctest */,
 				A10000000000000000000002 /* ColofaGitIntegrationTests.xctest */,
 				A10000000000000000000003 /* ColofaUITests.xctest */,
+				9989F34B303C47CC0092F197 /* ColofaAskPass */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -135,6 +201,28 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		9989F34A303C47CC0092F197 /* ColofaAskPass */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9989F351303C47CC0092F197 /* Build configuration list for PBXNativeTarget "ColofaAskPass" */;
+			buildPhases = (
+				9989F347303C47CC0092F197 /* Sources */,
+				9989F348303C47CC0092F197 /* Frameworks */,
+				9989F349303C47CC0092F197 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				9989F34C303C47CC0092F197 /* ColofaAskPass */,
+			);
+			name = ColofaAskPass;
+			packageProductDependencies = (
+			);
+			productName = ColofaAskPass;
+			productReference = 9989F34B303C47CC0092F197 /* ColofaAskPass */;
+			productType = "com.apple.product-type.tool";
+		};
 		9997E6F5301B9D82000A4C84 /* Colofa */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 9997E701301B9D82000A4C84 /* Build configuration list for PBXNativeTarget "Colofa" */;
@@ -142,10 +230,12 @@
 				9997E6F2301B9D82000A4C84 /* Sources */,
 				9997E6F3301B9D82000A4C84 /* Frameworks */,
 				9997E6F4301B9D82000A4C84 /* Resources */,
+				9995B7BF303C8A8C00793DAD /* Copy Files */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				99CBA495303C8A7500AB2414 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				9997E6F8301B9D82000A4C84 /* Colofa */,
@@ -238,6 +328,9 @@
 				LastSwiftUpdateCheck = 2660;
 				LastUpgradeCheck = 2660;
 				TargetAttributes = {
+					9989F34A303C47CC0092F197 = {
+						CreatedOnToolsVersion = 26.6;
+					};
 					9997E6F5301B9D82000A4C84 = {
 						CreatedOnToolsVersion = 26.6;
 					};
@@ -275,6 +368,7 @@
 				A60000000000000000000001 /* ColofaTests */,
 				A60000000000000000000002 /* ColofaGitIntegrationTests */,
 				A60000000000000000000003 /* ColofaUITests */,
+				9989F34A303C47CC0092F197 /* ColofaAskPass */,
 			);
 		};
 /* End PBXProject section */
@@ -311,6 +405,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		9989F347303C47CC0092F197 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		9997E6F2301B9D82000A4C84 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -342,6 +443,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		99CBA495303C8A7500AB2414 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9989F34A303C47CC0092F197 /* ColofaAskPass */;
+			targetProxy = 99CBA494303C8A7500AB2414 /* PBXContainerItemProxy */;
+		};
 		A90000000000000000000002 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 9997E6F5301B9D82000A4C84 /* Colofa */;
@@ -360,6 +466,38 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		9989F34F303C47CC0092F197 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C10000000000000000000001 /* Signing.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_HARDENED_RUNTIME = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.anemoris.Colofa.AskPass;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		9989F350303C47CC0092F197 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C10000000000000000000001 /* Signing.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_HARDENED_RUNTIME = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.anemoris.Colofa.AskPass;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
 		9997E6FF301B9D82000A4C84 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C10000000000000000000001 /* Signing.xcconfig */;
@@ -685,6 +823,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		9989F351303C47CC0092F197 /* Build configuration list for PBXNativeTarget "ColofaAskPass" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9989F34F303C47CC0092F197 /* Debug */,
+				9989F350303C47CC0092F197 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		9997E6F1301B9D81000A4C84 /* Build configuration list for PBXProject "Colofa" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -21,10 +21,17 @@ extension UITestingRepositoryService {
     }
 
     /// Unlike `runMutation`, this one is cancellable, because the command it stands in for
-    /// contacts a remote.
-    func runNetworkMutation(_ command: [String], in repositoryURL: URL) async throws {
+    /// contacts a remote — and it is the only command that can ask for a secret.
+    func runNetworkMutation(
+        _ command: [String],
+        in repositoryURL: URL,
+        responder: AuthenticationResponder
+    ) async throws {
         if arguments.contains(UITestingArgument.slowFetch) {
             try await Task.sleep(for: UITestingFetch.slowFetchDuration)
+        }
+        if let refusal = try await authenticationRefusal(answeredBy: responder) {
+            throw refusal
         }
         if let failure = UITestingFetch.failure(of: command, arguments: arguments) {
             throw failure
@@ -43,6 +50,39 @@ extension UITestingRepositoryService {
                 tags: isTagFetch
                     ? adding(UITestingFetch.fetchedTag, to: snapshot.tags)
                     : snapshot.tags
+            )
+        )
+    }
+
+    /// Asks the fixture's one question through the same door a real command asks through, and
+    /// reports what Git would have written had it gone unanswered.
+    ///
+    /// - Returns: `nil` when nothing was asked or the question was answered, which is when the
+    ///   Fetch goes on.
+    private func authenticationRefusal(
+        answeredBy responder: AuthenticationResponder
+    ) async throws -> RepositoryOpenError? {
+        guard !hasAskedAuthentication,
+              let prompt = UITestingAuthentication.prompt(arguments: arguments) else {
+            return nil
+        }
+        hasAskedAuthentication = true
+
+        let request = AuthenticationPromptParser.request(for: prompt)
+        if request.isAnswerable, case .answer = await responder.respond(request) {
+            return nil
+        }
+        // A refused question leaves the command cancelled rather than failed whenever the user is
+        // what refused it, exactly as the real one does.
+        try Task.checkCancellation()
+        return .commandFailed(
+            GitFailureDetails(
+                command: "git fetch",
+                output: UITestingAuthentication.refusal(of: request.kind),
+                exitStatus: 128,
+                // Carried rather than left to be recognized in the output, exactly as the real
+                // channel carries it: the question is redacted out of what a command reports.
+                authenticationFailure: .refusing(request.kind)
             )
         )
     }
