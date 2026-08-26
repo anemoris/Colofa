@@ -72,6 +72,21 @@ nonisolated struct CheckoutObstruction: Equatable, Sendable {
         return .checkoutBlockedByLocalWork(pathList)
     }
 
+    /// The same protected work, said the way a refused Pull has to say it.
+    ///
+    /// A Pull that could not fast-forward protected exactly the work a refused Checkout does —
+    /// Git compares the same two trees against the same working tree — but the guidance has to
+    /// name the command the user actually pressed, so the wording is its own rather than shared.
+    var pullMessage: LocalizedStringResource {
+        if untrackedPaths.isEmpty {
+            return .pullBlockedByLocalChanges(pathList)
+        }
+        if modifiedPaths.isEmpty {
+            return .pullBlockedByUntrackedFiles(pathList)
+        }
+        return .pullBlockedByLocalWork(pathList)
+    }
+
     /// The listed paths, one per line, ending with a count of whatever did not fit.
     var pathList: String {
         let paths = paths

@@ -154,4 +154,23 @@ struct CheckoutObstructionTests {
 
         #expect(obstruction.paths == ["z-tracked.swift", "a-untracked.swift"])
     }
+
+    /// The same protected work explains a refused Pull, but the guidance has to name the command
+    /// the user actually pressed.
+    @Test
+    func namesPullRatherThanCheckoutWhenAPullWasRefused() {
+        let tracked = CheckoutObstruction(modifiedPaths: ["a.swift"], untrackedPaths: [])
+        let untracked = CheckoutObstruction(modifiedPaths: [], untrackedPaths: ["b.swift"])
+        let both = CheckoutObstruction(modifiedPaths: ["a.swift"], untrackedPaths: ["b.swift"])
+
+        for obstruction in [tracked, untracked, both] {
+            let message = englishText(obstruction.pullMessage)
+            #expect(message.contains("Pull"))
+            #expect(!message.contains("Checkout"))
+            #expect(message != englishText(obstruction.message))
+        }
+        #expect(englishText(tracked.pullMessage).contains("a.swift"))
+        #expect(englishText(untracked.pullMessage).contains("b.swift"))
+        #expect(englishText(tracked.pullMessage) != englishText(untracked.pullMessage))
+    }
 }

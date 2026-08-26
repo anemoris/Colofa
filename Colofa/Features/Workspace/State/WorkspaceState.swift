@@ -41,6 +41,13 @@ final class WorkspaceState {
     /// a refused Fetch Tags, so nothing outlives the Cancel that stops it.
     var fetchTask: Task<FetchReport, Never>?
 
+    // Not private: the Pull extension in WorkspaceState+Pull.swift owns both of these, and Swift
+    // keeps `private` within one file. `pullProgress` is what turns the toolbar's Pull into the
+    // Cancel that stops it, and `pullTask` is what that Cancel cancels — both halves of the Pull,
+    // though only the first is ever offered as cancellable.
+    var pullProgress: PullProgress?
+    var pullTask: Task<PullOutcome, Never>?
+
     // Not private: the authentication extension in WorkspaceState+Authentication.swift owns the
     // three below, and Swift keeps `private` within one file. Nothing else writes to them.
 
@@ -165,8 +172,10 @@ final class WorkspaceState {
         }
     }
 
+    /// A panel opened while nothing was running can still be sitting there once a Fetch or a
+    /// Pull starts, so the gate that disables Open Repository is checked again on the way back.
     func handleRepositorySelection(_ result: Result<URL, any Error>) async {
-        guard !isPerformingMutation else {
+        guard canReplaceRepository else {
             return
         }
         switch result {
@@ -185,15 +194,6 @@ final class WorkspaceState {
             return
         }
         _ = await openRepository(at: repository.rootURL, presentsFailure: true)
-    }
-
-    /// What one mutating command did, for a caller that answers a failure with more than the
-    /// shared alert.
-    enum MutationOutcome: Equatable, Sendable {
-        case succeeded
-        /// Nothing ran: there is no Repository, or another command already holds it.
-        case unavailable
-        case failed(RepositoryOpenError)
     }
 
     /// - Parameter failureTitle: What the shared alert is titled when the command fails.
@@ -269,7 +269,7 @@ final class WorkspaceState {
     }
 
     var canReplaceRepository: Bool {
-        !isPerformingMutation && !isFetching
+        !isPerformingMutation && !isFetching && !isPulling
     }
 }
 
@@ -382,10 +382,10 @@ extension WorkspaceState {
 
     // Not private: the configuration extension in WorkspaceState+Configuration.swift needs it.
     //
-    // A running Fetch holds the Repository the same way a mutation does: it writes refs, and a
-    // second command landing in the middle of one would race it.
+    // A running Fetch or Pull holds the Repository the same way a mutation does: they write refs,
+    // and a second command landing in the middle of one would race it.
     var canMutateRepository: Bool {
-        !isPerformingMutation && !isFetching && activeReplacementLoadID == nil
+        !isPerformingMutation && !isFetching && !isPulling && activeReplacementLoadID == nil
     }
 
     /// Not private: the Fetch extension keeps app-owned state out of a UI test's defaults through

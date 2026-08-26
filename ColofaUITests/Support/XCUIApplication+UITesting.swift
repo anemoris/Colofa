@@ -61,6 +61,17 @@ extension XCUIApplication {
         )
     }
 
+    /// A stubbed application whose restored Repository has a current Branch behind its upstream.
+    static func configuredForPullState(
+        path: String,
+        additionalArguments: [String] = []
+    ) -> XCUIApplication {
+        configuredForRepository(
+            path: path,
+            additionalArguments: [UITestingArgument.pullState] + additionalArguments
+        )
+    }
+
     /// A stubbed application whose restored Repository reports a fully populated Git state.
     static func configuredForRealRepositoryState(
         path: String,

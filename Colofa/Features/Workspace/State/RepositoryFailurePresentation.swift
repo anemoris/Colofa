@@ -25,6 +25,14 @@ enum RepositoryFailurePresentation: Sendable {
     case fetchAlert(FetchOutcome)
     /// A Fetch Tags Git refused, with the local tags it kept when Colofa could name them.
     case tagFetchAlert(TagFetchConflict?, remote: String, error: RepositoryOpenError)
+    /// A Pull whose Fetch answered but whose fast-forward could not run, because the current
+    /// Branch and its upstream have each moved on. It offers no way to continue: which of Merge
+    /// or Rebase to use is the decision this Pull refused to make on the user's behalf.
+    case pullDivergedAlert(PullDivergence, error: RepositoryOpenError)
+    /// A Pull Git refused because advancing the Branch would have overwritten local work, named
+    /// path by path. Git's own output stays one click away, so an explanation Colofa assembled
+    /// never stands in for what Git actually said.
+    case pullBlockedAlert(CheckoutObstruction, error: RepositoryOpenError)
     /// A command that failed over the connection's identity rather than over what it was asked
     /// to do. It offers no way to continue: a host key Colofa would accept on the user's behalf
     /// is a host key nobody checked.
@@ -43,6 +51,10 @@ enum RepositoryFailurePresentation: Sendable {
             outcome.title
         case .tagFetchAlert(let conflict, let remote, _):
             conflict == nil ? .fetchTagsFailed : .fetchTagsRefusedTitle(remote)
+        case .pullDivergedAlert(let divergence, _):
+            divergence.title
+        case .pullBlockedAlert:
+            .pullBlockedTitle
         case .authenticationAlert(let failure, _):
             failure.title
         case .details:
@@ -62,6 +74,10 @@ enum RepositoryFailurePresentation: Sendable {
             outcome.message
         case .tagFetchAlert(let conflict, _, let error):
             conflict?.message ?? Self.mutationMessage(for: error)
+        case .pullDivergedAlert(let divergence, _):
+            divergence.message
+        case .pullBlockedAlert(let obstruction, _):
+            obstruction.pullMessage
         case .authenticationAlert(let failure, _):
             failure.message
         case .details(_, let message):
@@ -80,7 +96,8 @@ enum RepositoryFailurePresentation: Sendable {
     var canShowDetails: Bool {
         switch self {
         case .mutationAlert(let error, _), .checkoutRefusedAlert(_, _, let error),
-            .tagFetchAlert(_, _, let error), .authenticationAlert(_, let error):
+            .tagFetchAlert(_, _, let error), .pullDivergedAlert(_, let error),
+            .pullBlockedAlert(_, let error), .authenticationAlert(_, let error):
             error.failureDetails != nil
         case .fetchAlert(let outcome):
             outcome.error?.failureDetails != nil
@@ -94,7 +111,7 @@ enum RepositoryFailurePresentation: Sendable {
     var isMutationAlert: Bool {
         switch self {
         case .mutationAlert, .checkoutRefusedAlert, .fetchAlert, .tagFetchAlert,
-            .authenticationAlert:
+            .pullDivergedAlert, .pullBlockedAlert, .authenticationAlert:
             true
         case .repositoryOpenAlert, .details:
             false
@@ -119,6 +136,10 @@ enum RepositoryFailurePresentation: Sendable {
             error.failureDetails.map {
                 .details($0, message: conflict?.message ?? Self.mutationMessage(for: error))
             }
+        case .pullDivergedAlert(let divergence, let error):
+            error.failureDetails.map { .details($0, message: divergence.message) }
+        case .pullBlockedAlert(let obstruction, let error):
+            error.failureDetails.map { .details($0, message: obstruction.pullMessage) }
         case .authenticationAlert(let failure, let error):
             error.failureDetails.map { .details($0, message: failure.message) }
         case .details:

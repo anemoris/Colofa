@@ -97,11 +97,28 @@ nonisolated enum UITestingArgument {
     /// Makes the fixture's second remote fail, so a partial Fetch can be asserted.
     static let fetchFailure = "--ui-testing-fetch-failure"
 
-    /// Makes every Fetch block long enough to be cancelled.
+    /// Makes every command that contacts a remote block long enough to be cancelled, including
+    /// the Fetch half of a Pull.
     static let slowFetch = "--ui-testing-slow-fetch"
 
     /// Makes Fetch Tags fail the way Git refuses to replace a local tag of the same name.
     static let tagConflict = "--ui-testing-tag-conflict"
+
+    /// Serves a Repository whose current Branch is behind its upstream, so a Pull has something
+    /// to fast-forward.
+    static let pullState = "--ui-testing-pull-state"
+
+    /// Leaves the pull fixture's current Branch without an upstream, which is the state Pull
+    /// explains rather than attempts.
+    static let pullNoUpstream = "--ui-testing-pull-no-upstream"
+
+    /// Makes the pull fixture's Fetch reveal local commits the upstream does not have, so the
+    /// fast-forward is refused the way Git refuses a divergence.
+    static let pullDiverged = "--ui-testing-pull-diverged"
+
+    /// Makes the pull fixture's fast-forward fail the way Git refuses one that would overwrite
+    /// local work.
+    static let pullBlocked = "--ui-testing-pull-blocked"
 
     /// Makes the fixture's Fetch ask for an HTTPS account name.
     static let authenticationUsername = "--ui-testing-authentication-username"

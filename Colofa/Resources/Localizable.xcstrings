@@ -2870,6 +2870,176 @@
         "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Colofa 不会保存此内容。是否记住由你的凭据助手、钥匙串或 ssh-agent 决定。" } },
         "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Colofa 不會儲存此內容。是否記住由你的憑證輔助程式、鑰匙圈或 ssh-agent 決定。" } }
       }
+    },
+    "cancelPull" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Cancel Pull" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "プルをキャンセル" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "풀 취소" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "取消拉取" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "取消拉取" } }
+      }
+    },
+    "pullBlockedByLocalChanges" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "These files have local changes the Pull would overwrite:\n\n%@\n\nCommit or Stash them first." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "次のファイルには、プルによって上書きされるローカルの変更があります:\n\n%@\n\n先にコミットするかスタッシュしてください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "다음 파일에는 풀이 덮어쓸 로컬 변경 사항이 있습니다:\n\n%@\n\n먼저 커밋하거나 스태시하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "以下文件的本地更改会被拉取覆盖：\n\n%@\n\n请先提交或贮藏这些更改。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "以下檔案的本機更改會被拉取覆蓋：\n\n%@\n\n請先提交或儲藏這些更改。" } }
+      }
+    },
+    "pullBlockedByLocalWork" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This uncommitted work would be overwritten by the Pull:\n\n%@\n\nCommit or Stash the tracked changes, and move or remove the untracked files." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "コミットされていない次の作業は、プルによって上書きされます:\n\n%@\n\n追跡中の変更はコミットまたはスタッシュし、追跡されていないファイルは移動または削除してください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "커밋되지 않은 다음 작업은 풀이 덮어씁니다:\n\n%@\n\n추적 중인 변경 사항은 커밋하거나 스태시하고, 추적되지 않는 파일은 옮기거나 삭제하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "以下尚未提交的工作会被拉取覆盖：\n\n%@\n\n请提交或贮藏已跟踪的更改，并移动或删除未跟踪的文件。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "以下尚未提交的工作會被拉取覆蓋：\n\n%@\n\n請提交或儲藏已追蹤的更改，並移動或刪除未追蹤的檔案。" } }
+      }
+    },
+    "pullBlockedByUntrackedFiles" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "These untracked files would be overwritten by the Pull:\n\n%@\n\nMove or remove them first." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "次の追跡されていないファイルは、プルによって上書きされます:\n\n%@\n\n先に移動または削除してください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "다음 추적되지 않는 파일은 풀이 덮어씁니다:\n\n%@\n\n먼저 옮기거나 삭제하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "以下未跟踪的文件会被拉取覆盖：\n\n%@\n\n请先移动或删除它们。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "以下未追蹤的檔案會被拉取覆蓋：\n\n%@\n\n請先移動或刪除它們。" } }
+      }
+    },
+    "pullBlockedTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Cannot Fast-Forward" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "早送りできません" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "빨리 감기할 수 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法快进" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法快轉" } }
+      }
+    },
+    "pullDivergedDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Pull only fast-forwards, so nothing was changed. “%1$@” is %2$@ ahead of “%3$@” and %4$@ behind it. Use Merge or Rebase to integrate the two histories." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "プルは早送りのみを行うため、何も変更されませんでした。「%1$@」は「%3$@」より %2$@ コミット先行し、%4$@ コミット遅れています。マージまたはリベースで両方の履歴を統合してください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "풀은 빨리 감기만 하므로 아무것도 변경하지 않았습니다. “%1$@”은(는) “%3$@”보다 %2$@개 앞서고 %4$@개 뒤처져 있습니다. 병합 또는 리베이스로 두 히스토리를 통합하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "拉取只做快进，因此未做任何更改。“%1$@”领先“%3$@” %2$@ 个提交，落后 %4$@ 个提交。请使用合并或变基来整合两段历史。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "拉取只做快轉，因此未做任何更改。「%1$@」領先「%3$@」 %2$@ 個提交，落後 %4$@ 個提交。請使用合併或重定基底來整合兩段歷史。" } }
+      }
+    },
+    "pullDivergedTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "“%1$@” and “%2$@” Have Diverged" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "「%1$@」と「%2$@」は分岐しています" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "“%1$@”과 “%2$@”이 갈라졌습니다" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "“%1$@”与“%2$@”已分叉" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "「%1$@」與「%2$@」已分叉" } }
+      }
+    },
+    "pullFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Pull Failed" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "プルに失敗しました" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "풀 실패" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "拉取失败" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "拉取失敗" } }
+      }
+    },
+    "pullFetchingUpstream" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Pulling from “%@”…" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "「%@」からプル中…" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "“%@”에서 풀하는 중…" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "正在从“%@”拉取…" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "正在從「%@」拉取…" } }
+      }
+    },
+    "pullIntegratingUpstream" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Fast-forwarding to “%@”…" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "「%@」へ早送り中…" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "“%@”(으)로 빨리 감는 중…" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "正在快进到“%@”…" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "正在快轉至「%@」…" } }
+      }
+    },
+    "pullUnavailableConflict" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Resolve every Conflict before pulling." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "プルする前に、すべてのコンフリクトを解決してください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "풀하기 전에 모든 충돌을 해결하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "拉取前请先解决所有冲突。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "拉取前請先解決所有衝突。" } }
+      }
+    },
+    "pullUnavailableDetachedHead" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "HEAD is detached. Check out a Branch before pulling." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "HEAD が分離しています。プルする前にブランチをチェックアウトしてください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "HEAD가 분리되어 있습니다. 풀하기 전에 브랜치를 체크아웃하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "HEAD 处于分离状态。请先签出分支再拉取。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "HEAD 處於分離狀態。請先簽出分支再拉取。" } }
+      }
+    },
+    "pullUnavailableMutationInProgress" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Another Git command is still running." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "別の Git コマンドがまだ実行中です。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "다른 Git 명령이 아직 실행 중입니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "另一条 Git 命令仍在运行。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "另一條 Git 命令仍在執行。" } }
+      }
+    },
+    "pullUnavailableNoRepository" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Open a Repository first." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "先にリポジトリを開いてください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "먼저 저장소를 여세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "请先打开仓库。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "請先開啟儲存庫。" } }
+      }
+    },
+    "pullUnavailableNoUpstream" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This Branch has no upstream to pull from." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "このブランチにはプル元の上流がありません。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 브랜치에는 풀할 업스트림이 없습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "此分支没有可拉取的上游。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "此分支沒有可拉取的上游。" } }
+      }
+    },
+    "pullUnavailableOperationInProgress" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Finish or abort the Git operation in progress before pulling." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "プルする前に、進行中の Git 操作を完了するか中止してください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "풀하기 전에 진행 중인 Git 작업을 완료하거나 중단하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "拉取前请先完成或中止进行中的 Git 操作。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "拉取前請先完成或中止進行中的 Git 操作。" } }
+      }
+    },
+    "pullUnavailablePullInProgress" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "A Pull is already running." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "プルがすでに実行中です。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "풀이 이미 실행 중입니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "已有一次拉取正在运行。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "已有一次拉取正在執行。" } }
+      }
     }
   },
   "version" : "1.0"

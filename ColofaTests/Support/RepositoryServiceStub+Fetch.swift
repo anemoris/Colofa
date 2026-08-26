@@ -64,6 +64,9 @@ extension RepositoryServiceStub {
         if let refusal = try await refusedAuthentication(answeredBy: responder) {
             throw refusal
         }
+        if let networkMutationError {
+            throw networkMutationError
+        }
         // Read the way Git reads it rather than off the end: a tag Fetch carries its refspec
         // after the remote, so the last argument is not the remote it contacted.
         guard let remote = FetchCommand.remote(of: arguments),

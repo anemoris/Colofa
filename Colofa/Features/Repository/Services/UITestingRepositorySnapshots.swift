@@ -27,6 +27,9 @@ nonisolated enum UITestingRepositorySnapshots {
         if arguments.contains(UITestingArgument.fetchState) {
             return fetchState(at: url, arguments: arguments)
         }
+        if arguments.contains(UITestingArgument.pullState) {
+            return pullState(at: url, arguments: arguments)
+        }
         if arguments.contains(UITestingArgument.realRepositoryState) {
             return realState(at: url, arguments: arguments)
         }
@@ -215,7 +218,9 @@ nonisolated enum UITestingRepositorySnapshots {
         )
     }
 
-    private static func configuration(at url: URL) -> GitConfigurationSnapshot {
+    /// Not private: the Pull fixture in UITestingRepositorySnapshots+Pull.swift builds on the
+    /// same Repository configuration, and Swift keeps `private` within one file.
+    static func configuration(at url: URL) -> GitConfigurationSnapshot {
         GitConfigurationSnapshot(
             entries: [
                 GitConfigurationEntry(

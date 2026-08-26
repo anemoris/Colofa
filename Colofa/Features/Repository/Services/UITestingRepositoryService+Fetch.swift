@@ -40,6 +40,18 @@ extension UITestingRepositoryService {
             throw RepositoryOpenError.notRepository
         }
 
+        // A Pull's Fetch downloads whatever its own remote holds rather than inventing a branch
+        // nobody pushed: what it brings back is the upstream's real position.
+        if UITestingPull.isFetch(command) {
+            publish(
+                replacing(
+                    in: snapshot,
+                    upstream: UITestingPull.fetchedUpstream(arguments: arguments)
+                )
+            )
+            return
+        }
+
         let isTagFetch = FetchCommand.isTagFetch(command)
         publish(
             replacing(

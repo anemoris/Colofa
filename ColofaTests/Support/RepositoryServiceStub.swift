@@ -40,6 +40,9 @@ actor RepositoryServiceStub {
     let skippedRemotesError: RepositoryOpenError?
     /// The remotes whose Fetch fails, so partial success can be driven without a real network.
     let failingRemotes: Set<String>
+    /// What every command that contacts a remote fails with, for a failure no remote name can
+    /// express: a Pull's Fetch names none.
+    let networkMutationError: RepositoryOpenError?
     /// What Git wrote while refusing, so a test can drive a refusal that names a tag and one
     /// that names something else entirely.
     let networkFailureOutput: String
@@ -98,6 +101,7 @@ actor RepositoryServiceStub {
         skippedRemotes: Set<String> = [],
         skippedRemotesError: RepositoryOpenError? = nil,
         failingRemotes: Set<String> = [],
+        networkMutationError: RepositoryOpenError? = nil,
         networkFailureOutput: String = "fatal: could not read from remote repository",
         authenticationPrompts: [String] = [],
         authenticationFailureOutput: String = RepositoryServiceStub.declinedAuthenticationOutput,
@@ -127,6 +131,7 @@ actor RepositoryServiceStub {
         self.skippedRemotes = skippedRemotes
         self.skippedRemotesError = skippedRemotesError
         self.failingRemotes = failingRemotes
+        self.networkMutationError = networkMutationError
         self.networkFailureOutput = networkFailureOutput
         self.authenticationPrompts = authenticationPrompts
         self.authenticationFailureOutput = authenticationFailureOutput

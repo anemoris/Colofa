@@ -71,10 +71,6 @@ actor UITestingRepositoryService {
         UITestingBranches.isValidName(request.name)
     }
 
-    func loadCheckoutComparison(_ request: CheckoutComparisonRequest) -> CheckoutComparison {
-        UITestingBranches.comparison(arguments: arguments)
-    }
-
     func runMutation(
         _ command: [String],
         standardInput: String? = nil,
@@ -84,6 +80,11 @@ actor UITestingRepositoryService {
         try throwRequestedCheckoutRefusal(of: command)
         guard let snapshot, snapshot.rootURL == repositoryURL else {
             throw RepositoryOpenError.notRepository
+        }
+
+        if UITestingPull.isFastForward(command) {
+            try fastForward(in: snapshot)
+            return
         }
 
         if command.first == "config" {
