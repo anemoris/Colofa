@@ -39,6 +39,16 @@ extension WorkspaceState {
         canFetch
     }
 
+    /// Whether the running Fetch is still the part of itself that can be stopped.
+    ///
+    /// Everything a Fetch takes out to a remote lives inside its task, including the second read
+    /// that explains a refused Fetch Tags. The reload that follows is Colofa's own read of a
+    /// Repository Git has finished writing, and offering to interrupt that would be offering
+    /// something Colofa will not do.
+    var canCancelFetch: Bool {
+        fetchTask != nil
+    }
+
     // MARK: - Fetch
 
     /// Refreshes every remote Git's own configuration lets a Fetch of all remotes contact.
@@ -52,6 +62,9 @@ extension WorkspaceState {
     /// Stops the running Fetch. What Git already wrote stays written, and the reload that follows
     /// reports exactly how far it got.
     func cancelFetch() {
+        guard canCancelFetch else {
+            return
+        }
         fetchTask?.cancel()
     }
 
@@ -111,7 +124,12 @@ extension WorkspaceState {
 
     private static let lastFetchDatesKey = "lastFetchDates"
 
-    private func recordFetch(at date: Date) {
+    /// Records that Colofa has just contacted a remote of the open Repository.
+    ///
+    /// Not private: a Pull's first half is a Fetch, so the Pull extension in
+    /// WorkspaceState+Pull.swift records its time through the same door, and Swift keeps
+    /// `private` within one file.
+    func recordFetch(at date: Date) {
         guard let repository else {
             return
         }
@@ -136,31 +154,35 @@ extension WorkspaceState {
         // Claimed before anything suspends, so a second press cannot start a second Fetch while
         // the first one is still on its way to the first `await`.
         fetchProgress = work.progress
+        // Assigned in the same step, so a Cancel pressed the moment the Fetch appears on screen
+        // still reaches the task it is offered for rather than falling into the gap before one
+        // exists.
+        let task = Task { [self] in
+            await fetchReport(on: work, in: repository)
+        }
+        fetchTask = task
 
         // Kept alive past the initiating view task: a Fetch is stopped by Cancel, not by a view
         // going away, and the reload that follows it has to happen either way.
         await Task { [self] in
-            let task = Task { [self] in
-                await fetchReport(on: work, in: repository)
-            }
-            fetchTask = task
             let report = await task.value
 
-            // Cleared only once the task is finished with the remote, not once the Fetch itself
-            // is. Explaining a refused Fetch Tags contacts the remote a second time, and while
-            // anything is out there the Cancel that stops it has to stay on screen and a second
-            // Fetch has to stay refused.
+            // Cleared once the task is finished with the remote, which is not where the Fetch
+            // itself ends. Explaining a refused Fetch Tags contacts the remote a second time, and
+            // while anything is out there the Cancel that stops it has to stay on screen.
             fetchTask = nil
-            fetchProgress = nil
 
             if report.outcome.isSuccessful {
                 recordFetch(at: .now)
             }
             await refresh()
-            guard let failure = report.failure else {
-                return
+            if let failure = report.failure {
+                presentFailure(failure)
             }
-            presentFailure(failure)
+            // Released only once the reload has landed, the way a mutation holds the Repository
+            // until its own reload does: until then the Fetch is still the command holding it,
+            // and a second command landing in the middle of that reload would race it.
+            fetchProgress = nil
         }.value
     }
 

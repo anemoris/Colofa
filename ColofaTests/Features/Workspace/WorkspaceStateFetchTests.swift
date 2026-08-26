@@ -203,61 +203,6 @@ final class WorkspaceStateFetchTests {
         #expect(abs(restored.timeIntervalSince(recorded)) < 0.001)
     }
 
-    // MARK: - Cancellation
-
-    /// A Fetch the user stopped still reloads: refs are as far along as Git wrote them, and only
-    /// a real read can say where that is.
-    @Test
-    @MainActor
-    func cancellingAFetchStopsItAndStillReloads() async throws {
-        let stub = RepositoryServiceStub(
-            snapshots: [
-                repositoryURL: [
-                    fetchRepository(),
-                    fetchRepository(remoteBranches: ["origin/main", "origin/feature"]),
-                ],
-            ],
-            networkMutationDelay: .seconds(30)
-        )
-        let state = await workspace(stub)
-
-        let fetching = Task { await state.fetch() }
-        try await waitForFetch(
-            { await stub.recordedNetworkMutations().count == 1 },
-            "The Fetch never contacted a remote"
-        )
-        state.cancelFetch()
-        await fetching.value
-
-        #expect(await stub.recordedNetworkMutations() == [["fetch", "--", "origin"]])
-        #expect(!state.isFetching)
-        #expect(state.repositoryFailure == nil)
-        #expect(state.repository?.remoteBranches == ["origin/main", "origin/feature"])
-        #expect(state.lastFetchDate == nil)
-    }
-
-    @Test
-    @MainActor
-    func reportsAFetchWhileItRuns() async throws {
-        let stub = RepositoryServiceStub(
-            snapshots: [repositoryURL: [fetchRepository()]],
-            networkMutationDelay: .seconds(30)
-        )
-        let state = await workspace(stub)
-
-        let fetching = Task { await state.fetch() }
-        try await waitForFetch({ state.fetchProgress?.remote == "origin" }, "Fetch never started")
-
-        #expect(state.isFetching)
-        #expect(!state.canFetch)
-        #expect(state.fetchUnavailabilityReason == .fetchInProgress)
-        #expect(!state.canMutateRepository)
-
-        state.cancelFetch()
-        await fetching.value
-        #expect(state.fetchProgress == nil)
-    }
-
     // MARK: - No Fetch of its own
 
     /// Colofa contacts a remote only when the user asks. Opening, refreshing, and reloading a

@@ -17,10 +17,7 @@ struct RepositoryToolbar: ToolbarContent {
         ToolbarItemGroup {
             FetchToolbarButton()
 
-            Button(.pull, systemImage: "arrow.down", action: unavailableAction)
-                .labelStyle(.iconOnly)
-                .help(String(localized: .pullHelp))
-                .disabled(true)
+            PullToolbarButton()
 
             Button(.push, systemImage: "arrow.up", action: unavailableAction)
                 .labelStyle(.iconOnly)
@@ -64,8 +61,9 @@ struct RepositoryToolbar: ToolbarContent {
 /// Fetch, and the Cancel it becomes while it runs.
 ///
 /// A network command has no duration Colofa can promise, so stopping one stays reachable for as
-/// long as it runs — and it stays in the same place, because that is where the user pressed
-/// Fetch. The spinner is the progress; the button around it is the way out.
+/// long as it is out there — and it stays in the same place, because that is where the user
+/// pressed Fetch. The spinner is the progress; the button around it is the way out, and it goes
+/// quiet for the reload that follows, which is a local read and not something to interrupt.
 private struct FetchToolbarButton: View {
     @Environment(WorkspaceState.self) private var state
 
@@ -75,6 +73,7 @@ private struct FetchToolbarButton: View {
                 ProgressView()
                     .controlSize(.small)
             }
+            .disabled(!state.canCancelFetch)
             .help(String(localized: progress.description))
             .accessibilityLabel(Text(.cancelFetch))
             .accessibilityValue(Text(progress.description))

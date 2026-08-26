@@ -38,17 +38,27 @@ struct ColofaCommands: Commands {
             // The toolbar is where a running Fetch is normally stopped, but the toolbar is
             // something macOS lets the user hide — and hiding it would otherwise leave a Fetch
             // started from this menu with no way out at all. So the menu carries the same
-            // Cancel rather than only greying Fetch out.
+            // Cancel rather than only greying Fetch out. It disables itself once the Fetch is
+            // done with the remote and only its reload is left.
             if state.isFetching {
                 Button(String(localized: .cancelFetch), action: state.cancelFetch)
+                    .disabled(!state.canCancelFetch)
             } else {
                 Button(String(localized: .fetch), action: fetch)
                     .disabled(!state.canFetch)
             }
             Button(String(localized: .fetchTags), action: fetchTags)
                 .disabled(!state.canFetchTags)
-            Button(String(localized: .pull), action: unavailableAction)
-                .disabled(true)
+            // Same reason the menu carries a Cancel for Fetch: the toolbar is something macOS
+            // lets the user hide, and hiding it must not leave a Pull started here with no way
+            // out. It disables itself once the Pull is past the half that can be stopped.
+            if state.isPulling {
+                Button(String(localized: .cancelPull), action: state.cancelPull)
+                    .disabled(!state.canCancelPull)
+            } else {
+                Button(String(localized: .pull), action: pull)
+                    .disabled(!state.canPull)
+            }
             Button(String(localized: .push), action: unavailableAction)
                 .disabled(true)
 
@@ -92,6 +102,12 @@ struct ColofaCommands: Commands {
     private func fetchTags() {
         Task {
             await state.fetchTags()
+        }
+    }
+
+    private func pull() {
+        Task {
+            await state.pull()
         }
     }
 
