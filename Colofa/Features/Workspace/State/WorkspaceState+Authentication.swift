@@ -78,9 +78,9 @@ extension WorkspaceState {
     /// terminal to ask on, so it would end anyway — ending it here means the user sees the Cancel
     /// they pressed rather than the failure it would have turned into.
     ///
-    /// A Fetch and the Fetch half of a Pull are what get stopped, because they are the commands
-    /// that contact a remote, and only such a command can be asked for a secret. Each call is a
-    /// no-op unless that command is the one running.
+    /// A Fetch, the Fetch half of a Pull, and a Publish or Push are what get stopped, because
+    /// they are the commands that contact a remote, and only such a command can be asked for a
+    /// secret. Each call is a no-op unless that command is the one running.
     func cancelAuthentication() {
         guard authenticationRequest != nil || pendingAuthentication != nil else {
             return
@@ -89,6 +89,7 @@ extension WorkspaceState {
         // it was cancelled and reports the Cancel rather than the failure it would have become.
         cancelFetch()
         cancelPull()
+        cancelPush()
         endAuthentication(with: .cancelled)
     }
 

@@ -47,6 +47,20 @@ struct RepositoryService: Sendable {
     /// lets a Fetch Tags Git refused name the tags it kept.
     let loadTagConflicts: @Sendable (TagConflictRequest) async throws -> TagFetchConflict
 
+    /// Reads the remote Git's own configuration would publish a Branch to, or `nil` when it names
+    /// none. Asked when Publish runs rather than with a snapshot: it decides where a command goes,
+    /// not what the Repository is.
+    let loadPublishRemote: @Sendable (PushTargetRequest) async throws -> String?
+
+    /// Reads where a Push of one Branch goes and what its upstream held, which is the exact object
+    /// a Force Push with Lease requires the remote to still hold.
+    let loadPushTarget: @Sendable (PushTargetRequest) async throws -> PushTarget?
+
+    /// Reads the one address a Push to a remote writes to, which is what a confirmation shows and
+    /// what is checked again before anything is sent. Throws `PushDestinationRefusal` for a remote
+    /// that resolves to this Repository or to more than one address.
+    let loadPushDestination: @Sendable (PushDestinationRequest) async throws -> PushDestination
+
     /// Runs one command that contacts a remote. Separate from `runMutation` for two reasons: it
     /// can be stopped, because a network command has no duration Colofa can promise the user; and
     /// it is the only kind of command that can ask for a secret, so it is the only one that
@@ -87,6 +101,15 @@ struct RepositoryService: Sendable {
             loadTagConflicts: { request in
                 try await backend.loadTagConflicts(request)
             },
+            loadPublishRemote: { request in
+                try await backend.loadPublishRemote(request)
+            },
+            loadPushTarget: { request in
+                try await backend.loadPushTarget(request)
+            },
+            loadPushDestination: { request in
+                try await backend.loadPushDestination(request)
+            },
             runNetworkMutation: { arguments, url, responder in
                 try await backend.runNetworkMutation(arguments, in: url, responder: responder)
             }
@@ -106,6 +129,9 @@ struct RepositoryService: Sendable {
             loadCheckoutComparison: { _ in throw RepositoryOpenError.gitUnavailable },
             loadSkippedRemotes: { _ in throw RepositoryOpenError.gitUnavailable },
             loadTagConflicts: { _ in throw RepositoryOpenError.gitUnavailable },
+            loadPublishRemote: { _ in throw RepositoryOpenError.gitUnavailable },
+            loadPushTarget: { _ in throw RepositoryOpenError.gitUnavailable },
+            loadPushDestination: { _ in throw RepositoryOpenError.gitUnavailable },
             runNetworkMutation: { _, _, _ in throw RepositoryOpenError.gitUnavailable }
         )
     }
@@ -140,6 +166,15 @@ struct RepositoryService: Sendable {
             },
             loadTagConflicts: { request in
                 await backend.tagConflicts(request)
+            },
+            loadPublishRemote: { request in
+                await backend.publishRemote(request)
+            },
+            loadPushTarget: { request in
+                await backend.pushTarget(request)
+            },
+            loadPushDestination: { request in
+                try await backend.pushDestination(request)
             },
             runNetworkMutation: { arguments, url, responder in
                 try await backend.runNetworkMutation(arguments, in: url, responder: responder)

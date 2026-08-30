@@ -59,8 +59,21 @@ struct ColofaCommands: Commands {
                 Button(String(localized: .pull), action: pull)
                     .disabled(!state.canPull)
             }
-            Button(String(localized: .push), action: unavailableAction)
-                .disabled(true)
+            // Same reason again: a Push started from this menu must keep its way out when the
+            // toolbar is hidden. The title follows the Branch, because publishing one for the
+            // first time and sending one to its upstream are different things to agree to.
+            if state.isPushing {
+                Button(String(localized: .cancelPush), action: state.cancelPush)
+                    .disabled(!state.canCancelPush)
+            } else {
+                Button(
+                    String(
+                        localized: state.isCurrentBranchUnpublished ? .publish : .push
+                    ),
+                    action: push
+                )
+                .disabled(!state.canPush)
+            }
 
             Divider()
 
@@ -68,8 +81,10 @@ struct ColofaCommands: Commands {
                 .disabled(!state.canStageAll)
             Button(String(localized: .unstageAll), action: unstageAll)
                 .disabled(!state.canUnstageAll)
-            Button(String(localized: .commit), action: unavailableAction)
-                .disabled(true)
+            // Commits the composer's own draft, which is the only Commit there is: the menu is a
+            // second way to reach it when the middle column is not where the focus happens to be.
+            Button(String(localized: .commit), action: commit)
+                .disabled(!state.canCommit)
             Button(String(localized: .stash), action: unavailableAction)
                 .disabled(true)
         }
@@ -108,6 +123,18 @@ struct ColofaCommands: Commands {
     private func pull() {
         Task {
             await state.pull()
+        }
+    }
+
+    private func push() {
+        Task {
+            await state.beginPush()
+        }
+    }
+
+    private func commit() {
+        Task {
+            await state.commit()
         }
     }
 

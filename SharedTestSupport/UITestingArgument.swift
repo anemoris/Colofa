@@ -120,6 +120,41 @@ nonisolated enum UITestingArgument {
     /// local work.
     static let pullBlocked = "--ui-testing-pull-blocked"
 
+    /// Serves a Repository whose current Branch is ahead of its upstream, so a Push has something
+    /// to send.
+    static let pushState = "--ui-testing-push-state"
+
+    /// Leaves the push fixture's current Branch without an upstream, which is the state Publish
+    /// answers rather than Push.
+    static let pushNoUpstream = "--ui-testing-push-no-upstream"
+
+    /// Gives the push fixture a second remote, which is what makes a Publish ambiguous.
+    static let pushManyRemotes = "--ui-testing-push-many-remotes"
+
+    /// Makes Git's own configuration name where the push fixture's Branch is published, which is
+    /// the answer Publish honors instead of asking.
+    static let pushConfiguredRemote = "--ui-testing-push-configured-remote"
+
+    /// Leaves the push fixture's upstream with no remote-tracking object, which is the state that
+    /// offers no lease to force against.
+    static let pushWithoutLease = "--ui-testing-push-without-lease"
+
+    /// Makes the push fixture's remote refuse a normal Push the way it refuses one whose upstream
+    /// has moved on.
+    static let pushRejected = "--ui-testing-push-rejected"
+
+    /// Makes the push fixture's remote resolve to the Repository itself, which is the `.` remote
+    /// an ordinary `git branch --track` configures and the one Colofa refuses to push to.
+    static let pushLocalDestination = "--ui-testing-push-local-destination"
+
+    /// Gives the push fixture's remote more than one push address, which is the configuration one
+    /// Push writes to in turn and no single confirmation can describe.
+    static let pushSeveralDestinations = "--ui-testing-push-several-destinations"
+
+    /// Makes the push fixture's remote refuse a Force Push with Lease the way it refuses one whose
+    /// expected object is no longer there.
+    static let pushStaleLease = "--ui-testing-push-stale-lease"
+
     /// Makes the fixture's Fetch ask for an HTTPS account name.
     static let authenticationUsername = "--ui-testing-authentication-username"
 

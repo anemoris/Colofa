@@ -56,6 +56,11 @@ enum LayoutMetrics {
     /// the window it belongs to, so its width lives apart from the window's.
     enum Remote {
         static let dialogWidth = 380.0
+
+        /// The Push confirmation is wider than the Publish question: it shows two Refs in full,
+        /// and a Branch or upstream that wrapped would stop reading as the one destination the
+        /// user is confirming.
+        static let pushDialogWidth = 440.0
     }
 
     /// The Authentication Request dialog's own dimensions. Wider than the Fetch Tags dialog

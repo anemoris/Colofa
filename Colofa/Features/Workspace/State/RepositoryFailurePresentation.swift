@@ -33,6 +33,18 @@ enum RepositoryFailurePresentation: Sendable {
     /// path by path. Git's own output stays one click away, so an explanation Colofa assembled
     /// never stands in for what Git actually said.
     case pullBlockedAlert(CheckoutObstruction, error: RepositoryOpenError)
+    /// A Publish or Push the remote refused rather than one that never reached the remote at all.
+    /// Git's own output stays one click away, so an explanation Colofa assembled never stands in
+    /// for what Git actually said.
+    case pushRejectedAlert(
+        PushRejection,
+        branch: String,
+        upstream: String,
+        error: RepositoryOpenError
+    )
+    /// A Publish or Push Colofa refused before running it, because the remote resolves to this
+    /// Repository or to more than one address. Nothing ran, so there is no Git output to expand.
+    case pushDestinationAlert(PushDestinationRefusal)
     /// A command that failed over the connection's identity rather than over what it was asked
     /// to do. It offers no way to continue: a host key Colofa would accept on the user's behalf
     /// is a host key nobody checked.
@@ -55,6 +67,10 @@ enum RepositoryFailurePresentation: Sendable {
             divergence.title
         case .pullBlockedAlert:
             .pullBlockedTitle
+        case .pushRejectedAlert(let rejection, _, _, _):
+            rejection.title
+        case .pushDestinationAlert(let refusal):
+            refusal.title
         case .authenticationAlert(let failure, _):
             failure.title
         case .details:
@@ -78,6 +94,10 @@ enum RepositoryFailurePresentation: Sendable {
             divergence.message
         case .pullBlockedAlert(let obstruction, _):
             obstruction.pullMessage
+        case .pushRejectedAlert(let rejection, let branch, let upstream, _):
+            rejection.message(branch: branch, upstream: upstream)
+        case .pushDestinationAlert(let refusal):
+            refusal.message
         case .authenticationAlert(let failure, _):
             failure.message
         case .details(_, let message):
@@ -97,11 +117,12 @@ enum RepositoryFailurePresentation: Sendable {
         switch self {
         case .mutationAlert(let error, _), .checkoutRefusedAlert(_, _, let error),
             .tagFetchAlert(_, _, let error), .pullDivergedAlert(_, let error),
-            .pullBlockedAlert(_, let error), .authenticationAlert(_, let error):
+            .pullBlockedAlert(_, let error), .pushRejectedAlert(_, _, _, let error),
+            .authenticationAlert(_, let error):
             error.failureDetails != nil
         case .fetchAlert(let outcome):
             outcome.error?.failureDetails != nil
-        case .repositoryOpenAlert, .details:
+        case .pushDestinationAlert, .repositoryOpenAlert, .details:
             false
         }
     }
@@ -111,7 +132,8 @@ enum RepositoryFailurePresentation: Sendable {
     var isMutationAlert: Bool {
         switch self {
         case .mutationAlert, .checkoutRefusedAlert, .fetchAlert, .tagFetchAlert,
-            .pullDivergedAlert, .pullBlockedAlert, .authenticationAlert:
+            .pullDivergedAlert, .pullBlockedAlert, .pushRejectedAlert, .pushDestinationAlert,
+            .authenticationAlert:
             true
         case .repositoryOpenAlert, .details:
             false
@@ -140,9 +162,13 @@ enum RepositoryFailurePresentation: Sendable {
             error.failureDetails.map { .details($0, message: divergence.message) }
         case .pullBlockedAlert(let obstruction, let error):
             error.failureDetails.map { .details($0, message: obstruction.pullMessage) }
+        case .pushRejectedAlert(let rejection, let branch, let upstream, let error):
+            error.failureDetails.map {
+                .details($0, message: rejection.message(branch: branch, upstream: upstream))
+            }
         case .authenticationAlert(let failure, let error):
             error.failureDetails.map { .details($0, message: failure.message) }
-        case .details:
+        case .pushDestinationAlert, .details:
             nil
         }
     }
