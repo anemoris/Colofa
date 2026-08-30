@@ -52,6 +52,22 @@ actor RepositoryServiceStub {
     /// What Git writes when a question went unanswered.
     let authenticationFailureOutput: String
     let networkMutationDelay: Duration?
+    /// What this fixture's Git answers about where a Branch is published, which is the
+    /// configuration Publish honors before it asks anything.
+    let publishRemote: String?
+    /// Where a Push of the current Branch goes, or `nil` for a Branch nobody has pushed yet.
+    let pushTarget: PushTarget?
+    /// What stands between Push and Git's answer, so a test can drive a read that itself failed.
+    let pushTargetError: RepositoryOpenError?
+    /// The addresses each remote resolves to, keyed by remote name and answered in order, so a
+    /// test can drive a destination that changes between the confirmation and the command.
+    var pushDestinations: [String: [PushDestination]]
+    /// What stands between a Push and its destination, which is either a configuration Colofa
+    /// refuses to push to or a read that failed.
+    let pushDestinationError: (any Error)?
+    /// What this fixture's remote holds right now, which is what a lease is compared against. A
+    /// value differing from the one a command leases is a remote that moved after confirmation.
+    let remoteObjectID: String?
     let tagConflict: TagFetchConflict
     let tagConflictError: RepositoryOpenError?
     /// How long the second, explanatory read blocks, so a test can act while it is known to
@@ -66,6 +82,9 @@ actor RepositoryServiceStub {
     private var checkoutComparisonRequests: [CheckoutComparisonRequest] = []
     var networkMutations: [[String]] = []
     var tagConflictRequests: [TagConflictRequest] = []
+    var publishRemoteRequests: [PushTargetRequest] = []
+    var pushTargetRequests: [PushTargetRequest] = []
+    var pushDestinationRequests: [PushDestinationRequest] = []
     var askedPromptCount = 0
     var authenticationRequests: [AuthenticationRequest] = []
     var authenticationResponses: [AuthenticationResponse] = []
@@ -106,6 +125,12 @@ actor RepositoryServiceStub {
         authenticationPrompts: [String] = [],
         authenticationFailureOutput: String = RepositoryServiceStub.declinedAuthenticationOutput,
         networkMutationDelay: Duration? = nil,
+        publishRemote: String? = nil,
+        pushTarget: PushTarget? = nil,
+        pushTargetError: RepositoryOpenError? = nil,
+        pushDestinations: [String: [PushDestination]] = [:],
+        pushDestinationError: (any Error)? = nil,
+        remoteObjectID: String? = nil,
         tagConflict: TagFetchConflict = .empty,
         tagConflictError: RepositoryOpenError? = nil,
         tagConflictDelay: Duration? = nil
@@ -136,6 +161,12 @@ actor RepositoryServiceStub {
         self.authenticationPrompts = authenticationPrompts
         self.authenticationFailureOutput = authenticationFailureOutput
         self.networkMutationDelay = networkMutationDelay
+        self.publishRemote = publishRemote
+        self.pushTarget = pushTarget
+        self.pushTargetError = pushTargetError
+        self.pushDestinations = pushDestinations
+        self.pushDestinationError = pushDestinationError
+        self.remoteObjectID = remoteObjectID
         self.tagConflict = tagConflict
         self.tagConflictError = tagConflictError
         self.tagConflictDelay = tagConflictDelay
@@ -172,6 +203,15 @@ actor RepositoryServiceStub {
             },
             loadTagConflicts: { request in
                 try await self.conflicts(request)
+            },
+            loadPublishRemote: { request in
+                try await self.configuredPublishRemote(request)
+            },
+            loadPushTarget: { request in
+                try await self.configuredPushTarget(request)
+            },
+            loadPushDestination: { request in
+                try await self.configuredPushDestination(request)
             },
             runNetworkMutation: { arguments, _, responder in
                 try await self.networkMutate(arguments, answeredBy: responder)
@@ -262,7 +302,15 @@ actor RepositoryServiceStub {
             hasMore: end < commits.count
         )
     }
+}
 
+/// The answers a fixture gives for content that is chosen rather than published: one Commit's
+/// detail, and one mutating command.
+///
+/// Declared as an extension in the same file so it still reaches the fixture's own state, and
+/// apart from the body above so that body stays about what the fixture is rather than what it
+/// answers.
+extension RepositoryServiceStub {
     private func commitDetail(
         _ request: HistoryCommitDetailRequest
     ) async throws -> HistoryCommitDetail {

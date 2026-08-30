@@ -20,6 +20,10 @@ final class WorkspaceState {
     var isConfirmingHistoryRewrite = false
     var isShowingStaleAmendAlert = false
 
+    /// Set when a reload closed a Push or Publish dialog because what it showed had stopped being
+    /// true. The dialog goes on its own; this is what stops it from going without explanation.
+    var isShowingStalePushAlert = false
+
     /// The open New Branch dialog, or `nil` when none is. Not private: the Branches extension in
     /// WorkspaceState+Branches.swift owns it, and Swift keeps `private` within one file.
     var branchCreation: BranchCreationDraft?
@@ -47,6 +51,14 @@ final class WorkspaceState {
     // though only the first is ever offered as cancellable.
     var pullProgress: PullProgress?
     var pullTask: Task<PullOutcome, Never>?
+
+    // Not private: the Push extension in WorkspaceState+Push.swift owns the three below, and Swift
+    // keeps `private` within one file. `pushProgress` is what turns the toolbar's Push into the
+    // Cancel that stops it, `pushTask` is what that Cancel cancels, and `pushDialog` is whichever
+    // question a Push had to ask before anything left for a remote.
+    var pushProgress: PushProgress?
+    var pushTask: Task<PushOutcome, Never>?
+    var pushDialog: PushDialog?
 
     // Not private: the authentication extension in WorkspaceState+Authentication.swift owns the
     // three below, and Swift keeps `private` within one file. Nothing else writes to them.
@@ -101,7 +113,9 @@ final class WorkspaceState {
     var repositoryFailure: RepositoryFailurePresentation?
 
     private(set) var isLoadingRepository = false
-    private(set) var isPerformingMutation = false
+    /// Not private: the mutation extension in WorkspaceState+Mutations.swift is what sets it,
+    /// and Swift keeps `private` within one file. Nothing else writes to it.
+    var isPerformingMutation = false
     private(set) var gitAvailability: GitAvailability?
 
     /// `UserDefaults` key holding the most recently opened Repository path. UI tests seed it
@@ -124,7 +138,10 @@ final class WorkspaceState {
     /// Set while an Amend Colofa itself is running, which is the one time HEAD is expected to
     /// move. Any reload publishing during that window reports Colofa's own rewrite, whichever
     /// task started it, so none of them may declare the Amend draft stale.
-    private var isRewritingHead = false
+    ///
+    /// Not private for the same reason as `isPerformingMutation`: the mutation extension in
+    /// WorkspaceState+Mutations.swift is what sets it.
+    var isRewritingHead = false
 
     init(
         repositoryService: RepositoryService = .live(),
@@ -196,80 +213,8 @@ final class WorkspaceState {
         _ = await openRepository(at: repository.rootURL, presentsFailure: true)
     }
 
-    /// - Parameter failureTitle: What the shared alert is titled when the command fails.
-    /// - Returns: Whether the command ran and succeeded, so a caller can keep composer state
-    ///   after a failure the user still has to act on.
-    @discardableResult
-    func performMutation(
-        _ arguments: [String],
-        standardInput: String? = nil,
-        rewritesHead: Bool = false,
-        failureTitle: LocalizedStringResource = .gitOperationFailed
-    ) async -> Bool {
-        let outcome = await runMutation(
-            arguments,
-            standardInput: standardInput,
-            rewritesHead: rewritesHead
-        )
-        guard case .failed(let error) = outcome else {
-            return outcome == .succeeded
-        }
-        presentMutationError(error, title: failureTitle)
-        return false
-    }
-
-    /// Runs one mutating command and reports its failure instead of presenting it, so a caller
-    /// that can explain a particular refusal better than the shared alert does gets the chance.
-    ///
-    /// - Parameter rewritesHead: Whether this command moves HEAD on purpose, which only an Amend
-    ///   does. Every reload that lands while it runs — the authoritative one, or an ordinary
-    ///   refresh a scene activation started alongside it — then reports the rewrite Colofa asked
-    ///   for, and must not mistake it for somebody else rewriting History.
-    func runMutation(
-        _ arguments: [String],
-        standardInput: String? = nil,
-        rewritesHead: Bool = false
-    ) async -> MutationOutcome {
-        // Keep the mutation and authoritative reload alive if the initiating view task is cancelled.
-        await Task {
-            guard let repository, canMutateRepository else {
-                return MutationOutcome.unavailable
-            }
-            isPerformingMutation = true
-            isRewritingHead = rewritesHead
-            defer {
-                isPerformingMutation = false
-                isRewritingHead = false
-            }
-
-            var commandError: RepositoryOpenError?
-            do {
-                try await repositoryService.runMutation(
-                    arguments,
-                    standardInput,
-                    repository.rootURL
-                )
-            } catch let error as RepositoryOpenError {
-                commandError = error
-            } catch {
-                commandError = .commandFailed(
-                    GitFailureDetails(command: "git", output: error.localizedDescription)
-                )
-            }
-
-            await refresh()
-            if let commandError {
-                // The command rewrote nothing Colofa asked for, so a HEAD that moved anyway — a
-                // Hook that rewrote it before refusing — still invalidates an open Amend draft.
-                reconcileAmendDraft()
-                return .failed(commandError)
-            }
-            return .succeeded
-        }.value
-    }
-
     var canReplaceRepository: Bool {
-        !isPerformingMutation && !isFetching && !isPulling
+        !isPerformingMutation && !isFetching && !isPulling && !isPushing
     }
 }
 
@@ -354,13 +299,23 @@ extension WorkspaceState {
             // neither may a New Branch dialog whose start point belongs to the previous one, nor
             // a Fetch Tags dialog: its remote was chosen from the previous Repository's remotes,
             // and confirming it here would contact a remote of this one that the user never saw.
+            // A Push dialog goes for both of those reasons at once: its Branch, its remote, and
+            // the object its lease expects all belong to the Repository being left behind.
             commitDraft.clear()
             branchCreation = nil
             tagFetchSelection = nil
+            pushDialog = nil
             isConfirmingHistoryRewrite = false
             isShowingStaleAmendAlert = false
-        } else if !isRewritingHead {
-            reconcileAmendDraft()
+            isShowingStalePushAlert = false
+        } else {
+            // The same Repository, read again. A dialog that survived that reload has to be
+            // checked against it rather than trusted: what it showed is what its own confirmation
+            // will act on, and only a comparison can say whether that is still the truth.
+            reconcilePushDialog(against: repository)
+            if !isRewritingHead {
+                reconcileAmendDraft()
+            }
         }
         updateSelectedChange(for: repository)
         updateHistoryReference(for: repository, isSameRepository: isSameRepository)
@@ -382,10 +337,11 @@ extension WorkspaceState {
 
     // Not private: the configuration extension in WorkspaceState+Configuration.swift needs it.
     //
-    // A running Fetch or Pull holds the Repository the same way a mutation does: they write refs,
-    // and a second command landing in the middle of one would race it.
+    // A running Fetch, Pull, or Push holds the Repository the same way a mutation does: they
+    // write refs, and a second command landing in the middle of one would race it.
     var canMutateRepository: Bool {
-        !isPerformingMutation && !isFetching && !isPulling && activeReplacementLoadID == nil
+        !isPerformingMutation && !isFetching && !isPulling && !isPushing
+            && activeReplacementLoadID == nil
     }
 
     /// Not private: the Fetch extension keeps app-owned state out of a UI test's defaults through

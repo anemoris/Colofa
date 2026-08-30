@@ -19,10 +19,7 @@ struct RepositoryToolbar: ToolbarContent {
 
             PullToolbarButton()
 
-            Button(.push, systemImage: "arrow.up", action: unavailableAction)
-                .labelStyle(.iconOnly)
-                .help(String(localized: .pushHelp))
-                .disabled(true)
+            PushToolbarButton()
 
             Button(
                 .newBranch,

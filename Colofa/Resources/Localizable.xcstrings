@@ -3040,6 +3040,356 @@
         "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "已有一次拉取正在运行。" } },
         "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "已有一次拉取正在執行。" } }
       }
+    },
+    "branch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Branch" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ブランチ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "브랜치" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "分支" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "分支" } }
+      }
+    },
+    "publish" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Publish" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ブランチを公開" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "브랜치 게시" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "发布分支" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "發布分支" } }
+      }
+    },
+    "publishHelp" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Create this branch on a remote and track it" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "このブランチをリモートに作成して追跡します" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 브랜치를 원격에 만들고 추적합니다" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "在远程创建此分支并将其设为上游" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "在遠端建立此分支並將其設為上游" } }
+      }
+    },
+    "cancelPush" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Cancel Push" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "プッシュをキャンセル" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "푸시 취소" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "取消推送" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "取消推送" } }
+      }
+    },
+    "pushCancelledRepositoryChangedMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "The repository changed while the dialog was open, so what it showed is no longer where this push would go. Nothing was sent. Start the push again to see the current destination." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ダイアログを開いている間にリポジトリが変化したため、表示されていた内容はこのプッシュの宛先ではなくなりました。何も送信されていません。現在の宛先を確認するには、もう一度プッシュを開始してください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "대화상자가 열려 있는 동안 저장소가 변경되어, 표시된 내용은 더 이상 이 푸시의 대상이 아닙니다. 아무것도 전송되지 않았습니다. 현재 대상을 확인하려면 푸시를 다시 시작하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "对话框打开期间仓库发生了变化，其中显示的内容已不再是此次推送的去向。没有发送任何内容。请重新发起推送以查看当前目标。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "對話框開啟期間儲存庫發生變更，其中顯示的內容已不再是此次推送的去向。沒有傳送任何內容。請重新發起推送以查看目前目標。" } }
+      }
+    },
+    "pushCancelledRepositoryChangedTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Push Canceled" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "プッシュをキャンセルしました" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "푸시가 취소됨" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "已取消推送" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "已取消推送" } }
+      }
+    },
+    "forcePush" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Force Push" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "強制プッシュ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "강제 푸시" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "强制推送" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "強制推送" } }
+      }
+    },
+    "forcePushWithLease" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Force Push with Lease" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "リース付き強制プッシュ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "리스를 사용한 강제 푸시" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "带租约的强制推送" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "帶租約的強制推送" } }
+      }
+    },
+    "forcePushWithLeaseDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This replaces the history of “%@”. It is refused if the remote has moved since this dialog opened." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "「%@」の履歴を置き換えます。このダイアログを開いてからリモートが変化していた場合は拒否されます。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "“%@”의 히스토리를 대체합니다. 이 대화상자를 연 뒤 원격이 변경되었다면 거부됩니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "这会替换“%@”的历史。若自本对话框打开后远程已变动，推送将被拒绝。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "這會取代「%@」的歷史。若自本對話框開啟後遠端已變動，推送將被拒絕。" } }
+      }
+    },
+    "forcePushUnavailableNoLease" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Colofa has never seen this upstream, so there is no object to lease against. Fetch before force pushing." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "この上流をまだ一度も取得していないため、リースの対象となるオブジェクトがありません。強制プッシュする前にフェッチしてください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 업스트림을 아직 한 번도 가져오지 않아 리스로 삼을 객체가 없습니다. 강제 푸시하기 전에 페치하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "尚未获取过此上游，因此没有可作为租约的对象。请先获取再强制推送。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "尚未擷取過此上游，因此沒有可作為租約的物件。請先擷取再強制推送。" } }
+      }
+    },
+    "publishRemoteDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Choose the remote to create “%@” on. It becomes this branch's upstream." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "「%@」を作成するリモートを選択してください。そのリモートがこのブランチの上流になります。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "“%@”을(를) 만들 원격을 선택하세요. 해당 원격이 이 브랜치의 업스트림이 됩니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "选择用于创建“%@”的远程。该远程将成为此分支的上游。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "選擇用於建立「%@」的遠端。該遠端將成為此分支的上游。" } }
+      }
+    },
+    "pushFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Push Failed" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "プッシュに失敗しました" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "푸시 실패" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "推送失败" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "推送失敗" } }
+      }
+    },
+    "publishFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Publish Failed" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ブランチの公開に失敗しました" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "브랜치 게시 실패" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "发布分支失败" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "發布分支失敗" } }
+      }
+    },
+    "pushRejectedTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Push Rejected" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "プッシュが拒否されました" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "푸시 거부됨" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "推送被拒绝" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "推送被拒絕" } }
+      }
+    },
+    "pushRejectedDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "“%1$@” was not pushed, because “%2$@” contains work this branch does not have. Fetch, then Merge or Rebase, and push again." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "「%2$@」にはこのブランチにない作業が含まれているため、「%1$@」はプッシュされませんでした。フェッチしてからマージまたはリベースし、もう一度プッシュしてください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "“%2$@”에 이 브랜치에 없는 작업이 있어 “%1$@”은(는) 푸시되지 않았습니다. 페치한 뒤 병합 또는 리베이스하고 다시 푸시하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "“%2$@”包含此分支没有的工作，因此“%1$@”未被推送。请先获取，再合并或变基，然后重新推送。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "「%2$@」包含此分支沒有的工作，因此「%1$@」未被推送。請先擷取，再合併或重定基底，然後重新推送。" } }
+      }
+    },
+    "pushLeaseRefusedTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Force Push Refused" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "強制プッシュが拒否されました" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "강제 푸시 거부됨" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "强制推送被拒绝" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "強制推送被拒絕" } }
+      }
+    },
+    "pushLeaseRefusedDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "“%@” has changed since this Push was confirmed, so the lease refused to overwrite it. Fetch and review the new work before force pushing again." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "このプッシュを確認してから「%@」が変化したため、リースが上書きを拒否しました。もう一度強制プッシュする前に、フェッチして新しい作業を確認してください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 푸시를 확인한 뒤 “%@”이(가) 변경되어 리스가 덮어쓰기를 거부했습니다. 다시 강제 푸시하기 전에 페치하여 새 작업을 확인하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "自确认本次推送后“%@”已发生变化，租约拒绝覆盖它。请先获取并查看新的工作，再重新强制推送。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "自確認本次推送後「%@」已發生變化，租約拒絕覆蓋它。請先擷取並查看新的工作，再重新強制推送。" } }
+      }
+    },
+    "pushRemoteRefusedTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Remote Refused the Push" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "リモートがプッシュを拒否しました" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "원격이 푸시를 거부함" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "远程拒绝了推送" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "遠端拒絕了推送" } }
+      }
+    },
+    "pushRemoteRefusedDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "The remote declined to update “%@”. A hook or a branch protection rule usually explains it, and the remote's own answer is below." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "リモートは「%@」の更新を拒否しました。通常はフックかブランチ保護の設定が理由で、リモート自身の応答は下に表示されます。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "원격이 “%@” 갱신을 거부했습니다. 대개 훅이나 브랜치 보호 규칙이 이유이며, 원격의 응답은 아래에 있습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "远程拒绝更新“%@”。通常是钩子或分支保护规则所致，远程自己的回应见下方。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "遠端拒絕更新「%@」。通常是掛鉤或分支保護規則所致，遠端自己的回應見下方。" } }
+      }
+    },
+    "pushPublishingTo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Publishing to “%@”…" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "「%@」へ公開中…" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "“%@”에 게시하는 중…" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "正在发布到“%@”…" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "正在發布至「%@」…" } }
+      }
+    },
+    "pushSendingTo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Pushing to “%@”…" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "「%@」へプッシュ中…" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "“%@”에 푸시하는 중…" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "正在推送到“%@”…" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "正在推送至「%@」…" } }
+      }
+    },
+    "pushForcingTo" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Force pushing to “%@”…" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "「%@」へ強制プッシュ中…" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "“%@”에 강제 푸시하는 중…" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "正在强制推送到“%@”…" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "正在強制推送至「%@」…" } }
+      }
+    },
+    "pushDestination" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Destination" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "宛先" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "대상" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "目的地" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "目的地" } }
+      }
+    },
+    "pushDestinationLocalTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This Remote Is Not a Remote" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "このリモートはリモートではありません" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 원격은 원격이 아닙니다" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "此远程并非远程" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "此遠端並非遠端" } }
+      }
+    },
+    "pushDestinationLocalDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "“%@” is Git's own name for this repository, so pushing to it would rewrite a local branch instead of sending this one anywhere. Colofa pushes to remotes only. Give this branch a real push remote in Git to continue." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "「%@」は Git がこのリポジトリ自身を指す名前です。そのためプッシュしても、どこかに送られるのではなくローカルブランチが書き換えられます。Colofa はリモートにのみプッシュします。続けるには、このブランチに実際のプッシュ先リモートを Git で設定してください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "“%@”은(는) Git이 이 저장소 자신을 가리키는 이름이므로, 푸시하면 어딘가로 보내는 대신 로컬 브랜치를 다시 씁니다. Colofa는 원격에만 푸시합니다. 계속하려면 Git에서 이 브랜치에 실제 푸시 원격을 설정하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "“%@”是 Git 用来指代本仓库自身的名称，因此推送到它会改写一个本地分支，而不是把当前分支发送到任何地方。Colofa 只推送到远程。请先在 Git 中为该分支设置真正的推送远程。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "「%@」是 Git 用來指稱本儲存庫自身的名稱，因此推送到它會改寫一個本機分支，而不是把目前分支傳送到任何地方。Colofa 只推送到遠端。請先在 Git 中為該分支設定真正的推送遠端。" } }
+      }
+    },
+    "pushDestinationSeveralTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This Remote Has Several Push Addresses" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "このリモートには複数のプッシュ先があります" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 원격에는 푸시 주소가 여러 개 있습니다" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "此远程配置了多个推送地址" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "此遠端設定了多個推送位址" } }
+      }
+    },
+    "pushDestinationSeveralDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "One push to “%1$@” writes to every address below in turn, so no single confirmation can say where it goes. A force push accepted at one address and refused at another cannot be rolled back as a whole. Leave one push address configured to continue.\n\n%2$@" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "「%1$@」への 1 回のプッシュは以下のすべてのアドレスに順に書き込むため、どこへ送られるのかを 1 つの確認で示すことはできません。あるアドレスでは受け入れられ別のアドレスでは拒否された強制プッシュは、全体としては取り消せません。続けるには、プッシュ先を 1 つだけ設定してください。\n\n%2$@" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "“%1$@”에 대한 한 번의 푸시는 아래의 모든 주소에 차례로 쓰므로, 한 번의 확인으로 어디로 가는지 말할 수 없습니다. 한 주소에서는 수락되고 다른 주소에서는 거부된 강제 푸시는 전체를 되돌릴 수 없습니다. 계속하려면 푸시 주소를 하나만 설정하세요.\n\n%2$@" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "对“%1$@”的一次推送会依次写入下面的每个地址，因此没有任何一次确认能说明它究竟写到了哪里。若强制推送在一个地址被接受、在另一个地址被拒绝，将无法整体回滚。请只保留一个推送地址后再继续。\n\n%2$@" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "對「%1$@」的一次推送會依序寫入下面的每個位址，因此沒有任何一次確認能說明它究竟寫到了哪裡。若強制推送在一個位址被接受、在另一個位址被拒絕，將無法整體回復。請只保留一個推送位址後再繼續。\n\n%2$@" } }
+      }
+    },
+    "pushDestinationChangedTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "The Push Destination Changed" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "プッシュ先が変わりました" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "푸시 대상이 변경되었습니다" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "推送目的地已改变" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "推送目的地已改變" } }
+      }
+    },
+    "pushDestinationChangedDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "“%@” no longer points at the address this Push was confirmed for, so nothing was sent. Open Push again to confirm the new destination." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "「%@」は、このプッシュを確認したときのアドレスをもう指していません。そのため何も送信されませんでした。新しい宛先を確認するには、もう一度プッシュを開いてください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "“%@”은(는) 이 푸시를 확인한 주소를 더 이상 가리키지 않으므로 아무것도 전송되지 않았습니다. 새 대상을 확인하려면 푸시를 다시 여세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "“%@”已不再指向确认本次推送时的地址，因此什么也没有发送。请重新打开推送以确认新的目的地。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "「%@」已不再指向確認本次推送時的位址，因此什麼也沒有傳送。請重新開啟推送以確認新的目的地。" } }
+      }
+    },
+    "pushUnavailableNoRepository" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Open a Repository first." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "先にリポジトリを開いてください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "먼저 저장소를 여세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "请先打开仓库。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "請先開啟儲存庫。" } }
+      }
+    },
+    "pushUnavailableDetachedHead" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "HEAD is detached. Check out a Branch before pushing." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "HEAD が分離しています。プッシュする前にブランチをチェックアウトしてください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "HEAD가 분리되어 있습니다. 푸시하기 전에 브랜치를 체크아웃하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "HEAD 处于分离状态。请先签出分支再推送。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "HEAD 處於分離狀態。請先簽出分支再推送。" } }
+      }
+    },
+    "pushUnavailableUnbornBranch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This Branch has no Commit to push yet." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "このブランチにはまだプッシュできるコミットがありません。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 브랜치에는 아직 푸시할 커밋이 없습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "此分支还没有可推送的提交。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "此分支還沒有可推送的提交。" } }
+      }
+    },
+    "pushUnavailableNoRemote" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This Repository has no remote to push to." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "このリポジトリにはプッシュ先のリモートがありません。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 저장소에는 푸시할 원격이 없습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "此仓库没有可推送的远程。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "此儲存庫沒有可推送的遠端。" } }
+      }
+    },
+    "pushUnavailablePushInProgress" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "A Push is already running." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "プッシュがすでに実行中です。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "푸시가 이미 실행 중입니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "已有一次推送正在运行。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "已有一次推送正在執行。" } }
+      }
+    },
+    "pushUnavailableMutationInProgress" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Another Git command is still running." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "別の Git コマンドがまだ実行中です。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "다른 Git 명령이 아직 실행 중입니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "另一条 Git 命令仍在运行。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "另一條 Git 命令仍在執行。" } }
+      }
     }
   },
   "version" : "1.0"

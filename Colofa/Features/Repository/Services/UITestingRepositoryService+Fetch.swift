@@ -36,8 +36,18 @@ extension UITestingRepositoryService {
         if let failure = UITestingFetch.failure(of: command, arguments: arguments) {
             throw failure
         }
+        if let failure = UITestingPush.failure(of: command, arguments: arguments) {
+            throw failure
+        }
         guard let snapshot = currentSnapshot(at: repositoryURL) else {
             throw RepositoryOpenError.notRepository
+        }
+
+        // A Push writes to the remote rather than reading from it, so what it leaves behind is a
+        // Branch that now exists there — and, the first time, an upstream to track it by.
+        if UITestingPush.isPush(command) {
+            accept(command, in: snapshot)
+            return
         }
 
         // A Pull's Fetch downloads whatever its own remote holds rather than inventing a branch

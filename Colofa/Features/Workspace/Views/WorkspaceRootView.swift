@@ -63,6 +63,12 @@ struct WorkspaceRootView: View {
         .sheet(isPresented: $state.isChoosingTagFetchRemote) {
             FetchTagsSheet()
         }
+        .sheet(isPresented: $state.isConfirmingPush) {
+            PushConfirmationSheet()
+        }
+        .sheet(isPresented: $state.isChoosingPublishRemote) {
+            PublishRemoteSheet()
+        }
         .sheet(isPresented: $state.isPresentingAuthenticationRequest) {
             AuthenticationRequestSheet()
         }
@@ -72,6 +78,13 @@ struct WorkspaceRootView: View {
         ) {
         } message: {
             Text(.amendCancelledHeadChangedMessage)
+        }
+        .alert(
+            String(localized: .pushCancelledRepositoryChangedTitle),
+            isPresented: $state.isShowingStalePushAlert
+        ) {
+        } message: {
+            Text(.pushCancelledRepositoryChangedMessage)
         }
         .task {
             await state.start()

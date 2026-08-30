@@ -316,6 +316,18 @@ extension GitRepositoryService {
         try await GitRemoteReader(git: try await resolvedGit()).tagConflicts(request)
     }
 
+    func loadPublishRemote(_ request: PushTargetRequest) async throws -> String? {
+        try await GitPushReader(git: try await resolvedGit()).remote(request)
+    }
+
+    func loadPushTarget(_ request: PushTargetRequest) async throws -> PushTarget? {
+        try await GitPushReader(git: try await resolvedGit()).target(request)
+    }
+
+    func loadPushDestination(_ request: PushDestinationRequest) async throws -> PushDestination {
+        try await GitPushReader(git: try await resolvedGit()).destination(request)
+    }
+
     /// Runs one command that contacts a remote.
     ///
     /// Unlike `runMutation`, this one can be stopped. A network command has no duration Colofa
