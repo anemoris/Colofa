@@ -57,7 +57,7 @@ struct RepositoryInformationView: View {
                 }
                 ForEach(repository.remotes) { remote in
                     LabeledContent {
-                        Text(verbatim: remote.url)
+                        Text(verbatim: remote.displayURL)
                             .textSelection(.enabled)
                     } label: {
                         Text(verbatim: remote.name)

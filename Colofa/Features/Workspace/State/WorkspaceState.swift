@@ -143,6 +143,18 @@ final class WorkspaceState {
     /// WorkspaceState+Mutations.swift is what sets it.
     var isRewritingHead = false
 
+    /// Set while a Commit Colofa started owns the message. Git was handed exactly what the
+    /// composer held when the command began, and the composer is cleared once it succeeds, so
+    /// text typed in between would neither reach that Commit nor survive the clear. The composer
+    /// stops accepting text for that window rather than accepting text it would then discard.
+    ///
+    /// Deliberately narrower than `canMutateRepository`: a Fetch, a Pull, or a Staging command
+    /// leaves the message alone, and writing one while any of those runs is ordinary work.
+    ///
+    /// Not private for the same reason as `isPerformingMutation`: the Commit extension in
+    /// WorkspaceState+Commit.swift is what sets it.
+    var isCommitting = false
+
     init(
         repositoryService: RepositoryService = .live(),
         pasteboard: PasteboardWriter = .live(),

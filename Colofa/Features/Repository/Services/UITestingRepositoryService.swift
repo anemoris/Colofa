@@ -23,6 +23,10 @@ actor UITestingRepositoryService {
 
     private var snapshot: RepositorySnapshot?
 
+    /// Long enough that a test can look at the composer without racing the command, and long
+    /// enough that the command is still out when the test ends.
+    private static let slowCommitDuration = Duration.seconds(30)
+
     init(arguments: [String]) {
         self.arguments = arguments
     }
@@ -75,7 +79,12 @@ actor UITestingRepositoryService {
         _ command: [String],
         standardInput: String? = nil,
         in repositoryURL: URL
-    ) throws {
+    ) async throws {
+        // A Commit that takes a while is the ordinary slow case — a Hook, or signing — and the
+        // one window in which the composer must refuse the text it is about to discard.
+        if command.first == "commit", arguments.contains(UITestingArgument.slowCommit) {
+            try await Task.sleep(for: Self.slowCommitDuration)
+        }
         try throwRequestedMutationFailure()
         try throwRequestedCheckoutRefusal(of: command)
         guard let snapshot, snapshot.rootURL == repositoryURL else {

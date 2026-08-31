@@ -21,8 +21,12 @@ struct CommitComposerView: View {
         VStack(alignment: .leading) {
             CommitComposerHeader(repository: repository)
 
+            // Both fields close while the Commit runs: the message Git was given is already
+            // fixed, and the composer is cleared afterwards, so text typed now would be lost
+            // twice over.
             TextField(String(localized: .commitSummary), text: $state.commitDraft.summary)
                 .textFieldStyle(.roundedBorder)
+                .disabled(state.isCommitting)
                 .accessibilityIdentifier("repository.commit.summary")
 
             if state.commitDraft.exceedsRecommendedSummaryLength {
@@ -41,6 +45,7 @@ struct CommitComposerView: View {
             )
             .textFieldStyle(.roundedBorder)
             .lineLimit(2...5)
+            .disabled(state.isCommitting)
             .accessibilityIdentifier("repository.commit.description")
 
             if state.amendReformatsMessage {

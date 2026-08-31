@@ -78,6 +78,26 @@ struct WorkspaceStateHistoryReloadTests {
         #expect(state.selectedCommitID == historyObjectID(210, prefix: "m"))
     }
 
+    /// Pinning the walk's start is what keeps one round of paging consistent, not what freezes
+    /// History. A Refresh reads the Ref again and pins whatever it now points at, which is how a
+    /// Ref that moved reaches the screen.
+    @Test
+    func refreshResolvesTheRefAgainRatherThanReusingThePinnedStart() async {
+        let stub = historyStub()
+        let state = await historyWorkspace(stub)
+        await state.loadHistory()
+        await state.loadMoreHistory()
+
+        #expect(await stub.recordedHistoryRequests().last?.tipObjectID != nil)
+
+        await state.refresh()
+        await state.loadHistory()
+
+        let request = await stub.recordedHistoryRequests().last
+        #expect(request?.tipObjectID == nil)
+        #expect(request?.revision == GitReference.head.revision)
+    }
+
     @Test
     func refreshDropsASelectedCommitTheRefNoLongerReaches() async {
         let stub = historyStub()

@@ -42,6 +42,13 @@ enum LayoutMetrics {
         static let maximumChangedFilesHeight = 160.0
     }
 
+    /// The Settings window's own width. A settings pane is sized by its own content rather
+    /// than by the workspace window, and one grouped Form holding a picker row reads at this
+    /// width without either stretching the row or wrapping its restart notice.
+    enum Settings {
+        static let width = 460.0
+    }
+
     /// The New Branch dialog's own dimensions. A sheet is sized by its content rather than by
     /// the window it belongs to, so its width lives apart from the window's.
     enum Branch {

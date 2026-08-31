@@ -106,6 +106,10 @@ extension WorkspaceState {
 
     private func executeCommit() async {
         let isAmending = commitDraft.isAmending
+        // Held for the whole window rather than only for the command: `performMutation` returns
+        // once the authoritative reload has landed, and the clear below happens after that.
+        isCommitting = true
+        defer { isCommitting = false }
         // No --no-verify and no signing override: configured hooks and commit.gpgsign decide what
         // happens, and `--file=-` keeps the message out of the argument list that failure details
         // echo back.
