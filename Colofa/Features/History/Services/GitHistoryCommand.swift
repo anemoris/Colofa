@@ -30,7 +30,7 @@ nonisolated struct GitHistoryCommand: Equatable, Sendable {
                     "--max-count=\(request.pageSize + 1)",
                     "--skip=\(request.offset)",
                     "--format=\(recordFormat)",
-                    request.reference.revision,
+                    request.revision,
                     "--",
                 ]
         )

@@ -3390,6 +3390,86 @@
         "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "另一条 Git 命令仍在运行。" } },
         "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "另一條 Git 命令仍在執行。" } }
       }
+    },
+    "settingsGeneral" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "General" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "一般" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "일반" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "通用" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "一般" } }
+      }
+    },
+    "displayLanguage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Display Language" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "表示言語" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "표시 언어" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "显示语言" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "顯示語言" } }
+      }
+    },
+    "followSystem" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Follow System" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "システムに従う" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "시스템 설정 따름" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "跟随系统" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "跟隨系統" } }
+      }
+    },
+    "languageAppliesOnNextLaunch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "The display language applies the next time Colofa launches." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "表示言語は次に Colofa を起動したときに適用されます。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "표시 언어는 Colofa를 다음에 실행할 때 적용됩니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "显示语言将在下次启动 Colofa 时生效。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "顯示語言將在下次啟動 Colofa 時生效。" } }
+      }
+    },
+    "relaunchNow" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Relaunch Now" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "今すぐ再起動" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "지금 다시 실행" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "立即重新启动" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "立即重新啟動" } }
+      }
+    },
+    "relaunchNowHelp" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Relaunch Colofa now so the display language applies." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Colofa を今すぐ再起動して表示言語を適用します。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "지금 Colofa를 다시 실행하여 표시 언어를 적용합니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "立即重新启动 Colofa 以应用显示语言。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "立即重新啟動 Colofa 以套用顯示語言。" } }
+      }
+    },
+    "relaunchUnavailableWhileBusy" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Colofa can relaunch once the running Git operation finishes." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "実行中の Git 操作が完了すると Colofa を再起動できます。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "실행 중인 Git 작업이 끝나면 Colofa를 다시 실행할 수 있습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "正在运行的 Git 操作完成后即可重新启动 Colofa。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "執行中的 Git 操作完成後即可重新啟動 Colofa。" } }
+      }
+    },
+    "relaunchFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Colofa could not relaunch. Quit and open it again to apply the display language." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Colofa を再起動できませんでした。終了してもう一度開くと表示言語が適用されます。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Colofa를 다시 실행하지 못했습니다. 종료한 뒤 다시 열면 표시 언어가 적용됩니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法重新启动 Colofa。请退出后重新打开以应用显示语言。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法重新啟動 Colofa。請結束後重新開啟以套用顯示語言。" } }
+      }
     }
   },
   "version" : "1.0"

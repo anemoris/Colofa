@@ -89,6 +89,24 @@ struct WorkspaceStateHistoryTests {
         #expect(state.selectedCommitID == historyObjectID(5, prefix: "m"))
     }
 
+    /// The Ref is read once, on the first page. Asking for the next one by Ref again would let a
+    /// Fetch, a Commit, or a reset landing in between decide what `--skip=200` skips.
+    @Test
+    func loadMoreAsksForTheNextPageFromTheCommitTheFirstOneStartedAt() async {
+        let stub = historyStub()
+        let state = await historyWorkspace(stub)
+        await state.loadHistory()
+
+        #expect(await stub.recordedHistoryRequests().last?.tipObjectID == nil)
+
+        await state.loadMoreHistory()
+
+        let request = await stub.recordedHistoryRequests().last
+        #expect(request?.tipObjectID == historyObjectID(0, prefix: "m"))
+        #expect(request?.revision == historyObjectID(0, prefix: "m"))
+        #expect(request?.offset == 200)
+    }
+
     /// The pages already read stay on screen: a page that failed to arrive is a reason to offer
     /// the read again, not a reason to take back the History that did arrive.
     @Test

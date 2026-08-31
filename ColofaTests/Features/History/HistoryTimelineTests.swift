@@ -49,6 +49,34 @@ struct HistoryTimelineTests {
         #expect(timeline.reportedCount == 5)
     }
 
+    /// Every page after the first is skipped from this Commit rather than from whatever the Ref
+    /// points at by then, which is what stops a Ref that moved from opening a gap in the walk.
+    @Test
+    func pinsTheCommitTheFirstPageStartedAt() {
+        var timeline = HistoryTimeline(page: HistoryPage(commits: historyCommits(3), hasMore: true))
+
+        #expect(timeline.tipObjectID == historyObjectID(0))
+
+        // A later page cannot move the starting point: the walk it belongs to already has one.
+        timeline.append(
+            HistoryPage(commits: [historyCommit(3), historyCommit(4)], hasMore: false)
+        )
+
+        #expect(timeline.tipObjectID == historyObjectID(0))
+    }
+
+    /// An empty first page resolves nothing to pin, and there is nothing to page from either.
+    @Test
+    func pinsNothingWhenTheFirstPageIsEmpty() {
+        var timeline = HistoryTimeline(page: HistoryPage(commits: [], hasMore: false))
+
+        #expect(timeline.tipObjectID == nil)
+
+        timeline.append(HistoryPage(commits: historyCommits(2), hasMore: false))
+
+        #expect(timeline.tipObjectID == historyObjectID(0))
+    }
+
     @Test
     func reportsWhetherAnythingFollowsTheLastPageItTook() {
         var timeline = HistoryTimeline(page: HistoryPage(commits: historyCommits(2), hasMore: true))

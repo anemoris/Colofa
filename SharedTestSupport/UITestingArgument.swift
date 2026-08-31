@@ -59,6 +59,11 @@ nonisolated enum UITestingArgument {
     /// Serves a staged first Commit on an Unborn Branch.
     static let unbornCommitState = "--ui-testing-unborn-commit-state"
 
+    /// Makes Commit block long enough for the composer to be examined while it runs, standing in
+    /// for a slow Hook or for signing. Nothing cancels a Commit, so a test that uses this ends
+    /// while the command is still out.
+    static let slowCommit = "--ui-testing-slow-commit"
+
     /// Makes Commit fail as though a configured Hook rejected it.
     static let commitHookFailure = "--ui-testing-commit-hook-failure"
 
@@ -176,6 +181,12 @@ nonisolated enum UITestingArgument {
     /// Makes the fixture's Fetch ask an unclassifiable question as long as the channel carries,
     /// which is the size a question Colofa did not write may reach.
     static let authenticationLongPrompt = "--ui-testing-authentication-long-prompt"
+
+    /// Routes the Display Language store to a throwaway `UserDefaults` suite, so a UI test that
+    /// chooses a language never writes `AppleLanguages` into the developer machine's own
+    /// preferences. Like `lastRepositoryPath` this is a `UserDefaults` argument and takes a
+    /// following value: the suite name, which the test removes on teardown.
+    static let settingsDefaultsSuite = "-uiTestingSettingsSuite"
 
     /// Seeds the app's `lastRepositoryPath` default, which drives Repository restoration.
     /// Unlike the flags above this is a `UserDefaults` argument and takes a following value.

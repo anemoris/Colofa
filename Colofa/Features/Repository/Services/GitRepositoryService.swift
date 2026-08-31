@@ -185,7 +185,9 @@ actor GitRepositoryService {
             gitObjectSize: try GitObjectSizeParser.parse(
                 try await git.text(["count-objects", "-v"], in: rootURL)
             ),
-            configuration: try await GitConfigurationReader.snapshot {
+            configuration: try await GitConfigurationReader.snapshot(
+                globalWriteTarget: GitGlobalConfigurationFile.writeTarget(environment: environment)
+            ) {
                 try await git.dataAllowingNoMatches($0, in: rootURL)
             }
         )

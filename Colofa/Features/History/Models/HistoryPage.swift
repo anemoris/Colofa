@@ -19,6 +19,13 @@ nonisolated struct HistoryPageRequest: Equatable, Sendable {
 
     let repositoryURL: URL
     let reference: GitReference
+    /// The Commit this walk starts at, pinned when the first page resolved the Ref.
+    ///
+    /// A Ref is not a fixed starting point: a Fetch, a Commit, or a reset moves it while the user
+    /// is paging, and `--skip` counted against a Ref that moved backwards steps straight over
+    /// Commits that were never shown. `nil` on the first page, which is the read that resolves
+    /// the Ref in the first place.
+    let tipObjectID: String?
     /// Which walk to read. Skipping is counted in the walk being asked for, so an offset from one
     /// scope means nothing in the other.
     let scope: HistoryScope
@@ -35,7 +42,8 @@ nonisolated struct HistoryPageRequest: Equatable, Sendable {
         scope: HistoryScope = .reachable,
         offset: Int = 0,
         pageSize: Int = HistoryPageRequest.standardPageSize,
-        remoteBranchNames: Set<String> = []
+        remoteBranchNames: Set<String> = [],
+        tipObjectID: String? = nil
     ) {
         self.repositoryURL = repositoryURL
         self.reference = reference
@@ -43,6 +51,13 @@ nonisolated struct HistoryPageRequest: Equatable, Sendable {
         self.offset = offset
         self.pageSize = pageSize
         self.remoteBranchNames = remoteBranchNames
+        self.tipObjectID = tipObjectID
+    }
+
+    /// What Git is asked to walk from: the pinned Commit once there is one, and the Ref itself on
+    /// the read that establishes it.
+    var revision: String {
+        tipObjectID ?? reference.revision
     }
 }
 

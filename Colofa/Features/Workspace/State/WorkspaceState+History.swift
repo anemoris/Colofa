@@ -173,8 +173,10 @@ extension WorkspaceState {
         }
     }
 
-    /// Appends the next page. The offset is what Git already reported rather than what is on
-    /// screen, so a Commit that arrived twice cannot make the walk step over the next one.
+    /// Appends the next page, skipped from the Commit the first page started at rather than from
+    /// whatever the Ref points at now, so a Ref that moves while the user pages cannot open a gap
+    /// in the walk. The offset is what Git already reported rather than what is on screen, so a
+    /// Commit that arrived twice cannot make the walk step over the next one.
     func loadMoreHistory() async {
         guard let repository,
               var timeline = historyPresentation.timeline,
@@ -194,7 +196,8 @@ extension WorkspaceState {
                     reference: historyReference,
                     scope: historyScope,
                     offset: timeline.reportedCount,
-                    remoteBranchNames: Set(repository.remoteBranches)
+                    remoteBranchNames: Set(repository.remoteBranches),
+                    tipObjectID: timeline.tipObjectID
                 )
             )
             guard loadID == historyPresentation.loadID,

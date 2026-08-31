@@ -55,6 +55,26 @@ struct GitHistoryCommandTests {
         #expect(arguments.contains("--skip=400"))
     }
 
+    /// A Ref moves while the user pages, and `--skip` counted against a Ref that moved backwards
+    /// walks past Commits that were never shown. Once the first page has resolved the Ref, every
+    /// later page is asked for from that Commit instead.
+    @Test
+    func alaterPageWalksFromThePinnedCommitRatherThanTheRef() {
+        let arguments = GitHistoryCommand.page(
+            for: HistoryPageRequest(
+                repositoryURL: historyRepositoryURL,
+                reference: .localBranch("main"),
+                offset: 200,
+                tipObjectID: historyObjectID(0)
+            )
+        ).arguments
+
+        #expect(arguments.contains(historyObjectID(0)))
+        #expect(!arguments.contains("refs/heads/main"))
+        #expect(arguments.contains("--skip=200"))
+        #expect(arguments.last == "--")
+    }
+
     /// Each of these appends output that is not part of the record being parsed, and any of them
     /// would turn a readable page into a parsing failure.
     @Test(arguments: ["--no-color", "--no-show-signature", "--no-notes", "--no-optional-locks"])
