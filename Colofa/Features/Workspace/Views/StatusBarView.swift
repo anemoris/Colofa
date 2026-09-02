@@ -36,12 +36,7 @@ struct StatusBarView: View {
             if let repository = state.repository {
                 RepositoryHeadLabel(head: repository.head)
                 if let upstream = repository.upstream {
-                    Text(
-                        verbatim: "→ \(upstream.name) · ↑\(upstream.ahead) ↓\(upstream.behind)"
-                    )
-                    .accessibilityLabel(Text(.upstream))
-                    .accessibilityValue(Text(verbatim: upstreamAccessibilityValue(upstream)))
-                    .accessibilityIdentifier("repository.upstream")
+                    UpstreamLabel(upstream: upstream)
                 }
                 Label {
                     Text(repository.changeCount, format: .number)
@@ -70,10 +65,47 @@ struct StatusBarView: View {
             Divider()
         }
     }
+}
 
-    private func upstreamAccessibilityValue(_ upstream: RepositoryUpstream) -> String {
-        "\(upstream.name), \(String(localized: .ahead)) \(upstream.ahead), "
-            + "\(String(localized: .behind)) \(upstream.behind)"
+/// The upstream the current Branch tracks, and how far it stands from it.
+///
+/// A Branch whose upstream ref is gone shows that it is gone rather than showing counts: Git
+/// stops counting once the ref it counted against is no longer there, and printing `↑0 ↓0`
+/// instead would tell the user the Branch is caught up with something that does not exist. The
+/// word carries it rather than a color, so the state survives Differentiate Without Color.
+private struct UpstreamLabel: View {
+    let upstream: RepositoryUpstream
+
+    var body: some View {
+        Text(verbatim: "→ \(upstream.name)\(counts)")
+            .accessibilityLabel(Text(.upstream))
+            .accessibilityValue(Text(verbatim: accessibilityValue))
+            .accessibilityIdentifier("repository.upstream")
+    }
+
+    /// What follows the upstream's name, which is nothing at all for an Unborn Branch: it has no
+    /// Commit to count from, and that is not a state worth naming in the status bar.
+    private var counts: String {
+        switch upstream.position {
+        case .counted(let ahead, let behind):
+            " · ↑\(ahead) ↓\(behind)"
+        case .gone:
+            " · \(String(localized: .upstreamGone))"
+        case .unborn:
+            ""
+        }
+    }
+
+    private var accessibilityValue: String {
+        switch upstream.position {
+        case .counted(let ahead, let behind):
+            "\(upstream.name), \(String(localized: .ahead)) \(ahead), "
+                + "\(String(localized: .behind)) \(behind)"
+        case .gone:
+            "\(upstream.name), \(String(localized: .upstreamGone))"
+        case .unborn:
+            upstream.name
+        }
     }
 }
 

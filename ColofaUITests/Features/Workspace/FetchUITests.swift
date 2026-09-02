@@ -8,8 +8,8 @@
 
 import XCTest
 
-/// Fetch and Fetch Tags, driven the way a user reaches them: the toolbar, the Tags section, and
-/// the dialog that asks which remote the tags come from.
+/// Fetch, Fetch Remotes, and Fetch Tags, driven the way a user reaches them: the toolbar, the
+/// Remotes and Tags sections, and the dialog that asks which remote the tags come from.
 final class FetchUITests: XCTestCase {
     override func setUpWithError() throws {
         continueAfterFailure = false
@@ -142,6 +142,83 @@ final class FetchUITests: XCTestCase {
             application.descendants(matching: .any)["repository.lastFetch"].value as? String,
             "Never",
             "A cancelled Fetch recorded a time"
+        )
+    }
+
+    /// The Remotes section is where Fetch Remotes lives, and it does both halves at once: what
+    /// the remote gained arrives, and the Branch it no longer has stops being listed.
+    @MainActor
+    func testEnglishFetchRemotesRemovesTheBranchTheRemoteNoLongerHas() {
+        let application = fetchApplication()
+        application.launch()
+        application.activate()
+
+        let stale = application.descendants(matching: .any)["repository.ref.remote.origin/已删除"]
+        assertEventuallyExists(stale, "The sidebar does not list the stale remote branch")
+
+        let fetchRemotes = application.descendants(matching: .any)["repository.remotes.fetch"]
+        assertEventuallyExists(fetchRemotes, "The Remotes section has no Fetch Remotes")
+        fetchRemotes.click()
+
+        assertEventuallyExists(
+            application.descendants(matching: .any)["repository.ref.remote.origin/新分支"],
+            "Fetch Remotes did not bring in a remote branch"
+        )
+        XCTAssertTrue(
+            waitUntil(NSPredicate(format: "exists == false"), on: stale),
+            "Fetch Remotes left the branch the remote no longer has"
+        )
+    }
+
+    /// The toolbar's Fetch is untouched by it: a stale remote-tracking Branch is exactly what an
+    /// ordinary Fetch leaves behind, which is the state Fetch Remotes exists to answer.
+    @MainActor
+    func testEnglishTheToolbarFetchLeavesTheStaleRemoteBranchListed() {
+        let application = fetchApplication()
+        application.launch()
+        application.activate()
+
+        application.descendants(matching: .any)["repository.toolbar.fetch"].click()
+
+        assertEventuallyExists(
+            application.descendants(matching: .any)["repository.ref.remote.origin/新分支"],
+            "The Fetch did not bring in a remote branch"
+        )
+        XCTAssertTrue(
+            application.descendants(matching: .any)["repository.ref.remote.origin/已删除"].exists,
+            "The ordinary Fetch removed a ref nothing asked it to remove"
+        )
+    }
+
+    /// A Repository with no remote explains why Fetch Remotes is disabled rather than failing
+    /// afterwards, in the same words the toolbar's Fetch uses.
+    @MainActor
+    func testEnglishFetchRemotesIsDisabledWithoutARemoteAndSaysWhy() {
+        let application = XCUIApplication.configuredForRepository(
+            path: FileManager.default.temporaryDirectory.path(percentEncoded: false)
+        )
+        application.launch()
+        application.activate()
+
+        let fetchRemotes = application.descendants(matching: .any)["repository.remotes.fetch"]
+        assertEventuallyExists(fetchRemotes, "The Remotes section has no Fetch Remotes")
+        XCTAssertFalse(fetchRemotes.isEnabled)
+    }
+
+    /// A Fetch already out at a remote holds it, exactly as it holds a second Fetch.
+    @MainActor
+    func testEnglishFetchRemotesIsDisabledWhileAFetchIsStillRunning() {
+        let application = fetchApplication(additionalArguments: [UITestingArgument.slowFetch])
+        application.launch()
+        application.activate()
+
+        application.descendants(matching: .any)["repository.toolbar.fetch"].click()
+
+        let fetchRemotes = application.descendants(matching: .any)["repository.remotes.fetch"]
+        assertEventuallyExists(fetchRemotes, "The Remotes section has no Fetch Remotes")
+        XCTAssertTrue(
+            waitUntil(NSPredicate(format: "isEnabled == false"), on: fetchRemotes),
+            "Fetch Remotes stayed available while a Fetch was still out at a remote"
         )
     }
 

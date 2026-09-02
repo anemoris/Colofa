@@ -491,6 +491,16 @@
         "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "上游" } }
       }
     },
+    "upstreamGone" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Upstream gone" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "上流が消失" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "업스트림 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "上游已消失" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "上游已消失" } }
+      }
+    },
     "branchMenu" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2431,6 +2441,16 @@
         "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Colofa 無法讀取 Git 允許「擷取全部遠端」聯絡哪些遠端。" } }
       }
     },
+    "fetchRemotes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Fetch Remotes" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "リモートをフェッチ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "원격 저장소 페치" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "获取远程" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "擷取遠端" } }
+      }
+    },
     "fetchRemotesFailedDescription" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2439,6 +2459,16 @@
         "ko" : { "stringUnit" : { "state" : "translated", "value" : "Colofa에서 %@을(를) 페치하지 못했습니다." } },
         "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Colofa 无法获取 %@。" } },
         "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Colofa 無法擷取 %@。" } }
+      }
+    },
+    "fetchRemotesHelp" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Download remote branches and remove the ones deleted on their remote" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "リモートブランチをダウンロードし、リモート側で削除されたものを取り除く" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "원격 브랜치를 다운로드하고 원격에서 삭제된 항목 제거" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "下载远程分支，并移除远程已删除的分支" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "下載遠端分支，並移除遠端已刪除的分支" } }
       }
     },
     "fetchTags" : {
@@ -3574,11 +3604,11 @@
     "moveToTrashFailedMessage" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "“%1$@” is still where it was. %2$@" } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "「%1$@」は元の場所にあります。%2$@" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "“%1$@”은(는) 원래 위치에 그대로 있습니다. %2$@" } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "“%1$@”仍在原处。%2$@" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "「%1$@」仍在原處。%2$@" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Colofa could not move “%1$@” to the Trash. %2$@" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Colofa は「%1$@」をゴミ箱に入れられませんでした。%2$@" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Colofa가 “%1$@”을(를) 휴지통으로 옮기지 못했습니다. %2$@" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Colofa 无法将“%1$@”移到废纸篓。%2$@" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Colofa 無法將「%1$@」移到垃圾桶。%2$@" } }
       }
     },
     "revealInFinder" : {

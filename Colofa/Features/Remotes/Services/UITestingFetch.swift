@@ -10,8 +10,9 @@
 import Foundation
 
 /// What the stubbed backend answers about Fetch, so a UI test can drive a Fetch that succeeds,
-/// one that fails on its second remote, one slow enough to be cancelled, and a Fetch Tags Git
-/// refuses.
+/// one that fails on its second remote, one slow enough to be cancelled, a Fetch Tags Git
+/// refuses, and the Fetch Remotes that reconciles what an ordinary Fetch deliberately leaves
+/// alone.
 ///
 /// Declared `nonisolated` because the project defaults to Main Actor isolation while
 /// `UITestingRepositoryService` reads these from an actor.
@@ -21,6 +22,12 @@ nonisolated enum UITestingFetch {
 
     /// The remote branch a successful Fetch brings in, so the sidebar visibly gains something.
     static let fetchedRemoteBranch = "origin/新分支"
+
+    /// A remote-tracking Branch whose Branch was deleted on the remote.
+    ///
+    /// An ordinary Fetch leaves it listed, which is the state this fixture exists to show; only
+    /// a Fetch Remotes removes it.
+    static let staleRemoteBranch = "origin/已删除"
 
     /// The tag a successful Fetch Tags brings in.
     static let fetchedTag = "v2.0-新"

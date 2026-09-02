@@ -30,19 +30,17 @@ nonisolated struct PullDivergence: Equatable, Sendable {
     ///
     /// Both counts have to be non-zero. A Branch that is only behind is one a fast-forward
     /// handles, and a Branch that is only ahead has nothing to pull; neither is what stopped this
-    /// Pull, and saying so would explain the wrong refusal.
+    /// Pull, and saying so would explain the wrong refusal. An upstream Git counted neither
+    /// direction against — one that is gone, or a Branch that is Unborn — is not a divergence
+    /// either: there is nothing to have diverged from.
     static func evaluate(in repository: RepositorySnapshot) -> Self? {
         guard case .branch(let branch) = repository.head,
               let upstream = repository.upstream,
-              upstream.ahead > 0, upstream.behind > 0 else {
+              case .counted(let ahead, let behind) = upstream.position,
+              ahead > 0, behind > 0 else {
             return nil
         }
-        return Self(
-            branch: branch,
-            upstream: upstream.name,
-            ahead: upstream.ahead,
-            behind: upstream.behind
-        )
+        return Self(branch: branch, upstream: upstream.name, ahead: ahead, behind: behind)
     }
 
     var title: LocalizedStringResource {

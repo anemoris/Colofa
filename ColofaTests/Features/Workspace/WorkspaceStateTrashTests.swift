@@ -83,8 +83,38 @@ final class WorkspaceStateTrashTests {
             state.repositoryFailureTitle.map(englishText) == "File Could Not Be Moved to the Trash"
         )
         let message = try #require(state.repositoryFailureMessage.map(englishText))
-        #expect(message.hasPrefix("“new.txt” is still where it was."))
+        #expect(message.hasPrefix("Colofa could not move “new.txt” to the Trash."))
         #expect(state.repository?.unstagedChanges.contains(untracked) == true)
+    }
+
+    /// The failure the message used to be wrong for: something else removed the path while the
+    /// confirmation was open, so the Trash answers `fileNoSuchFile`, the reload that follows drops
+    /// the row, and the explanation left on screen must not say the file is still where it was.
+    @Test
+    @MainActor
+    func aTrashOperationOnAVanishedPathNeverClaimsTheFileIsStillThere() async throws {
+        let repositoryURL = URL(filePath: "/tmp/Colofa Trash Vanished")
+        let after = repository(
+            at: repositoryURL,
+            stagedChanges: [FileActionFixture.staged],
+            unstagedChanges: [FileActionFixture.conflicted, FileActionFixture.modified]
+        )
+        let workspace = await fileActionsWorkspace(
+            at: repositoryURL,
+            defaults: defaults,
+            followedBy: [after]
+        )
+        workspace.files.trashError = CocoaError(.fileNoSuchFile)
+
+        workspace.state.beginMovingToTrash(untracked)
+        await workspace.confirmPendingFileAction()
+
+        let state = workspace.state
+        let message = try #require(state.repositoryFailureMessage.map(englishText))
+        #expect(message.hasPrefix("Colofa could not move “new.txt” to the Trash."))
+        #expect(!message.contains("still where it was"))
+        // The row the message names is already gone, which is exactly why it cannot promise it.
+        #expect(state.repository?.unstagedChanges.contains(untracked) == false)
     }
 
     @MainActor

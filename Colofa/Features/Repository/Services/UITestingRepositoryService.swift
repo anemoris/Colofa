@@ -218,17 +218,18 @@ actor UITestingRepositoryService {
         guard let upstream = snapshot.upstream else {
             return nil
         }
+        // A Commit moves the Branch away from an upstream Git actually counted. One it could not
+        // count — gone, or Unborn — stays exactly as unanswerable as it was.
+        guard case .counted(let ahead, let behind) = upstream.position else {
+            return upstream
+        }
         if isAmending && snapshot.headCommit?.isPublished == true {
-            return RepositoryUpstream(
-                name: upstream.name,
-                ahead: upstream.ahead + 1,
-                behind: upstream.behind + 1
-            )
+            return RepositoryUpstream(name: upstream.name, ahead: ahead + 1, behind: behind + 1)
         }
         return RepositoryUpstream(
             name: upstream.name,
-            ahead: upstream.ahead + (isAmending ? 0 : 1),
-            behind: upstream.behind
+            ahead: ahead + (isAmending ? 0 : 1),
+            behind: behind
         )
     }
 
