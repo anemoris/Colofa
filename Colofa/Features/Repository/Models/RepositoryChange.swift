@@ -29,4 +29,14 @@ struct RepositoryChange: Equatable, Identifiable, Sendable {
             false
         }
     }
+
+    /// Whether Git has never recorded this path, which is what makes removing it a Move to Trash
+    /// rather than something Git could restore.
+    nonisolated var isUntracked: Bool {
+        if case .untracked = kind {
+            true
+        } else {
+            false
+        }
+    }
 }

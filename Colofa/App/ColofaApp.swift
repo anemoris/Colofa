@@ -16,11 +16,16 @@ struct ColofaApp: App {
     init() {
         let arguments = ProcessInfo.processInfo.arguments
         let service: RepositoryService
+        var fileSystem = FileSystemActions.live()
 #if DEBUG
         if arguments.contains(UITestingArgument.gitUnavailable) {
             service = .unavailable()
         } else if arguments.contains(UITestingArgument.repositoryService) {
-            service = .uiTesting(arguments: arguments)
+            // One stub answers both, so a UI test's Move to Trash removes the row the Repository
+            // then stops reporting — and never reaches the Trash of the machine running the test.
+            let backend = UITestingRepositoryService(arguments: arguments)
+            service = .uiTesting(backend)
+            fileSystem = .uiTesting(backend)
         } else {
             service = .live()
         }
@@ -30,6 +35,7 @@ struct ColofaApp: App {
         _state = State(
             initialValue: WorkspaceState(
                 repositoryService: service,
+                fileSystem: fileSystem,
                 launchArguments: arguments
             )
         )

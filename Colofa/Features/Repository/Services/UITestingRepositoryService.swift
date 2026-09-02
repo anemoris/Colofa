@@ -21,7 +21,11 @@ actor UITestingRepositoryService {
     /// then holds the answer, so a Fetch of several remotes must not ask again per remote.
     var hasAskedAuthentication = false
 
-    private var snapshot: RepositorySnapshot?
+    /// The Repository this fixture currently reports.
+    ///
+    /// Not private: the file-system extension in UITestingRepositoryService+FileSystem.swift
+    /// removes a trashed path from it, and Swift keeps `private` within one file.
+    var snapshot: RepositorySnapshot?
 
     /// Long enough that a test can look at the composer without racing the command, and long
     /// enough that the command is still out when the test ends.
@@ -155,6 +159,14 @@ actor UITestingRepositoryService {
             unstaged.removeAll { changes.contains($0) }
             for change in changes where !staged.contains(change) {
                 staged.append(change)
+            }
+        } else if command.contains("--worktree") {
+            // A Discard restores the working tree from the index, so the unstaged projection of
+            // the path goes and whatever is staged for it stays exactly where it was.
+            unstaged.removeAll { change in
+                !change.isConflict
+                    && !change.isUntracked
+                    && change.gitPathspecs.contains { paths.contains($0) }
             }
         } else if action == "restore" || action == "rm" {
             let changes = staged.filter { change in

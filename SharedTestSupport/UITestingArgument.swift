@@ -30,6 +30,13 @@ nonisolated enum UITestingArgument {
     /// Makes every stubbed mutation fail so error presentation can be asserted.
     static let stageFailure = "--ui-testing-stage-failure"
 
+    /// Makes every Move to Trash fail the way the file system refuses one.
+    static let trashFailure = "--ui-testing-trash-failure"
+
+    /// Makes the fixture report that the selected path is no longer on disk, which is the case
+    /// Reveal in Finder explains rather than shows.
+    static let missingFile = "--ui-testing-missing-file"
+
     /// Serves a fully populated snapshot instead of an empty, unborn-branch Repository.
     static let realRepositoryState = "--ui-testing-real-repository-state"
 

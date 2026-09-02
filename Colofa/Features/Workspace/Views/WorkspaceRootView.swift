@@ -72,6 +72,23 @@ struct WorkspaceRootView: View {
         .sheet(isPresented: $state.isPresentingAuthenticationRequest) {
             AuthenticationRequestSheet()
         }
+        // `presenting:` rather than reading the Store back inside the closures: SwiftUI clears
+        // `isPresented` while dismissing, before the confirming button's action runs, so the
+        // pending slot is already empty by then. This payload is what the dialog captured when it
+        // opened, and it is what says which action was actually confirmed.
+        .confirmationDialog(
+            Text(state.pendingFileAction?.title ?? .discardChanges),
+            isPresented: $state.isConfirmingFileAction,
+            titleVisibility: .visible,
+            presenting: state.pendingFileAction
+        ) { action in
+            Button(action.confirmationLabel, role: .destructive) {
+                confirmFileAction(action)
+            }
+            Button(.cancel, role: .cancel, action: state.cancelFileAction)
+        } message: { action in
+            Text(action.message)
+        }
         .alert(
             String(localized: .amendCancelledHeadChangedTitle),
             isPresented: $state.isShowingStaleAmendAlert
@@ -91,6 +108,12 @@ struct WorkspaceRootView: View {
         }
         .onChange(of: scenePhase) { _, newPhase in
             scenePhaseChanged(to: newPhase)
+        }
+    }
+
+    private func confirmFileAction(_ action: DestructiveFileAction) {
+        Task {
+            await state.confirmFileAction(action)
         }
     }
 

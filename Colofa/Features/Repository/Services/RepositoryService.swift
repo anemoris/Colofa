@@ -136,9 +136,11 @@ struct RepositoryService: Sendable {
         )
     }
 
-    static func uiTesting(arguments: [String]) -> Self {
-        let backend = UITestingRepositoryService(arguments: arguments)
-        return Self(
+    /// - Parameter backend: Built by the caller rather than here, so the same stub can answer the
+    ///   Repository and the file system: a UI test's Move to Trash has to remove the very row the
+    ///   Repository then stops reporting.
+    static func uiTesting(_ backend: UITestingRepositoryService) -> Self {
+        Self(
             availability: { .available(URL(filePath: "/usr/bin/git")) },
             load: { url in
                 try await backend.loadRepository(at: url)
@@ -150,10 +152,10 @@ struct RepositoryService: Sendable {
                 try await backend.loadDiff(request)
             },
             loadHistory: { request in
-                try await backend.loadHistory(request)
+                await backend.loadHistory(request)
             },
             loadCommitDetail: { request in
-                try await backend.loadCommitDetail(request)
+                await backend.loadCommitDetail(request)
             },
             validateBranchName: { request in
                 await backend.validateBranchName(request)
