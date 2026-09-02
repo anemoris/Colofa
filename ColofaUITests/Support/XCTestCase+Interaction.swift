@@ -125,4 +125,53 @@ extension XCTestCase {
         let expectation = XCTNSPredicateExpectation(predicate: predicate, object: element)
         return XCTWaiter().wait(for: [expectation], timeout: timeout) == .completed
     }
+
+    /// Clicks `element` once it reports a frame a click can be aimed at.
+    ///
+    /// `click()` derives its own hit point from the accessibility snapshot it takes while it
+    /// runs, and an element belonging to a menu that is still opening or closing reports an empty
+    /// frame. The infinite centre point XCTest computes from one aborts the whole run inside
+    /// `XCPointerEventPath` instead of failing this single assertion.
+    @MainActor
+    func clickWhenReady(_ element: XCUIElement, line: UInt = #line) {
+        guard waitUntilClickable(element, line: line) else {
+            return
+        }
+        element.click()
+    }
+
+    /// Right-clicks `element` once it reports a frame a click can be aimed at, for the reason
+    /// `clickWhenReady(_:line:)` gives.
+    @MainActor
+    func rightClickWhenReady(_ element: XCUIElement, line: UInt = #line) {
+        guard waitUntilClickable(element, line: line) else {
+            return
+        }
+        element.rightClick()
+    }
+
+    @MainActor
+    private func waitUntilClickable(_ element: XCUIElement, line: UInt) -> Bool {
+        let predicate = NSPredicate { element, _ in
+            guard let element = element as? XCUIElement, element.exists else {
+                return false
+            }
+            let frame = element.frame
+            return frame.width > 0 && frame.height > 0
+                && frame.origin.x.isFinite && frame.origin.y.isFinite
+        }
+        // Almost always true already. Building the expectation costs a fixed wait even when the
+        // element was ready before it was asked, and these helpers are on every click.
+        if predicate.evaluate(with: element) {
+            return true
+        }
+        let isClickable = waitUntil(predicate, on: element)
+        XCTAssertTrue(
+            isClickable,
+            "Element never reported a frame a click could be aimed at",
+            file: #filePath,
+            line: line
+        )
+        return isClickable
+    }
 }

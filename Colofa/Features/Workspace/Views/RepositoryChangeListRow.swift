@@ -23,7 +23,7 @@ struct RepositoryChangeListRow: View {
                 .accessibilityIdentifier(actionIdentifier)
         }
         .contextMenu {
-            RepositoryChangeActionButton(change: change, isStaged: isStaged)
+            RepositoryChangeActions(change: change, isStaged: isStaged)
         }
     }
 

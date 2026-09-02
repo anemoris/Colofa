@@ -28,6 +28,11 @@ final class WorkspaceState {
     /// WorkspaceState+Branches.swift owns it, and Swift keeps `private` within one file.
     var branchCreation: BranchCreationDraft?
 
+    /// The destructive file action waiting for its confirmation, or `nil` when none is. Not
+    /// private: the file-actions extension in WorkspaceState+FileActions.swift owns it, and Swift
+    /// keeps `private` within one file. Nothing has run while it is set.
+    var pendingFileAction: DestructiveFileAction?
+
     // Not private: the Fetch extension in WorkspaceState+Fetch.swift owns everything below, and
     // Swift keeps `private` within one file. Nothing else writes to them.
 
@@ -127,6 +132,10 @@ final class WorkspaceState {
     let repositoryService: RepositoryService
     let pasteboard: PasteboardWriter
 
+    /// Not private: the file-actions extension in WorkspaceState+FileActions.swift reaches the
+    /// Trash and Finder through it, and Swift keeps `private` within one file.
+    let fileSystem: FileSystemActions
+
     /// Not private: the Fetch extension persists the app-owned last-Fetch time through it, and
     /// Swift keeps `private` within one file.
     let userDefaults: UserDefaults
@@ -158,11 +167,13 @@ final class WorkspaceState {
     init(
         repositoryService: RepositoryService = .live(),
         pasteboard: PasteboardWriter = .live(),
+        fileSystem: FileSystemActions = .live(),
         userDefaults: UserDefaults = .standard,
         launchArguments: [String] = ProcessInfo.processInfo.arguments
     ) {
         self.repositoryService = repositoryService
         self.pasteboard = pasteboard
+        self.fileSystem = fileSystem
         self.userDefaults = userDefaults
         self.launchArguments = launchArguments
     }
@@ -317,6 +328,7 @@ extension WorkspaceState {
             branchCreation = nil
             tagFetchSelection = nil
             pushDialog = nil
+            pendingFileAction = nil
             isConfirmingHistoryRewrite = false
             isShowingStaleAmendAlert = false
             isShowingStalePushAlert = false
@@ -325,6 +337,7 @@ extension WorkspaceState {
             // checked against it rather than trusted: what it showed is what its own confirmation
             // will act on, and only a comparison can say whether that is still the truth.
             reconcilePushDialog(against: repository)
+            reconcileFileAction(against: repository)
             if !isRewritingHead {
                 reconcileAmendDraft()
             }

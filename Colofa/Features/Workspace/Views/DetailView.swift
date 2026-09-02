@@ -43,6 +43,7 @@ private struct DetailContentView: View {
                             isStaged: selection.isStaged
                         )
                         .accessibilityIdentifier("repository.detail.action")
+                        RepositoryChangeMenu(change: change, isStaged: selection.isStaged)
                     }
                     if change.isConflict {
                         Text(.resolveConflictBeforeStaging)

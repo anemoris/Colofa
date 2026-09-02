@@ -45,6 +45,9 @@ enum RepositoryFailurePresentation: Sendable {
     /// A Publish or Push Colofa refused before running it, because the remote resolves to this
     /// Repository or to more than one address. Nothing ran, so there is no Git output to expand.
     case pushDestinationAlert(PushDestinationRefusal)
+    /// A path the file system, not Git, refused to remove or reveal. Nothing Git ran, so there is
+    /// no command output to expand.
+    case fileActionAlert(FileActionFailure)
     /// A command that failed over the connection's identity rather than over what it was asked
     /// to do. It offers no way to continue: a host key Colofa would accept on the user's behalf
     /// is a host key nobody checked.
@@ -73,6 +76,8 @@ enum RepositoryFailurePresentation: Sendable {
             refusal.title
         case .authenticationAlert(let failure, _):
             failure.title
+        case .fileActionAlert(let failure):
+            failure.title
         case .details:
             nil
         }
@@ -100,6 +105,8 @@ enum RepositoryFailurePresentation: Sendable {
             refusal.message
         case .authenticationAlert(let failure, _):
             failure.message
+        case .fileActionAlert(let failure):
+            failure.message
         case .details(_, let message):
             message
         }
@@ -122,7 +129,7 @@ enum RepositoryFailurePresentation: Sendable {
             error.failureDetails != nil
         case .fetchAlert(let outcome):
             outcome.error?.failureDetails != nil
-        case .pushDestinationAlert, .repositoryOpenAlert, .details:
+        case .fileActionAlert, .pushDestinationAlert, .repositoryOpenAlert, .details:
             false
         }
     }
@@ -133,7 +140,7 @@ enum RepositoryFailurePresentation: Sendable {
         switch self {
         case .mutationAlert, .checkoutRefusedAlert, .fetchAlert, .tagFetchAlert,
             .pullDivergedAlert, .pullBlockedAlert, .pushRejectedAlert, .pushDestinationAlert,
-            .authenticationAlert:
+            .authenticationAlert, .fileActionAlert:
             true
         case .repositoryOpenAlert, .details:
             false
@@ -168,7 +175,7 @@ enum RepositoryFailurePresentation: Sendable {
             }
         case .authenticationAlert(let failure, let error):
             error.failureDetails.map { .details($0, message: failure.message) }
-        case .pushDestinationAlert, .details:
+        case .fileActionAlert, .pushDestinationAlert, .details:
             nil
         }
     }

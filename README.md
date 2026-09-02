@@ -14,6 +14,8 @@ Early development. What works today, against real repositories, through the `git
 - Ordinary repositories, linked worktrees, and repositories inside submodules
 - Live status: branch, upstream, ahead and behind counts, staged and unstaged changes
 - Staging and unstaging files, one at a time or all at once
+- Two separate destructive actions, each behind its own confirmation and named for what it actually does: Discard Changes restores a tracked path's unstaged content to the staged version and leaves staged work alone, and Move to Trash removes an untracked file to the macOS Trash, where it stays recoverable. A conflicted path is offered neither, so choosing a side is always explicit
+- Reveal in Finder and Copy Path for any changed file, both acting on the real path, with a file that has left the disk explained rather than silently opened on nothing
 - Creating Commits from exactly the staged changes, including first Commit and Amend workflows
 - A repository inspector showing effective Git configuration, with editing for `user.name`, `user.email`, and `http.proxy` in either repository or global scope. Remote addresses are listed there with any password in them masked, so an inspector left open — or shared on a screen — never puts a token on display
 - Diffs for the selected staged or unstaged change, in unified or split layout, with renames showing both paths, submodules showing both commits, and binary files showing metadata instead of invented text

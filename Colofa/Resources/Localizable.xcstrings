@@ -3470,6 +3470,166 @@
         "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法重新启动 Colofa。请退出后重新打开以应用显示语言。" } },
         "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法重新啟動 Colofa。請結束後重新開啟以套用顯示語言。" } }
       }
+    },
+    "discardChanges" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Discard Changes" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "変更を破棄" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "변경 사항 폐기" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "放弃更改" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "捨棄更動" } }
+      }
+    },
+    "discardChangesConfirmTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Discard changes to “%@”?" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "「%@」の変更を破棄しますか？" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "“%@”의 변경 사항을 폐기하시겠습니까?" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "要放弃“%@”的更改吗？" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "要捨棄「%@」的更動嗎？" } }
+      }
+    },
+    "discardChangesConfirmMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Only unstaged changes are restored to the staged version. Staged Changes are kept. This cannot be undone." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ステージされていない変更のみがステージ済みの内容に戻ります。ステージ済みの変更はそのまま残ります。この操作は取り消せません。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "스테이지되지 않은 변경 사항만 스테이지된 내용으로 되돌립니다. 스테이지된 변경 사항은 그대로 유지됩니다. 이 작업은 취소할 수 없습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "只有未暂存的更改会还原为已暂存的版本，已暂存的更改会保留。此操作无法撤销。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "只有未暫存的更動會還原為已暫存的版本，已暫存的更動會保留。此操作無法還原。" } }
+      }
+    },
+    "discardChangesFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Changes Could Not Be Discarded" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "変更を破棄できませんでした" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "변경 사항을 폐기하지 못함" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法放弃更改" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法捨棄更動" } }
+      }
+    },
+    "moveToTrash" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Move to Trash" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ゴミ箱に入れる" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "휴지통으로 이동" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "移到废纸篓" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "移到垃圾桶" } }
+      }
+    },
+    "moveToTrashConfirmTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Move “%@” to the Trash?" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "「%@」をゴミ箱に入れますか？" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "“%@”을(를) 휴지통으로 이동하시겠습니까?" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "要将“%@”移到废纸篓吗？" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "要將「%@」移到垃圾桶嗎？" } }
+      }
+    },
+    "moveToTrashConfirmMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This file is untracked, so Git has no copy to restore. Colofa moves it to the macOS Trash, where you can put it back." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "このファイルは追跡されていないため、Git には復元できるコピーがありません。Colofa は macOS のゴミ箱に移動するので、あとで戻せます。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 파일은 추적되지 않으므로 Git에 복원할 사본이 없습니다. Colofa는 파일을 macOS 휴지통으로 옮기며, 나중에 되돌릴 수 있습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "该文件未被跟踪，Git 没有可还原的副本。Colofa 会将它移到 macOS 废纸篓，你可以从那里放回。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "此檔案未被追蹤，Git 沒有可還原的副本。Colofa 會將它移到 macOS 垃圾桶，你可以從那裡放回。" } }
+      }
+    },
+    "moveToTrashCancelledTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "File Was Not Moved to the Trash" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ファイルはゴミ箱に入りませんでした" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "파일을 휴지통으로 옮기지 않음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "文件未移到废纸篓" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "檔案未移到垃圾桶" } }
+      }
+    },
+    "moveToTrashCancelledMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "The operation was cancelled, so “%@” is still where it was." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "操作がキャンセルされたため、「%@」は元の場所にあります。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "작업이 취소되어 “%@”은(는) 원래 위치에 그대로 있습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "操作已取消，“%@”仍在原处。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "操作已取消，「%@」仍在原處。" } }
+      }
+    },
+    "moveToTrashFailedTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "File Could Not Be Moved to the Trash" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ファイルをゴミ箱に入れられませんでした" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "파일을 휴지통으로 옮기지 못함" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法将文件移到废纸篓" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法將檔案移到垃圾桶" } }
+      }
+    },
+    "moveToTrashFailedMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "“%1$@” is still where it was. %2$@" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "「%1$@」は元の場所にあります。%2$@" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "“%1$@”은(는) 원래 위치에 그대로 있습니다. %2$@" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "“%1$@”仍在原处。%2$@" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "「%1$@」仍在原處。%2$@" } }
+      }
+    },
+    "revealInFinder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Reveal in Finder" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Finder で表示" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Finder에서 보기" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "在访达中显示" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "在 Finder 中顯示" } }
+      }
+    },
+    "revealInFinderFailedTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "File Could Not Be Revealed" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ファイルを表示できませんでした" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "파일을 표시하지 못함" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法显示文件" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法顯示檔案" } }
+      }
+    },
+    "revealInFinderFailedMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "“%@” is no longer on disk. Colofa reloaded the Repository." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "「%@」はディスク上に存在しません。Colofa はリポジトリを読み込み直しました。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "“%@”이(가) 디스크에 더 이상 없습니다. Colofa가 저장소를 다시 읽었습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "“%@”已不在磁盘上。Colofa 已重新读取仓库。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "「%@」已不在磁碟上。Colofa 已重新讀取儲存庫。" } }
+      }
+    },
+    "copyPath" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Copy Path" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "パスをコピー" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "경로 복사" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "拷贝路径" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "拷貝路徑" } }
+      }
+    },
+    "fileActions" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "File Actions" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ファイル操作" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "파일 동작" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "文件操作" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "檔案操作" } }
+      }
     }
   },
   "version" : "1.0"
