@@ -66,14 +66,32 @@ extension UITestingRepositoryService {
         publish(
             replacing(
                 in: snapshot,
-                remoteBranches: isTagFetch
-                    ? snapshot.remoteBranches
-                    : adding(UITestingFetch.fetchedRemoteBranch, to: snapshot.remoteBranches),
+                remoteBranches: remoteBranches(after: command, in: snapshot),
                 tags: isTagFetch
                     ? adding(UITestingFetch.fetchedTag, to: snapshot.tags)
                     : snapshot.tags
             )
         )
+    }
+
+    /// The remote-tracking Branches one command leaves behind.
+    ///
+    /// A Fetch Tags touches none of them. An ordinary Fetch adds what the remote gained and
+    /// leaves the stale one exactly where it is, which is what Git does when nothing asked it to
+    /// prune. A Fetch Remotes does both halves: it adds the new Branch and removes the one the
+    /// remote no longer has.
+    private func remoteBranches(
+        after command: [String],
+        in snapshot: RepositorySnapshot
+    ) -> [String] {
+        guard !FetchCommand.isTagFetch(command) else {
+            return snapshot.remoteBranches
+        }
+        let fetched = adding(UITestingFetch.fetchedRemoteBranch, to: snapshot.remoteBranches)
+        guard FetchCommand.isRemotesFetch(command) else {
+            return fetched
+        }
+        return fetched.filter { $0 != UITestingFetch.staleRemoteBranch }
     }
 
     /// Asks the fixture's one question through the same door a real command asks through, and

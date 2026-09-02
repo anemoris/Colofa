@@ -17,6 +17,9 @@ enum FileActionFailure: Equatable, Sendable {
     /// The Trash operation was cancelled rather than refused — an authorization the user
     /// declined. The file is still where it was.
     case trashCancelled(path: String)
+    /// The Trash refused the path, for a reason only the system knows. Unlike a cancellation
+    /// this promises nothing about where the file is now: a path something else deleted
+    /// between the read that listed it and this attempt fails here too, as `fileNoSuchFile`.
     case trashFailed(path: String, reason: String)
     /// The path was already gone when Finder was asked for it, so the Repository was read again.
     case revealMissing(path: String)

@@ -8,7 +8,8 @@
 
 import Foundation
 
-/// Manually refreshing remote-tracking refs, and explicitly downloading one remote's tags.
+/// Manually refreshing remote-tracking refs, explicitly reconciling them with what the remotes
+/// still hold, and explicitly downloading one remote's tags.
 ///
 /// Every command here is one the user pressed. Colofa has no periodic Fetch, no Fetch when the
 /// window becomes active, and no Fetch hidden inside another operation: contacting a remote is
@@ -39,6 +40,12 @@ extension WorkspaceState {
         canFetch
     }
 
+    /// Fetch Remotes contacts a remote exactly the way Fetch does, so the same things stand in
+    /// its way, and they are reported in the same words.
+    var canFetchRemotes: Bool {
+        canFetch
+    }
+
     /// Whether the running Fetch is still the part of itself that can be stopped.
     ///
     /// Everything a Fetch takes out to a remote lives inside its task, including the second read
@@ -66,6 +73,26 @@ extension WorkspaceState {
             return
         }
         fetchTask?.cancel()
+    }
+
+    // MARK: - Fetch Remotes
+
+    /// Downloads every eligible remote's branches and removes the remote-tracking Branches those
+    /// remotes no longer have.
+    ///
+    /// Separate from Fetch rather than folded into it. The toolbar's Fetch adds no option and
+    /// lets each remote's own configuration decide what happens, which is a decision recorded in
+    /// ADR 0004; this is the explicit action that overrules it, and it sits in the Remotes
+    /// section it reconciles for the same reason Fetch Tags sits in the Tags section.
+    ///
+    /// It walks the same remotes a Fetch of every remote does, including the ones Git's
+    /// `remote.<name>.skipFetchAll` excludes: a remote Git leaves out of a Fetch of all of them
+    /// is not one Colofa should contact behind Git's back.
+    func fetchRemotes() async {
+        guard let repository, canFetchRemotes else {
+            return
+        }
+        await runFetch(.remotes, in: repository)
     }
 
     // MARK: - Fetch Tags
@@ -111,35 +138,6 @@ extension WorkspaceState {
         }
         tagFetchSelection = nil
         await runFetch(.tags(from: remote), in: repository)
-    }
-
-    // MARK: - Last Fetch
-
-    /// When Colofa last fetched `url`, or `nil` when it never has.
-    ///
-    /// Kept per Repository so reopening an earlier one never inherits another's time.
-    func storedFetchDate(of url: URL) -> Date? {
-        userDefaults.dictionary(forKey: Self.lastFetchDatesKey)?[url.normalizedFilePath] as? Date
-    }
-
-    private static let lastFetchDatesKey = "lastFetchDates"
-
-    /// Records that Colofa has just contacted a remote of the open Repository.
-    ///
-    /// Not private: a Pull's first half is a Fetch, so the Pull extension in
-    /// WorkspaceState+Pull.swift records its time through the same door, and Swift keeps
-    /// `private` within one file.
-    func recordFetch(at date: Date) {
-        guard let repository else {
-            return
-        }
-        lastFetchDate = date
-        guard !isUITesting else {
-            return
-        }
-        var dates = userDefaults.dictionary(forKey: Self.lastFetchDatesKey) ?? [:]
-        dates[repository.rootURL.normalizedFilePath] = date
-        userDefaults.set(dates, forKey: Self.lastFetchDatesKey)
     }
 
     // MARK: - Running one Fetch
@@ -209,18 +207,24 @@ extension WorkspaceState {
     ) async -> FetchOutcome {
         switch work {
         case .everyRemote:
-            await fetchEveryRemote(of: repository)
+            await fetchEveryRemote(of: repository, running: FetchCommand.fetch)
+        case .remotes:
+            await fetchEveryRemote(of: repository, running: FetchCommand.fetchRemotes(from:))
         case .tags(let remote):
             await fetchTags(from: remote, of: repository)
         }
     }
 
-    /// Contacts each eligible remote in turn.
+    /// Contacts each eligible remote in turn, running `command` against each one.
     ///
     /// A remote that fails decides nothing about the others, so the rest are still contacted and
     /// whatever already arrived stays. That is what `git fetch --all` does too — Colofa runs the
-    /// remotes one at a time so the one that failed can be named.
-    private func fetchEveryRemote(of repository: RepositorySnapshot) async -> FetchOutcome {
+    /// remotes one at a time so the one that failed can be named, and so a Fetch Remotes that
+    /// pruned one remote leaves that remote pruned when the next one refuses.
+    private func fetchEveryRemote(
+        of repository: RepositorySnapshot,
+        running command: (String) -> [String]
+    ) async -> FetchOutcome {
         let plan: FetchPlan
         do {
             plan = FetchPlan.evaluate(
@@ -246,7 +250,7 @@ extension WorkspaceState {
             fetchProgress = FetchProgress(remote: remote)
             do {
                 try await repositoryService.runNetworkMutation(
-                    FetchCommand.fetch(remote),
+                    command(remote),
                     repository.rootURL,
                     authenticationResponder
                 )
@@ -352,19 +356,21 @@ extension WorkspaceState {
     }
 }
 
-/// What one Fetch is: every eligible remote, or every tag from one chosen remote.
+/// What one Fetch is: every eligible remote, every eligible remote reconciled with what it still
+/// holds, or every tag from one chosen remote.
 ///
 /// Declared alongside rather than nested, because the Store is one type and this is a detail of
 /// how its Fetch runs rather than part of its published state.
 private enum FetchWork: Equatable, Sendable {
     case everyRemote
+    case remotes
     case tags(from: String)
 
-    /// A Fetch of every remote starts before its first remote is known, because which remotes are
-    /// eligible is the first thing it has to ask Git.
+    /// A Fetch that walks every remote starts before its first remote is known, because which
+    /// remotes are eligible is the first thing it has to ask Git.
     var progress: FetchProgress {
         switch self {
-        case .everyRemote: FetchProgress(remote: nil)
+        case .everyRemote, .remotes: FetchProgress(remote: nil)
         case .tags(let remote): FetchProgress(remote: remote)
         }
     }

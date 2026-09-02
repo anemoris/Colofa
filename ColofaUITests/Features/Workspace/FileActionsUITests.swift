@@ -163,6 +163,70 @@ final class FileActionsUITests: XCTestCase {
         assertEventuallyExists(notes)
     }
 
+    /// A Discard the Git command refused says so, keeps the path, and — unlike the Trash failure
+    /// above — has Git output to offer, because a Git command is what refused it.
+    ///
+    /// The fixture's mutation failure is named for staging only because staging is where it was
+    /// first needed; it refuses every mutating command the stub is asked to run, which is what a
+    /// Discard has to be tested against here.
+    @MainActor
+    func testEnglishARefusedDiscardExplainsItselfAndKeepsThePath() {
+        let application = fileActionsApplication(
+            additionalArguments: [UITestingArgument.stageFailure]
+        )
+        prepare(application)
+
+        let deleted = row(application, "repository.unstaged.deleted.swift")
+        XCTAssertTrue(deleted.waitForExistence(timeout: 5))
+        openContextMenu(application, on: deleted)
+        clickWhenReady(discardItem(application))
+
+        let dialog = application.sheets.firstMatch
+        XCTAssertTrue(dialog.waitForExistence(timeout: 2))
+        clickWhenReady(dialog.buttons["Discard Changes"])
+
+        XCTAssertTrue(
+            application.staticTexts["Changes Could Not Be Discarded"]
+                .waitForExistence(timeout: 5)
+        )
+        let alert = application.sheets.firstMatch
+        XCTAssertTrue(alert.buttons["View Details"].exists)
+        clickWhenReady(alert.buttons["OK"])
+
+        XCTAssertTrue(alert.waitForNonExistence(timeout: 2))
+        // Nothing was discarded, so the row the confirmation named is still listed.
+        assertEventuallyExists(deleted)
+    }
+
+    /// Reveal in Finder on a path that is no longer on disk explains itself instead of opening
+    /// Finder on nothing, and says the Repository was read again.
+    @MainActor
+    func testEnglishMissingPathCannotBeRevealed() {
+        let application = fileActionsApplication(
+            additionalArguments: [UITestingArgument.missingFile]
+        )
+        prepare(application)
+
+        let notes = row(application, "repository.unstaged.notes.txt")
+        XCTAssertTrue(notes.waitForExistence(timeout: 5))
+        openContextMenu(application, on: notes)
+        clickWhenReady(menuItem(application, "repository.change.revealInFinder"))
+
+        XCTAssertTrue(
+            application.staticTexts["File Could Not Be Revealed"].waitForExistence(timeout: 5)
+        )
+        XCTAssertTrue(
+            application.staticTexts[
+                "“notes.txt” is no longer on disk. Colofa reloaded the Repository."
+            ].exists
+        )
+        let alert = application.sheets.firstMatch
+        // Finder was asked rather than Git, so there is no Git output behind it.
+        XCTAssertFalse(alert.buttons["View Details"].exists)
+        clickWhenReady(alert.buttons["OK"])
+        XCTAssertTrue(alert.waitForNonExistence(timeout: 2))
+    }
+
     @MainActor
     private func row(_ application: XCUIApplication, _ identifier: String) -> XCUIElement {
         application.descendants(matching: .any)[identifier]

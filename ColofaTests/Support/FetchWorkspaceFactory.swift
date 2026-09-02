@@ -54,8 +54,11 @@ func fetchWorkspace(
     return state
 }
 
-/// Options no Fetch Colofa runs may ever carry: an explicit Fetch may add refs, never replace or
-/// delete one, and it never widens what Git's own configuration asked for.
+/// Options neither the toolbar's Fetch nor Fetch Tags may ever carry: they may add refs, never
+/// replace or delete one, and they never widen what Git's own configuration asked for.
+///
+/// Fetch Remotes is held to a narrower rule of its own, because `--prune` is exactly what the
+/// user pressed it for.
 let refusedFetchOptions = [
     "--force", "-f", "--prune", "-p", "--prune-tags", "--all", "--multiple", "--update-head-ok",
 ]

@@ -164,8 +164,9 @@ nonisolated enum UITestingRepositorySnapshots {
         )
     }
 
-    /// A Repository with remotes worth fetching: a remote branch a Fetch can add to, a tag a
-    /// Fetch Tags can add to, and no Conflict or active operation in the way.
+    /// A Repository with remotes worth fetching: a remote branch a Fetch can add to, a stale one
+    /// only a Fetch Remotes removes, a tag a Fetch Tags can add to, and no Conflict or active
+    /// operation in the way.
     private static func fetchState(at url: URL, arguments: [String]) -> RepositorySnapshot {
         RepositorySnapshot(
             name: url.lastPathComponent,
@@ -179,7 +180,7 @@ nonisolated enum UITestingRepositorySnapshots {
             upstream: RepositoryUpstream(name: "origin/main", ahead: 1, behind: 0),
             remotes: UITestingFetch.remotes(arguments: arguments),
             localBranches: ["main"],
-            remoteBranches: ["origin/main"],
+            remoteBranches: ["origin/main", UITestingFetch.staleRemoteBranch],
             tags: [UITestingFetch.conflictingTag],
             totalCommitCount: 12,
             gitObjectSize: 4_096,

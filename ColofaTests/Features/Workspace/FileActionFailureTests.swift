@@ -11,8 +11,10 @@ import Testing
 @testable import Colofa
 
 struct FileActionFailureTests {
-    /// A cancellation is not a failure, and the difference has to reach the user: the file is
-    /// where it was either way, but only one of the two is something to correct.
+    /// A cancellation is not a failure, and the difference has to reach the user. Only the
+    /// cancellation says where the file is: nothing declined it, so it is still where it was.
+    /// A refusal names the action that did not happen instead, because a path something else
+    /// already removed fails the same way and is not there to promise.
     @Test
     func cancellationAndRefusalReadDifferentlyAndBothKeepThePath() {
         let cancelled = FileActionFailure.trashCancelled(path: "notes.txt")
@@ -29,7 +31,7 @@ struct FileActionFailureTests {
         #expect(englishText(failed.title) == "File Could Not Be Moved to the Trash")
         #expect(
             englishText(failed.message)
-                == "“notes.txt” is still where it was. You don’t have permission."
+                == "Colofa could not move “notes.txt” to the Trash. You don’t have permission."
         )
     }
 

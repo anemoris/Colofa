@@ -79,6 +79,7 @@ struct SidebarView: View {
                         Label(.noRemotes, systemImage: "cloud")
                             .foregroundStyle(.secondary)
                     }
+                    FetchRemotesButton()
                 }
 
                 Section(String(localized: .tags)) {
@@ -94,6 +95,35 @@ struct SidebarView: View {
                 }
             }
             .listStyle(.sidebar)
+        }
+    }
+}
+
+/// Fetch Remotes, which lives in the Remotes section it reconciles.
+///
+/// The toolbar's Fetch adds no option and leaves each remote's own configuration in charge, so a
+/// remote-tracking Branch whose Branch was deleted on the server stays listed here until someone
+/// asks. This is that asking, and it sits beside the refs it removes rather than in the toolbar,
+/// where it would read as something the ordinary Fetch does by itself.
+private struct FetchRemotesButton: View {
+    @Environment(WorkspaceState.self) private var state
+
+    var body: some View {
+        Button(action: fetchRemotes) {
+            Label(.fetchRemotes, systemImage: "arrow.down.circle")
+                .frame(maxWidth: .infinity, alignment: .leading)
+                // The whole row answers the click, not only the words in it.
+                .contentShape(.rect)
+        }
+        .buttonStyle(.plain)
+        .help(String(localized: state.fetchUnavailabilityReason?.message ?? .fetchRemotesHelp))
+        .disabled(!state.canFetchRemotes)
+        .accessibilityIdentifier("repository.remotes.fetch")
+    }
+
+    private func fetchRemotes() {
+        Task {
+            await state.fetchRemotes()
         }
     }
 }

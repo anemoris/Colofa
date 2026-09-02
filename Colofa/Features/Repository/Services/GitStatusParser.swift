@@ -68,7 +68,7 @@ struct GitStatusParser {
 
         return RepositoryStatus(
             head: head(oid: oid, branch: branch),
-            upstream: try upstream(from: headers),
+            upstream: try upstream(from: headers, at: oid),
             stagedChanges: stagedChanges.sorted(by: changeOrder),
             unstagedChanges: unstagedChanges.sorted(by: changeOrder)
         )
@@ -117,8 +117,11 @@ struct GitStatusParser {
         }
     }
 
+    /// What `branch.oid` reads for a Branch that has no Commit yet.
+    private nonisolated static let unbornObjectID = "(initial)"
+
     private nonisolated static func head(oid: String, branch: String) -> RepositoryHead {
-        if oid == "(initial)" {
+        if oid == Self.unbornObjectID {
             return .unbornBranch(branch)
         }
         if branch == "(detached)" {
@@ -127,12 +130,20 @@ struct GitStatusParser {
         return .branch(branch)
     }
 
+    /// The upstream the Branch names, and how far Git says it stands from it.
+    ///
+    /// A missing `branch.ab` is a question Git declined to answer rather than an answer of zero:
+    /// an Unborn Branch has no Commit to count from, and any other Branch missing it names an
+    /// upstream ref that is no longer there. Reporting either as level would report a Branch as
+    /// caught up with something that does not exist.
     private nonisolated static func upstream(
-        from headers: [String: String]
+        from headers: [String: String],
+        at oid: String
     ) throws -> RepositoryUpstream? {
         guard let name = headers["branch.upstream"] else { return nil }
         guard let countHeader = headers["branch.ab"] else {
-            return RepositoryUpstream(name: name, ahead: 0, behind: 0)
+            let position: UpstreamPosition = oid == Self.unbornObjectID ? .unborn : .gone
+            return RepositoryUpstream(name: name, position: position)
         }
         let counts = countHeader.split(separator: " ")
         guard counts.count == 2,

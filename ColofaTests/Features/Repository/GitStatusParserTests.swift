@@ -50,6 +50,61 @@ struct GitStatusParserTests {
         ])
     }
 
+    /// Git stops counting once the ref it counted against is gone, and it says so by omitting
+    /// `branch.ab` rather than by printing zeroes. Reading that silence as level would report a
+    /// Branch as caught up with a remote-tracking Branch a Fetch Remotes just removed.
+    @Test
+    func readsAmissingAheadBehindAsAnUpstreamThatIsGone() throws {
+        let output = [
+            "# branch.oid 0123456789abcdef",
+            "# branch.head feature",
+            "# branch.upstream origin/feature",
+            "",
+        ].joined(separator: "\0")
+
+        let status = try GitStatusParser.parse(Data(output.utf8))
+        let upstream = try #require(status.upstream)
+
+        #expect(upstream.name == "origin/feature")
+        #expect(upstream.position == .gone)
+        #expect(upstream.ahead == nil)
+        #expect(upstream.behind == nil)
+    }
+
+    /// The other Branch Git declines to count is an Unborn one, and it is not gone: it simply has
+    /// no Commit of its own to count from yet.
+    @Test
+    func readsAnUnbornBranchesUpstreamAsUnborn() throws {
+        let output = [
+            "# branch.oid (initial)",
+            "# branch.head main",
+            "# branch.upstream origin/main",
+            "",
+        ].joined(separator: "\0")
+
+        let status = try GitStatusParser.parse(Data(output.utf8))
+        let upstream = try #require(status.upstream)
+
+        #expect(upstream.name == "origin/main")
+        #expect(upstream.position == .unborn)
+    }
+
+    /// A counted upstream still reads as counted, including the level one a Fetch leaves behind.
+    @Test
+    func readsAcountedUpstreamAsItsCounts() throws {
+        let output = [
+            "# branch.oid 0123456789abcdef",
+            "# branch.head main",
+            "# branch.upstream origin/main",
+            "# branch.ab +0 -0",
+            "",
+        ].joined(separator: "\0")
+
+        let status = try GitStatusParser.parse(Data(output.utf8))
+
+        #expect(status.upstream?.position == .counted(ahead: 0, behind: 0))
+    }
+
     @Test
     func parsesUnbornAndDetachedHead() throws {
         let unborn = try GitStatusParser.parse(
