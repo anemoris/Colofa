@@ -170,7 +170,7 @@ extension WorkspaceState {
             // while anything is out there the Cancel that stops it has to stay on screen.
             fetchTask = nil
 
-            if report.outcome.isSuccessful {
+            if report.outcome.reachedRemote {
                 recordFetch(at: .now)
             }
             await refresh()

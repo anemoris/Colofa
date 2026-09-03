@@ -113,16 +113,6 @@ actor GitRepositoryService {
         try await GitHistoryReader(git: try await resolvedGit()).commitDetail(request)
     }
 
-    func validateBranchName(_ request: BranchNameValidationRequest) async throws -> Bool {
-        try await GitBranchReader(git: try await resolvedGit()).isValidBranchName(request)
-    }
-
-    func loadCheckoutComparison(
-        _ request: CheckoutComparisonRequest
-    ) async throws -> CheckoutComparison {
-        try await GitBranchReader(git: try await resolvedGit()).comparison(request)
-    }
-
     func runMutation(
         _ arguments: [String],
         standardInput: String? = nil,
@@ -375,5 +365,28 @@ extension GitRepositoryService {
         } onCancel: {
             mutation.cancel()
         }
+    }
+}
+
+/// The read-only questions branch work asks Git.
+///
+/// Grouped apart from the Repository read because none of them is published state: each is asked
+/// when one branch command is about to run, and answers what that command would do rather than
+/// what the Repository is.
+extension GitRepositoryService {
+    func validateBranchName(_ request: BranchNameValidationRequest) async throws -> Bool {
+        try await GitBranchReader(git: try await resolvedGit()).isValidBranchName(request)
+    }
+
+    func loadCheckoutComparison(
+        _ request: CheckoutComparisonRequest
+    ) async throws -> CheckoutComparison {
+        try await GitBranchReader(git: try await resolvedGit()).comparison(request)
+    }
+
+    func loadBranchDeletionSurvey(
+        _ request: BranchDeletionRequest
+    ) async throws -> BranchDeletionSurvey? {
+        try await GitBranchReader(git: try await resolvedGit()).deletionSurvey(request)
     }
 }

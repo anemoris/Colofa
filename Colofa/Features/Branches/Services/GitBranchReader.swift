@@ -8,8 +8,8 @@
 
 import Foundation
 
-/// The two read-only questions branch work asks Git: whether a name is one Git would accept, and
-/// which paths a Ref would rewrite.
+/// The read-only questions branch work asks Git: whether a name is one Git would accept, which
+/// paths a Ref would rewrite, and what a local Branch holds that nothing else does.
 ///
 /// Declared `nonisolated` because the project defaults to Main Actor isolation while
 /// `GitRepositoryService` reads these from an actor.
@@ -22,6 +22,10 @@ nonisolated struct GitBranchReader {
     /// other way the command can end — Git missing, unlaunchable, or its output unreadable — is a
     /// failure about Git, and saying "that name is invalid" about one would be a lie.
     private static let refusedExitStatus: Int32 = 128
+
+    /// The status `rev-parse --verify --quiet` exits with when the Ref it was asked about is not
+    /// there, which is an answer rather than a failure.
+    private static let missingRefExitStatus: Int32 = 1
 
     /// Whether Git itself accepts `name` as a branch name.
     ///
@@ -72,5 +76,37 @@ nonisolated struct GitBranchReader {
                 in: request.repositoryURL
             )
         )
+    }
+
+    /// What Git says about the local Branch a Delete would remove, or `nil` when Git no longer
+    /// has that Branch.
+    ///
+    /// Two questions, because they answer different things. The Commit the Branch points at is
+    /// what a confirmation is agreed against, so a Ref that moved afterwards can be refused
+    /// rather than deleted under an assumption that stopped being true. The count is what a
+    /// forced Delete would actually cost: `--not --exclude=<branch> --all` subtracts every other
+    /// Ref in the Repository — local branches, tags, and Remote-tracking Branches alike — so what
+    /// remains is the History this Branch alone reaches.
+    func deletionSurvey(_ request: BranchDeletionRequest) async throws -> BranchDeletionSurvey? {
+        let reference = "refs/heads/\(request.name)"
+        let objectID: String
+        do {
+            objectID = try await git.text(
+                ["rev-parse", "--verify", "--quiet", "--end-of-options", reference],
+                in: request.repositoryURL
+            )
+        } catch RepositoryOpenError.commandFailed(let details)
+            where details.exitStatus == Self.missingRefExitStatus {
+            return nil
+        }
+
+        let count = try await git.text(
+            ["rev-list", "--count", reference, "--not", "--exclude=\(reference)", "--all"],
+            in: request.repositoryURL
+        )
+        guard let uniqueCommitCount = Int(count) else {
+            throw GitOutputParsingError()
+        }
+        return BranchDeletionSurvey(objectID: objectID, uniqueCommitCount: uniqueCommitCount)
     }
 }

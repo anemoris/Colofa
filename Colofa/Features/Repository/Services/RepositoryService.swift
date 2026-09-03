@@ -38,6 +38,13 @@ struct RepositoryService: Sendable {
     /// local work it protected.
     let loadCheckoutComparison: @Sendable (CheckoutComparisonRequest) async throws -> CheckoutComparison
 
+    /// Reads what Git says about a local Branch a Delete would remove: the Commit it points at,
+    /// and how many Commits only it holds. `nil` when Git no longer has the Branch. Asked when
+    /// Delete Branch runs rather than with a snapshot: it decides what one command would cost,
+    /// not what the Repository is.
+    let loadBranchDeletionSurvey:
+        @Sendable (BranchDeletionRequest) async throws -> BranchDeletionSurvey?
+
     /// Reads which remotes Git's configuration excludes from a Fetch of every remote. Asked when
     /// Fetch runs rather than with a snapshot: it decides what a command does, not what the
     /// Repository is.
@@ -95,6 +102,9 @@ struct RepositoryService: Sendable {
             loadCheckoutComparison: { request in
                 try await backend.loadCheckoutComparison(request)
             },
+            loadBranchDeletionSurvey: { request in
+                try await backend.loadBranchDeletionSurvey(request)
+            },
             loadSkippedRemotes: { url in
                 try await backend.loadSkippedRemotes(in: url)
             },
@@ -127,6 +137,7 @@ struct RepositoryService: Sendable {
             loadCommitDetail: { _ in throw RepositoryOpenError.gitUnavailable },
             validateBranchName: { _ in throw RepositoryOpenError.gitUnavailable },
             loadCheckoutComparison: { _ in throw RepositoryOpenError.gitUnavailable },
+            loadBranchDeletionSurvey: { _ in throw RepositoryOpenError.gitUnavailable },
             loadSkippedRemotes: { _ in throw RepositoryOpenError.gitUnavailable },
             loadTagConflicts: { _ in throw RepositoryOpenError.gitUnavailable },
             loadPublishRemote: { _ in throw RepositoryOpenError.gitUnavailable },
@@ -162,6 +173,9 @@ struct RepositoryService: Sendable {
             },
             loadCheckoutComparison: { request in
                 await backend.loadCheckoutComparison(request)
+            },
+            loadBranchDeletionSurvey: { request in
+                await backend.branchDeletionSurvey(request)
             },
             loadSkippedRemotes: { _ in
                 await backend.skippedRemotes()

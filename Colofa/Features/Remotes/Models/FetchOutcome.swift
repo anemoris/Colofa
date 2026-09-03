@@ -31,13 +31,17 @@ nonisolated enum FetchOutcome: Equatable, Sendable {
     /// Colofa could not read which remotes are eligible, so no remote was contacted at all.
     case planFailed(RepositoryOpenError)
 
-    /// Whether this Fetch is the kind that updates the app-owned last-Fetch time: every eligible
-    /// remote answered, and there was at least one to answer.
-    var isSuccessful: Bool {
-        if case .fetched(let remotes) = self {
-            !remotes.isEmpty
-        } else {
-            false
+    /// Whether a remote actually answered, which is what the app-owned last-Fetch time records.
+    ///
+    /// A remote that answered before another one failed, or before the user stopped the Fetch,
+    /// was still contacted, and what it refreshed is as fresh as this moment. Waiting for every
+    /// eligible remote would report the Repository as staler than it is, and would not even be
+    /// consistent with a Fetch Tags, which contacts one remote and records the time for it.
+    var reachedRemote: Bool {
+        switch self {
+        case .fetched(let remotes), .cancelled(let remotes): !remotes.isEmpty
+        case .failed(_, let fetched, _): !fetched.isEmpty
+        case .nothingEligible, .planFailed: false
         }
     }
 

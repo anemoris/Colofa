@@ -139,12 +139,80 @@ struct BranchActionUnavailabilityReasonTests {
         )
     }
 
+    @Test
+    func allowsDeletionOfAbranchThatIsNotCheckedOut() {
+        #expect(
+            BranchActionUnavailabilityReason.evaluateDeletion(
+                branch: "feature",
+                repository: Self.snapshot(),
+                isMutating: false
+            ) == nil
+        )
+    }
+
+    /// Git has no valid state in which the Branch the working tree is on stops existing, so the
+    /// control says so rather than letting the command fail.
+    @Test
+    func refusesDeletionOfTheCurrentBranch() {
+        #expect(
+            BranchActionUnavailabilityReason.evaluateDeletion(
+                branch: "main",
+                repository: Self.snapshot(),
+                isMutating: false
+            ) == .currentBranch
+        )
+    }
+
+    /// A tag, a Remote-tracking Branch, and a Detached HEAD all resolve to no local branch, and
+    /// Delete Branch has nothing to act on for any of them.
+    @Test
+    func refusesDeletionOfWhatIsNotAlocalBranch() {
+        #expect(
+            BranchActionUnavailabilityReason.evaluateDeletion(
+                branch: nil,
+                repository: Self.snapshot(),
+                isMutating: false
+            ) == .notLocalBranch
+        )
+        #expect(
+            BranchActionUnavailabilityReason.evaluateDeletion(
+                branch: "gone",
+                repository: Self.snapshot(),
+                isMutating: false
+            ) == .notLocalBranch
+        )
+    }
+
+    @Test
+    func refusesDeletionWithoutArepository() {
+        #expect(
+            BranchActionUnavailabilityReason.evaluateDeletion(
+                branch: "feature",
+                repository: nil,
+                isMutating: false
+            ) == .noRepository
+        )
+    }
+
+    @Test
+    func refusesDeletionWhileAnotherCommandRuns() {
+        #expect(
+            BranchActionUnavailabilityReason.evaluateDeletion(
+                branch: "feature",
+                repository: Self.snapshot(),
+                isMutating: true
+            ) == .mutationInProgress
+        )
+    }
+
     /// Every reason has to be able to say itself, or a disabled control explains nothing.
     @Test(
         arguments: [
             BranchActionUnavailabilityReason.noRepository,
             .unbornBranch,
             .alreadyCheckedOut,
+            .currentBranch,
+            .notLocalBranch,
             .operationInProgress,
             .conflict,
             .mutationInProgress,

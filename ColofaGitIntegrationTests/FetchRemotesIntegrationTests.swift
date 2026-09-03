@@ -207,8 +207,9 @@ struct FetchRemotesIntegrationTests {
 
     // MARK: - Partial failure
 
-    /// One remote failing says nothing about the next: the failing one is named, and the refs the
-    /// other one already reconciled stay reconciled.
+    /// One remote failing says nothing about the next: the failing one is named, the refs the
+    /// other one already reconciled stay reconciled, and the last-Fetch time records that a
+    /// remote was contacted.
     @Test
     @MainActor
     func namesTheFailingRemoteAndKeepsWhatTheOthersReconciled() async throws {
@@ -230,7 +231,7 @@ struct FetchRemotesIntegrationTests {
         let message = String(localized: try #require(state.repositoryFailureMessage))
         #expect(message.contains("zz-broken"))
         #expect(state.repository?.remoteBranches == ["origin/main"])
-        #expect(state.lastFetchDate == nil)
+        #expect(state.lastFetchDate != nil)
     }
 
     // MARK: - Fixture

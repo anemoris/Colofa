@@ -18,16 +18,56 @@ extension UITestingRepositoryService {
         in snapshot: RepositorySnapshot
     ) -> RepositorySnapshot? {
         switch command.first {
+        case "branch" where command.contains("--delete"):
+            // A local deletion removes one name under `refs/heads/` and nothing else, so the
+            // fixture leaves remote branches, tags, and the upstream exactly as they were.
+            replacing(
+                in: snapshot,
+                localBranches: removing(namedBranch(in: command), from: snapshot)
+            )
         case "branch":
             replacing(
                 in: snapshot,
-                localBranches: adding(createdBranch(in: command), to: snapshot)
+                localBranches: adding(namedBranch(in: command), to: snapshot)
             )
         case "switch":
             switched(command, in: snapshot)
         default:
             nil
         }
+    }
+
+    /// What Git says about the local Branch a Delete would remove, or `nil` when the fixture no
+    /// longer has it.
+    func branchDeletionSurvey(_ request: BranchDeletionRequest) -> BranchDeletionSurvey? {
+        guard snapshot?.localBranches.contains(request.name) == true else {
+            return nil
+        }
+        return BranchDeletionSurvey(
+            objectID: UITestingBranches.branchObjectID(of: request.name),
+            uniqueCommitCount: UITestingBranches.uniqueCommitCount(
+                of: request.name,
+                arguments: arguments
+            )
+        )
+    }
+
+    /// Git refuses a safe deletion of a Branch it does not consider merged, and refuses it whole:
+    /// the Branch is still there afterwards.
+    func throwRequestedDeletionRefusal(of command: [String]) throws {
+        guard arguments.contains(UITestingArgument.deleteBranchRefused),
+              command.first == "branch",
+              command.contains("--delete"),
+              !command.contains("--force") else {
+            return
+        }
+        throw RepositoryOpenError.commandFailed(
+            GitFailureDetails(
+                command: "git branch",
+                output: "error: the branch 'topic' is not fully merged",
+                exitStatus: 1
+            )
+        )
     }
 
     /// Git refuses a Checkout that would overwrite local work, and refuses it whole: nothing is
@@ -46,8 +86,9 @@ extension UITestingRepositoryService {
         )
     }
 
-    /// The branch `git branch -- <name> <start-point>` names, which is the argument after `--`.
-    private func createdBranch(in command: [String]) -> String? {
+    /// The branch a `git branch` command names, which is the argument after `--` whether the
+    /// command creates one or removes one.
+    private func namedBranch(in command: [String]) -> String? {
         command.drop { $0 != "--" }.dropFirst().first
     }
 
@@ -86,6 +127,13 @@ extension UITestingRepositoryService {
             return snapshot.localBranches
         }
         return (snapshot.localBranches + [branch]).sorted()
+    }
+
+    private func removing(_ branch: String?, from snapshot: RepositorySnapshot) -> [String] {
+        guard let branch else {
+            return snapshot.localBranches
+        }
+        return snapshot.localBranches.filter { $0 != branch }
     }
 }
 #endif

@@ -144,7 +144,8 @@ final class WorkspaceStateFetchTests {
     }
 
     /// A remote that answered stays refreshed even though a later one failed, so the state on
-    /// screen is the one Git actually left behind.
+    /// screen is the one Git actually left behind — and the last-Fetch time says a remote was
+    /// contacted, because one was.
     @Test
     @MainActor
     func keepsTheRefsAFailedFetchAlreadyRefreshed() async throws {
@@ -162,14 +163,14 @@ final class WorkspaceStateFetchTests {
         await state.fetch()
 
         #expect(state.repository?.remoteBranches == ["origin/main", "origin/feature"])
-        #expect(state.lastFetchDate == nil)
+        #expect(state.lastFetchDate != nil)
     }
 
     // MARK: - Last Fetch
 
     @Test
     @MainActor
-    func recordsTheLastFetchTimeOnlyWhenEveryRemoteAnswered() async throws {
+    func recordsTheLastFetchTimeWhenARemoteAnswered() async throws {
         let stub = RepositoryServiceStub(snapshots: [repositoryURL: [fetchRepository()]])
         let state = await workspace(stub)
         #expect(state.lastFetchDate == nil)

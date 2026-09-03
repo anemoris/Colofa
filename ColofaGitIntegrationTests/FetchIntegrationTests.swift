@@ -231,8 +231,8 @@ struct FetchIntegrationTests {
         )
     }
 
-    /// One remote failing says nothing about the next: the failing one is named, and the one that
-    /// answered stays refreshed.
+    /// One remote failing says nothing about the next: the failing one is named, the one that
+    /// answered stays refreshed, and the last-Fetch time records that a remote was contacted.
     @Test
     @MainActor
     func namesTheFailingRemoteAndKeepsTheRefsTheOtherOneRefreshed() async throws {
@@ -253,7 +253,7 @@ struct FetchIntegrationTests {
         let message = String(localized: try #require(state.repositoryFailureMessage))
         #expect(message.contains("broken"))
         #expect(state.repository?.upstream?.behind == 1)
-        #expect(state.lastFetchDate == nil)
+        #expect(state.lastFetchDate != nil)
     }
 
     // MARK: - Cancellation

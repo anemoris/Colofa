@@ -94,6 +94,10 @@ struct ColofaCommands: Commands {
                 .disabled(!state.canBeginCreatingBranch)
             Button(String(localized: .checkout), action: checkoutSelectedReference)
                 .disabled(!state.canCheckoutSelectedReference)
+            // Acts on the sidebar's selected Ref, the same one Checkout does, so the menu never
+            // deletes a Branch other than the one the window is showing as chosen.
+            Button(String(localized: .deleteBranch), action: deleteSelectedBranch)
+                .disabled(!state.canDeleteSelectedBranch)
             Button(String(localized: .merge), action: unavailableAction)
                 .disabled(true)
             Button(String(localized: .rebase), action: unavailableAction)
@@ -141,6 +145,12 @@ struct ColofaCommands: Commands {
     private func checkoutSelectedReference() {
         Task {
             await state.checkoutSelectedReference()
+        }
+    }
+
+    private func deleteSelectedBranch() {
+        Task {
+            await state.beginDeletingSelectedBranch()
         }
     }
 
