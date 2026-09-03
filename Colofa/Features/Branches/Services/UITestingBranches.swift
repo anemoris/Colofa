@@ -35,6 +35,23 @@ nonisolated enum UITestingBranches {
         return !name.contains(where: refusedCharacters.contains)
     }
 
+    /// A stand-in for the Commit `git rev-parse` reports for a Branch: stable per name, so a
+    /// confirmation and the read taken before the command agree with each other.
+    static func branchObjectID(of branch: String) -> String {
+        "ui-branch-\(branch)"
+    }
+
+    /// How many Commits the fixture says only `branch` holds.
+    ///
+    /// Zero unless a test asked otherwise, because an ordinary local branch in the fixture is one
+    /// every other Ref already holds — the case Git's own safe deletion carries.
+    static func uniqueCommitCount(of branch: String, arguments: [String]) -> Int {
+        arguments.contains(UITestingArgument.unmergedBranch) ? unmergedCommitCount : 0
+    }
+
+    /// The count the unmerged fixture reports, which the confirmation shows verbatim.
+    static let unmergedCommitCount = 3
+
     static func comparison(arguments: [String]) -> CheckoutComparison {
         guard arguments.contains(UITestingArgument.checkoutBlocked) else {
             return .empty

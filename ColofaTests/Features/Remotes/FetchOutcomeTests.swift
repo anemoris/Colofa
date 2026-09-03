@@ -20,16 +20,20 @@ struct FetchOutcomeTests {
         )
     )
 
+    /// Any remote that answered records a time, including one that answered before another
+    /// failed or before the user stopped the Fetch.
     @Test
-    func aCompletedFetchIsTheOneThatRecordsATime() {
-        #expect(FetchOutcome.fetched(["origin"]).isSuccessful)
-        #expect(!FetchOutcome.fetched([]).isSuccessful)
-        #expect(!FetchOutcome.cancelled(fetched: ["origin"]).isSuccessful)
+    func aFetchThatReachedARemoteIsTheOneThatRecordsATime() {
+        #expect(FetchOutcome.fetched(["origin"]).reachedRemote)
+        #expect(FetchOutcome.cancelled(fetched: ["origin"]).reachedRemote)
         #expect(
-            !FetchOutcome.failed(remotes: ["m"], fetched: ["origin"], error: error).isSuccessful
+            FetchOutcome.failed(remotes: ["m"], fetched: ["origin"], error: error).reachedRemote
         )
-        #expect(!FetchOutcome.nothingEligible.isSuccessful)
-        #expect(!FetchOutcome.planFailed(error).isSuccessful)
+        #expect(!FetchOutcome.fetched([]).reachedRemote)
+        #expect(!FetchOutcome.cancelled(fetched: []).reachedRemote)
+        #expect(!FetchOutcome.failed(remotes: ["m"], fetched: [], error: error).reachedRemote)
+        #expect(!FetchOutcome.nothingEligible.reachedRemote)
+        #expect(!FetchOutcome.planFailed(error).reachedRemote)
     }
 
     /// A Fetch the user stopped needs no alert explaining what the user just did.

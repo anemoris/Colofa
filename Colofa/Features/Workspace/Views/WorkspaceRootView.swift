@@ -60,6 +60,9 @@ struct WorkspaceRootView: View {
         .sheet(isPresented: $state.isCreatingBranch) {
             NewBranchSheet()
         }
+        .sheet(isPresented: $state.isDeletingBranch) {
+            DeleteBranchSheet()
+        }
         .sheet(isPresented: $state.isChoosingTagFetchRemote) {
             FetchTagsSheet()
         }
@@ -102,6 +105,13 @@ struct WorkspaceRootView: View {
         ) {
         } message: {
             Text(.pushCancelledRepositoryChangedMessage)
+        }
+        .alert(
+            String(localized: .deleteBranchCancelledRefChangedTitle),
+            isPresented: $state.isShowingStaleBranchDeletionAlert
+        ) {
+        } message: {
+            Text(.deleteBranchCancelledRefChangedMessage)
         }
         .task {
             await state.start()

@@ -28,6 +28,16 @@ final class WorkspaceState {
     /// WorkspaceState+Branches.swift owns it, and Swift keeps `private` within one file.
     var branchCreation: BranchCreationDraft?
 
+    /// The local Branch waiting for the confirmation that removes it, or `nil` when none is. Not
+    /// private: the deletion extension in WorkspaceState+BranchDeletion.swift owns it, and Swift
+    /// keeps `private` within one file. Nothing has run while it is set.
+    var branchDeletion: BranchDeletion?
+
+    /// Set when a reload closed a Delete Branch confirmation because the Branch it named had
+    /// stopped being there. The dialog goes on its own; this is what stops it from going without
+    /// explanation.
+    var isShowingStaleBranchDeletionAlert = false
+
     /// The destructive file action waiting for its confirmation, or `nil` when none is. Not
     /// private: the file-actions extension in WorkspaceState+FileActions.swift owns it, and Swift
     /// keeps `private` within one file. Nothing has run while it is set.
@@ -323,21 +333,26 @@ extension WorkspaceState {
             // a Fetch Tags dialog: its remote was chosen from the previous Repository's remotes,
             // and confirming it here would contact a remote of this one that the user never saw.
             // A Push dialog goes for both of those reasons at once: its Branch, its remote, and
-            // the object its lease expects all belong to the Repository being left behind.
+            // the object its lease expects all belong to the Repository being left behind. A
+            // Delete Branch confirmation goes for the same reason: it names a Branch of the
+            // Repository being left, and this one has branches of its own by those names.
             commitDraft.clear()
             branchCreation = nil
+            branchDeletion = nil
             tagFetchSelection = nil
             pushDialog = nil
             pendingFileAction = nil
             isConfirmingHistoryRewrite = false
             isShowingStaleAmendAlert = false
             isShowingStalePushAlert = false
+            isShowingStaleBranchDeletionAlert = false
         } else {
             // The same Repository, read again. A dialog that survived that reload has to be
             // checked against it rather than trusted: what it showed is what its own confirmation
             // will act on, and only a comparison can say whether that is still the truth.
             reconcilePushDialog(against: repository)
             reconcileFileAction(against: repository)
+            reconcileBranchDeletion(against: repository)
             if !isRewritingHead {
                 reconcileAmendDraft()
             }

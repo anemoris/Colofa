@@ -91,6 +91,7 @@ actor UITestingRepositoryService {
         }
         try throwRequestedMutationFailure()
         try throwRequestedCheckoutRefusal(of: command)
+        try throwRequestedDeletionRefusal(of: command)
         guard let snapshot, snapshot.rootURL == repositoryURL else {
             throw RepositoryOpenError.notRepository
         }

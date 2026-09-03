@@ -24,14 +24,24 @@ actor RepositoryServiceStub {
     private let historyFailingOffsets: Set<Int>
     private let historyDelay: Duration?
     private let commitDetails: [String: HistoryCommitDetail]
+    // Not private: the branch extension in RepositoryServiceStub+Branches.swift answers with
+    // everything below, and Swift keeps `private` within one file.
+
     /// The names this fixture's Git refuses, so a test can drive the invalid-name answer without
     /// depending on Git's real rules, which the integration tests cover.
-    private let invalidBranchNames: Set<String>
+    let invalidBranchNames: Set<String>
     /// What stands between the dialog and Git's answer, so a test can drive the case where the
     /// name was never the problem.
-    private let branchNameValidationError: RepositoryOpenError?
-    private let checkoutComparison: CheckoutComparison
-    private let checkoutComparisonError: RepositoryOpenError?
+    let branchNameValidationError: RepositoryOpenError?
+    let checkoutComparison: CheckoutComparison
+    let checkoutComparisonError: RepositoryOpenError?
+    /// What this fixture's Git says about each local Branch a Delete would remove, answered in
+    /// order per Branch, so a test can drive a Ref that moved between the confirmation and the
+    /// command. A Branch with no answer left keeps the last one it gave.
+    var branchDeletionSurveys: [String: [BranchDeletionSurvey?]]
+    /// What stands between Delete Branch and Git's answer, so a test can drive a read that itself
+    /// failed rather than a Branch that could not be deleted.
+    let branchDeletionSurveyError: RepositoryOpenError?
     // Not private: the Fetch extension in RepositoryServiceStub+Fetch.swift owns everything a
     // command that contacts a remote answers with, and Swift keeps `private` within one file.
 
@@ -78,8 +88,9 @@ actor RepositoryServiceStub {
     private var diffRequests: [DiffLoadRequest] = []
     private var historyRequests: [HistoryPageRequest] = []
     private var commitDetailRequests: [HistoryCommitDetailRequest] = []
-    private var branchNameRequests: [BranchNameValidationRequest] = []
-    private var checkoutComparisonRequests: [CheckoutComparisonRequest] = []
+    var branchNameRequests: [BranchNameValidationRequest] = []
+    var checkoutComparisonRequests: [CheckoutComparisonRequest] = []
+    var branchDeletionRequests: [BranchDeletionRequest] = []
     var networkMutations: [[String]] = []
     var tagConflictRequests: [TagConflictRequest] = []
     var publishRemoteRequests: [PushTargetRequest] = []
@@ -117,6 +128,8 @@ actor RepositoryServiceStub {
         branchNameValidationError: RepositoryOpenError? = nil,
         checkoutComparison: CheckoutComparison = .empty,
         checkoutComparisonError: RepositoryOpenError? = nil,
+        branchDeletionSurveys: [String: [BranchDeletionSurvey?]] = [:],
+        branchDeletionSurveyError: RepositoryOpenError? = nil,
         skippedRemotes: Set<String> = [],
         skippedRemotesError: RepositoryOpenError? = nil,
         failingRemotes: Set<String> = [],
@@ -153,6 +166,8 @@ actor RepositoryServiceStub {
         self.branchNameValidationError = branchNameValidationError
         self.checkoutComparison = checkoutComparison
         self.checkoutComparisonError = checkoutComparisonError
+        self.branchDeletionSurveys = branchDeletionSurveys
+        self.branchDeletionSurveyError = branchDeletionSurveyError
         self.skippedRemotes = skippedRemotes
         self.skippedRemotesError = skippedRemotesError
         self.failingRemotes = failingRemotes
@@ -198,6 +213,9 @@ actor RepositoryServiceStub {
             loadCheckoutComparison: { request in
                 try await self.comparison(request)
             },
+            loadBranchDeletionSurvey: { request in
+                try await self.deletionSurvey(request)
+            },
             loadSkippedRemotes: { _ in
                 try await self.skipped()
             },
@@ -217,24 +235,6 @@ actor RepositoryServiceStub {
                 try await self.networkMutate(arguments, answeredBy: responder)
             }
         )
-    }
-
-    private func validateBranchName(_ request: BranchNameValidationRequest) throws -> Bool {
-        branchNameRequests.append(request)
-        if let branchNameValidationError {
-            throw branchNameValidationError
-        }
-        return !invalidBranchNames.contains(request.name)
-    }
-
-    private func comparison(
-        _ request: CheckoutComparisonRequest
-    ) throws -> CheckoutComparison {
-        checkoutComparisonRequests.append(request)
-        if let checkoutComparisonError {
-            throw checkoutComparisonError
-        }
-        return checkoutComparison
     }
 
     private func load(_ url: URL) async throws -> RepositorySnapshot {
@@ -365,13 +365,4 @@ extension RepositoryServiceStub {
     func recordedCommitDetailRequests() -> [HistoryCommitDetailRequest] {
         commitDetailRequests
     }
-
-    func recordedBranchNameRequests() -> [BranchNameValidationRequest] {
-        branchNameRequests
-    }
-
-    func recordedCheckoutComparisonRequests() -> [CheckoutComparisonRequest] {
-        checkoutComparisonRequests
-    }
-
 }

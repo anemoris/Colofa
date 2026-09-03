@@ -194,11 +194,31 @@ private struct SidebarReferenceMenu: View {
             }
             .accessibilityIdentifier("repository.ref.copyBranchName")
         }
+        // Offered on the current Branch's own row too, disabled and saying why: an action that
+        // disappeared there would leave the user hunting for one Colofa deliberately refuses.
+        if state.deletableBranchName(of: reference) != nil {
+            Divider()
+            Button(.deleteBranch, action: deleteBranch)
+                .disabled(!state.canDeleteBranch(reference))
+                .help(
+                    String(
+                        localized: state.branchDeletionUnavailabilityReason(for: reference)?.message
+                            ?? .deleteBranchHelp
+                    )
+                )
+                .accessibilityIdentifier("repository.ref.deleteBranch")
+        }
     }
 
     private func checkout() {
         Task {
             await state.checkout(reference)
+        }
+    }
+
+    private func deleteBranch() {
+        Task {
+            await state.beginDeletingBranch(reference)
         }
     }
 }

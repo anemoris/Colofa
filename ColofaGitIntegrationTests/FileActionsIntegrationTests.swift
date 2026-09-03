@@ -219,6 +219,7 @@ struct FileActionsIntegrationTests {
             loadCommitDetail: { try await backend.loadCommitDetail($0) },
             validateBranchName: { try await backend.validateBranchName($0) },
             loadCheckoutComparison: { try await backend.loadCheckoutComparison($0) },
+            loadBranchDeletionSurvey: { try await backend.loadBranchDeletionSurvey($0) },
             loadSkippedRemotes: { try await backend.loadSkippedRemotes(in: $0) },
             loadTagConflicts: { try await backend.loadTagConflicts($0) },
             loadPublishRemote: { try await backend.loadPublishRemote($0) },

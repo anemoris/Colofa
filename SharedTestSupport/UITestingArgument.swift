@@ -54,6 +54,14 @@ nonisolated enum UITestingArgument {
     /// Makes every Checkout fail the way Git refuses one that would overwrite local work.
     static let checkoutBlocked = "--ui-testing-checkout-blocked"
 
+    /// Makes the branch fixture report Commits that only its non-current local branch holds,
+    /// which is the state Delete Branch counts and requires Force Delete for.
+    static let unmergedBranch = "--ui-testing-unmerged-branch"
+
+    /// Makes the fixture's safe branch deletion fail the way Git refuses one whose branch it does
+    /// not consider merged, so the refusal a count alone cannot predict can be driven.
+    static let deleteBranchRefused = "--ui-testing-delete-branch-refused"
+
     /// Serves the Changes whose Diffs cover text, rename, binary, submodule, and both size limits.
     static let diffState = "--ui-testing-diff-state"
 

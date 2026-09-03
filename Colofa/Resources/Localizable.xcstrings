@@ -111,6 +111,26 @@
         "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "另一條 Git 命令仍在執行。" } }
       }
     },
+    "branchActionUnavailableNotLocalBranch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Only a local branch can be deleted." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "削除できるのはローカルブランチだけです。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "로컬 브랜치만 삭제할 수 있습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "只能删除本地分支。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "只能刪除本機分支。" } }
+      }
+    },
+    "branchActionUnavailableCurrentBranch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "The current branch cannot be deleted. Check out another Ref first." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "現在のブランチは削除できません。先に別の参照をチェックアウトしてください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "현재 브랜치는 삭제할 수 없습니다. 먼저 다른 참조를 체크아웃하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法删除当前分支。请先签出其他引用。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法刪除目前分支。請先簽出其他參照。" } }
+      }
+    },
     "branchActionUnavailableConflict" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3131,6 +3151,16 @@
         "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "已取消推送" } }
       }
     },
+    "forceDeleteBranch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Force Delete" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "強制削除" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "강제 삭제" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "强制删除" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "強制刪除" } }
+      }
+    },
     "forcePush" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3499,6 +3529,96 @@
         "ko" : { "stringUnit" : { "state" : "translated", "value" : "Colofa를 다시 실행하지 못했습니다. 종료한 뒤 다시 열면 표시 언어가 적용됩니다." } },
         "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法重新启动 Colofa。请退出后重新打开以应用显示语言。" } },
         "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法重新啟動 Colofa。請結束後重新開啟以套用顯示語言。" } }
+      }
+    },
+    "deleteBranchRefusedDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Git refused to delete the branch." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Git はブランチの削除を拒否しました。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Git이 브랜치 삭제를 거부했습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Git 拒绝删除该分支。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Git 拒絕刪除該分支。" } }
+      }
+    },
+    "deleteBranchLosesCommits" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Commits held only by this branch: %@. Deleting it leaves them unreachable." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "このブランチだけが保持しているコミット: %@。削除すると到達できなくなります。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 브랜치만 가지고 있는 커밋: %@개. 삭제하면 도달할 수 없게 됩니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "仅由该分支持有的提交：%@ 个。删除后它们将无法到达。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "僅由該分支持有的提交：%@ 個。刪除後它們將無法到達。" } }
+      }
+    },
+    "deleteBranchKeepsEveryCommit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Every Commit on this branch is also held by another Ref, so deleting it loses none." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "このブランチのコミットはすべて他の参照も保持しているため、削除しても失われるコミットはありません。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 브랜치의 모든 커밋은 다른 참조도 가지고 있으므로 삭제해도 잃는 커밋이 없습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "该分支上的每个提交都还有其他引用持有，删除它不会丢失任何提交。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "該分支上的每個提交都還有其他參照持有，刪除它不會遺失任何提交。" } }
+      }
+    },
+    "deleteBranchHelp" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Delete this local branch. Its remote branch and Remote-tracking Branch are left untouched." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "このローカルブランチを削除します。リモートのブランチとリモート追跡ブランチはそのまま残ります。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 로컬 브랜치를 삭제합니다. 원격 브랜치와 원격 추적 브랜치는 그대로 남습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "删除该本地分支。其远程分支与远程跟踪分支保持不变。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "刪除該本機分支。其遠端分支與遠端追蹤分支保持不變。" } }
+      }
+    },
+    "deleteBranchCheckFailedDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Colofa could not ask Git what removing this branch would cost, so nothing was deleted." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "このブランチを削除した場合の影響を Git に問い合わせられなかったため、何も削除していません。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 브랜치를 삭제할 때의 대가를 Git에 물어보지 못해 아무것도 삭제하지 않았습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Colofa 无法向 Git 询问删除该分支的代价，因此未删除任何内容。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Colofa 無法向 Git 詢問刪除該分支的代價，因此未刪除任何內容。" } }
+      }
+    },
+    "deleteBranchCheckFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Could Not Read the Branch" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ブランチを読み取れませんでした" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "브랜치를 읽지 못했습니다" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法读取该分支" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法讀取該分支" } }
+      }
+    },
+    "deleteBranchCancelledRefChangedTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Delete Branch Cancelled" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ブランチの削除を取り消しました" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "브랜치 삭제가 취소됨" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "已取消删除分支" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "已取消刪除分支" } }
+      }
+    },
+    "deleteBranchCancelledRefChangedMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "The branch changed after the confirmation opened, so nothing was deleted. Open Delete Branch again to see what it holds now." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "確認ダイアログを開いた後にブランチが変化したため、何も削除していません。もう一度「ブランチを削除」を開いて現在の内容を確認してください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "확인 대화상자를 연 뒤 브랜치가 변경되어 아무것도 삭제하지 않았습니다. ‘브랜치 삭제’를 다시 열어 현재 상태를 확인하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "确认对话框打开后该分支发生了变化，因此未删除任何内容。请重新打开“删除分支”查看它当前持有的内容。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "確認對話框開啟後該分支發生了變化，因此未刪除任何內容。請重新開啟「刪除分支」查看它目前持有的內容。" } }
+      }
+    },
+    "deleteBranch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Delete Branch" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ブランチを削除" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "브랜치 삭제" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "删除分支" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "刪除分支" } }
       }
     },
     "discardChanges" : {

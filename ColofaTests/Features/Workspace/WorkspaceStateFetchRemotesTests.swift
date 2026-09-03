@@ -139,7 +139,8 @@ final class WorkspaceStateFetchRemotesTests {
     // MARK: - Partial failure
 
     /// One remote failing says nothing about the next: the failing one is named, the rest are
-    /// still contacted, and whatever a remote already pruned stays pruned.
+    /// still contacted, whatever a remote already pruned stays pruned, and the last-Fetch time
+    /// records the remote that answered.
     @Test
     @MainActor
     func namesTheFailingRemoteAndKeepsWhatTheOthersReconciled() async throws {
@@ -169,7 +170,7 @@ final class WorkspaceStateFetchRemotesTests {
         #expect(String(localized: message).contains("mirror"))
         #expect(state.canShowRepositoryFailureDetails)
         #expect(state.repository?.remoteBranches == ["origin/main"])
-        #expect(state.lastFetchDate == nil)
+        #expect(state.lastFetchDate != nil)
     }
 
     /// A failure that never reached a remote is reported as itself rather than blamed on one.
