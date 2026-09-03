@@ -40,6 +40,7 @@ struct RepositoryToolbar: ToolbarContent {
                 .labelStyle(.iconOnly)
                 .help(String(localized: .stashHelp))
                 .disabled(true)
+                .accessibilityIdentifier("repository.toolbar.stash")
 
             Toggle(isOn: $state.isShowingInspector) {
                 Label(.repositoryInfo, systemImage: "info.circle")
