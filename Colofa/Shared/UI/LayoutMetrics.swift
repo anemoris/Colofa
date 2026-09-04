@@ -42,6 +42,17 @@ enum LayoutMetrics {
         static let maximumChangedFilesHeight = 160.0
     }
 
+    /// The toolbar's own metrics.
+    enum Toolbar {
+
+        /// The gap between a remote command's symbol and the ahead/behind count beside it.
+        ///
+        /// Tighter than a stack's default because the two read as one control: `DESIGN.md` §8
+        /// keeps this group narrow enough that New Branch and Stash stay out of the `»` overflow
+        /// menu, and a default-width gap on two of the buttons spends that budget on whitespace.
+        static let countSpacing = 2.0
+    }
+
     /// The Settings window's own width. A settings pane is sized by its own content rather
     /// than by the workspace window, and one grouped Form holding a picker row reads at this
     /// width without either stretching the row or wrapping its restart notice.

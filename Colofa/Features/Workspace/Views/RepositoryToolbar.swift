@@ -66,28 +66,34 @@ private struct FetchToolbarButton: View {
     @Environment(WorkspaceState.self) private var state
 
     var body: some View {
-        if let progress = state.fetchProgress {
-            Button(action: state.cancelFetch) {
-                ProgressView()
-                    .controlSize(.small)
-            }
-            .disabled(!state.canCancelFetch)
-            .help(String(localized: progress.description))
-            .accessibilityLabel(Text(.cancelFetch))
-            .accessibilityValue(Text(progress.description))
-            .accessibilityIdentifier("repository.toolbar.cancelFetch")
-        } else {
-            Button(.fetch, systemImage: "arrow.triangle.2.circlepath", action: fetch)
-                .labelStyle(.iconOnly)
-                .help(
-                    String(localized: state.fetchUnavailabilityReason?.message ?? .fetchHelp)
-                )
-                .disabled(!state.canFetch)
-                .accessibilityIdentifier("repository.toolbar.fetch")
-        }
+        SyncToolbarButton(
+            systemImage: "arrow.triangle.2.circlepath",
+            count: nil,
+            countLabel: nil,
+            isRunning: state.fetchProgress != nil,
+            isEnabled: state.fetchProgress == nil ? state.canFetch : state.canCancelFetch,
+            help: help,
+            accessibilityLabel: state.fetchProgress == nil ? .fetch : .cancelFetch,
+            accessibilityIdentifier: state.fetchProgress == nil
+                ? "repository.toolbar.fetch"
+                : "repository.toolbar.cancelFetch",
+            progressDescription: state.fetchProgress.map { String(localized: $0.description) },
+            action: performAction
+        )
     }
 
-    private func fetch() {
+    private var help: String {
+        if let progress = state.fetchProgress {
+            return String(localized: progress.description)
+        }
+        return String(localized: state.fetchUnavailabilityReason?.message ?? .fetchHelp)
+    }
+
+    private func performAction() {
+        guard state.fetchProgress == nil else {
+            state.cancelFetch()
+            return
+        }
         Task {
             await state.fetch()
         }

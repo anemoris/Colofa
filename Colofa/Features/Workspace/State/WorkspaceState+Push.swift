@@ -47,6 +47,24 @@ extension WorkspaceState {
         return repository.upstream == nil
     }
 
+    /// How many Commits the current Branch has that its upstream does not, or `nil` when there is
+    /// no number to show.
+    ///
+    /// `DESIGN.md` §「关键 IA 决策」⑤ puts this count on the button that acts on it rather than
+    /// across the window in the status bar: the button is the disposition of the number.
+    ///
+    /// `nil` covers three different situations that all render as no badge. Zero is one of them —
+    /// `↑0` is noise beside a button that already says what it does. The other two are Git
+    /// declining to count at all: an upstream ref that is gone, and an Unborn Branch with no
+    /// Commit to count from. `RepositoryUpstream.ahead` already answers `nil` for both, so this
+    /// only has to drop the zero.
+    var pushAheadCount: Int? {
+        guard let ahead = repository?.upstream?.ahead, ahead > 0 else {
+            return nil
+        }
+        return ahead
+    }
+
     /// Everything a Push does happens out at the remote, so the way out stays offered for as long
     /// as it is out there. What is left afterwards is Colofa's own reload, which is a local read
     /// and not something to interrupt.

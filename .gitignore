@@ -25,6 +25,12 @@ DerivedData/
 *.dSYM.zip
 *.dSYM
 
+# Code coverage
+# Raw profiles a coverage-enabled test run drops in the working directory, and the merged data
+# `Scripts/report-coverage.swift` reads. Both are build output, regenerated on every run.
+*.profraw
+*.profdata
+
 ## Playgrounds
 timeline.xctimeline
 playground.xcworkspace

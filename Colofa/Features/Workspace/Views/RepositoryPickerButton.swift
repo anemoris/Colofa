@@ -14,18 +14,11 @@ struct RepositoryPickerButton: View {
     var body: some View {
         Button(action: presentRepositoryPicker) {
             Label {
-                VStack(alignment: .leading) {
-                    Text(
-                        verbatim: state.repository?.name ?? String(localized: .openRepository)
-                    )
-                        .font(.headline)
-                    if let repository = state.repository {
-                        Text(verbatim: repository.rootURL.normalizedFilePath)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                            .lineLimit(1)
-                    }
-                }
+                // The name alone. The path is the status bar's to report and the inspector's to
+                // spell out in full; repeating it here said the Repository's own name twice, once
+                // as the title and once as the tail of the path directly under it.
+                Text(verbatim: state.repository?.name ?? String(localized: .openRepository))
+                    .font(.headline)
             } icon: {
                 Image(systemName: "folder")
             }
@@ -33,9 +26,9 @@ struct RepositoryPickerButton: View {
             .frame(maxWidth: .infinity, alignment: .leading)
             // The padding and the leading alignment only position the label; they do not make
             // the surrounding row hit-testable. Without an explicit content shape a plain button
-            // only reacts to clicks that land on the glyphs themselves, so once a Repository is
-            // open — the label is two lines then, with a gap and trailing space around it — most
-            // clicks on the row are swallowed and the Repository can never be replaced.
+            // only reacts to clicks that land on the glyphs themselves, so most of the row — the
+            // padding around the label and the trailing space beside it — swallows its clicks and
+            // the Repository can never be replaced.
             .contentShape(.rect)
         }
         .buttonStyle(.plain)

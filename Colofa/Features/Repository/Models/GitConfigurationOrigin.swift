@@ -18,6 +18,22 @@ struct GitConfigurationOrigin: Equatable, Hashable, Sendable {
         return String(rawValue.dropFirst("file:".count))
     }
 
+    /// The origin as it is shown to the user: a file is home-relative, anything else is left
+    /// exactly as Git worded it.
+    ///
+    /// Only a `file:` origin is a path. Git also reports the command line, standard input, a
+    /// blob, and remote configuration, and none of those is a location on this disk — putting
+    /// them through path abbreviation would be claiming they are.
+    ///
+    /// `home` is a parameter for the same reason it is on `homeRelativeFilePath`: a test must be
+    /// able to pin it instead of asserting against the account it runs under.
+    nonisolated func displayLocation(home: String = NSHomeDirectory()) -> String {
+        guard rawValue.hasPrefix("file:") else {
+            return rawValue
+        }
+        return URL(filePath: location).homeRelativeFilePath(home: home)
+    }
+
     /// Whether this entry was read from the file at `path`.
     ///
     /// Compared as file system locations rather than as text. Git reports the path it was handed,

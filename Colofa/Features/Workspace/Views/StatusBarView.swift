@@ -15,7 +15,7 @@ struct StatusBarView: View {
         HStack {
             if let repository = state.repository {
                 Label {
-                    Text(verbatim: repository.rootURL.normalizedFilePath)
+                    Text(verbatim: repository.rootURL.homeRelativeFilePath())
                         .lineLimit(1)
                 } icon: {
                     Image(systemName: "folder")

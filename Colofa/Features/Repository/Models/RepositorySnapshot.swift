@@ -68,6 +68,17 @@ struct RepositorySnapshot: Equatable, Identifiable, Sendable {
 
     var id: URL { rootURL }
 
+    /// Whether the Git directory sits somewhere the user has to be told about.
+    ///
+    /// In an ordinary Repository it is the working tree plus `/.git`, so showing it repeats the
+    /// path directly above it. A worktree, a submodule, or a `--separate-git-dir` clone puts it
+    /// elsewhere, and that is a fact no other field carries. Same rule the remote URLs already
+    /// follow: two addresses are shown only when they differ.
+    var hasSeparateGitDirectory: Bool {
+        gitDirectoryURL.normalizedFilePath
+            != rootURL.appending(path: ".git").normalizedFilePath
+    }
+
     /// The Refs this read reported, which is what a Ref selection made against an earlier read
     /// has to be checked against.
     var references: RepositoryReferences {
