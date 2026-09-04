@@ -21,12 +21,14 @@ struct RepositoryInformationView: View {
                     Text(verbatim: repository.name)
                 }
                 LabeledContent(String(localized: .repositoryPath)) {
-                    Text(verbatim: repository.rootURL.normalizedFilePath)
+                    Text(verbatim: repository.rootURL.homeRelativeFilePath())
                         .textSelection(.enabled)
                 }
-                LabeledContent(String(localized: .gitDirectory)) {
-                    Text(verbatim: repository.gitDirectoryURL.normalizedFilePath)
-                        .textSelection(.enabled)
+                if repository.hasSeparateGitDirectory {
+                    LabeledContent(String(localized: .gitDirectory)) {
+                        Text(verbatim: repository.gitDirectoryURL.homeRelativeFilePath())
+                            .textSelection(.enabled)
+                    }
                 }
                 LabeledContent(String(localized: .head)) {
                     RepositoryHeadLabel(head: repository.head)

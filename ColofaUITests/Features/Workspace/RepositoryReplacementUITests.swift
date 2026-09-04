@@ -49,10 +49,16 @@ final class RepositoryReplacementUITests: XCTestCase {
             application.descendants(matching: .any)["repository.path"].value as? String
         )
         XCTAssertNotEqual(replacedPath, Self.restoredPath)
+        // The status bar reports a home-relative path, so the home directory itself renders as
+        // exactly "~" and no longer carries the folder's own name. That is the whole assertion
+        // available here — the sidebar's name cannot be derived from a path that deliberately
+        // drops it — so the name is checked for being present and replaced instead.
         XCTAssertEqual(
-            URL(filePath: replacedPath, directoryHint: .isDirectory).lastPathComponent,
-            picker.value as? String
+            replacedPath,
+            "~",
+            "the home directory should render as a home-relative path"
         )
+        XCTAssertFalse(try XCTUnwrap(picker.value as? String).isEmpty)
 
         picker.click()
         XCTAssertTrue(

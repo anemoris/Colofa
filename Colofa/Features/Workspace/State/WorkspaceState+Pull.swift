@@ -33,6 +33,15 @@ extension WorkspaceState {
         pullUnavailabilityReason == nil
     }
 
+    /// How many Commits the upstream has that the current Branch does not, or `nil` when there is
+    /// no number to show. The Push side of the same rule is `pushAheadCount`.
+    var pullBehindCount: Int? {
+        guard let behind = repository?.upstream?.behind, behind > 0 else {
+            return nil
+        }
+        return behind
+    }
+
     /// Whether the running Pull is still in the half that can be stopped.
     ///
     /// Only the Fetch contacts the remote; the fast-forward that follows is a short local command,

@@ -23,7 +23,7 @@ struct RepositoryConfigurationSourceView: View {
                         Text(.configurationEffective)
                     }
                 }
-                Text(verbatim: entry.origin.location)
+                Text(verbatim: entry.origin.displayLocation())
                     .textSelection(.enabled)
                 if entry.value.isEmpty {
                     Text(.configurationEmptyValue)
