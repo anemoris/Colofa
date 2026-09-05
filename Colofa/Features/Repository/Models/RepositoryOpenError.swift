@@ -41,7 +41,9 @@ enum RepositoryOpenError: Error, Equatable, Sendable {
         case .bareRepository:
             .bareRepositoryUnsupportedDescription
         case .commandFailed:
-            .gitCommandFailedDescription
+            // A program Git could not find explains the failure better than anything the
+            // interrupted work can say about itself, which is usually nothing the user can act on.
+            missingHelper?.message ?? .gitCommandFailedDescription
         }
     }
 
@@ -51,5 +53,13 @@ enum RepositoryOpenError: Error, Equatable, Sendable {
         } else {
             nil
         }
+    }
+
+    /// The program Git looked for and could not run, when this failure's own output names one.
+    ///
+    /// Read out of the output rather than carried, because nothing along the way knew it: Git
+    /// reports this failure as whatever it was doing when the missing program stopped it.
+    var missingHelper: GitMissingHelper? {
+        failureDetails.flatMap { GitMissingHelper.detect(in: $0.output) }
     }
 }

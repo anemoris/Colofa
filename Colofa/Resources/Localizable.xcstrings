@@ -1111,6 +1111,16 @@
         "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Git 無法載入儲存庫。請檢查已清理的詳細資訊並再試一次。" } }
       }
     },
+    "gitMissingHelperDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Git needs “%@” and could not find it. Install it, or launch Colofa from a terminal so Git searches the same locations your shell does." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Git は「%@」を必要としていますが、見つけられませんでした。インストールするか、Colofa をターミナルから起動して、シェルと同じ場所を Git が検索できるようにしてください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Git에 “%@”이(가) 필요하지만 찾지 못했습니다. 설치하거나, 터미널에서 Colofa를 실행해 Git이 셸과 같은 위치를 검색하도록 하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Git 需要“%@”，但找不到它。请安装它，或从终端启动 Colofa，让 Git 搜索与你的 shell 相同的位置。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Git 需要「%@」，但找不到它。請安裝它，或從終端機啟動 Colofa，讓 Git 搜尋與你的 shell 相同的位置。" } }
+      }
+    },
     "gitMutationFailedDescription" : {
       "extractionState" : "manual",
       "localizations" : {

@@ -72,20 +72,28 @@ nonisolated enum FetchOutcome: Equatable, Sendable {
     }
 
     /// What the alert says, or `nil` for an outcome that raises none.
+    ///
+    /// A program Git could not find is preferred over naming the remotes, because it is the same
+    /// answer for every one of them: no remote refused anything, and a Fetch that names them is
+    /// pointing the user at the part that worked.
     var message: LocalizedStringResource? {
-        switch self {
-        case .nothingEligible:
-            .fetchNothingEligibleDescription
-        case .planFailed:
-            .fetchPlanFailedDescription
-        case .failed(let remotes, let fetched, _):
-            if fetched.isEmpty {
-                .fetchRemotesFailedDescription(Self.list(remotes))
-            } else {
-                .fetchPartiallyFailedDescription(Self.list(remotes))
+        if let missingHelper = error?.missingHelper {
+            missingHelper.message
+        } else {
+            switch self {
+            case .nothingEligible:
+                .fetchNothingEligibleDescription
+            case .planFailed:
+                .fetchPlanFailedDescription
+            case .failed(let remotes, let fetched, _):
+                if fetched.isEmpty {
+                    .fetchRemotesFailedDescription(Self.list(remotes))
+                } else {
+                    .fetchPartiallyFailedDescription(Self.list(remotes))
+                }
+            case .fetched, .cancelled:
+                nil
             }
-        case .fetched, .cancelled:
-            nil
         }
     }
 

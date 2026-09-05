@@ -182,10 +182,21 @@ enum RepositoryFailurePresentation: Sendable {
 
     /// A mutation already names its own failure in the alert title, so a command failure explains
     /// the shared next step instead of repeating it.
+    ///
+    /// The exception is a program Git could not find. Nothing about the operation explains that,
+    /// and the message is the only place it can be said — the title is still the operation the
+    /// user asked for, because that is still what failed.
+    ///
+    /// The alerts that do not come through here are the ones where Colofa has already established
+    /// what happened: a Checkout that named the local work it protected, a Push the remote
+    /// refused, a host key nobody confirmed. Those failures are not this one, and reading them as
+    /// a missing helper would replace an answer with a guess.
     private static func mutationMessage(
         for error: RepositoryOpenError
     ) -> LocalizedStringResource {
-        if case .commandFailed = error {
+        if let missingHelper = error.missingHelper {
+            missingHelper.message
+        } else if case .commandFailed = error {
             .gitMutationFailedDescription
         } else {
             error.message
