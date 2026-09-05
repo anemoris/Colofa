@@ -21,18 +21,28 @@ actor GitRepositoryService {
     private var executableURL: URL?
     private var mutationTail: Task<Void, Never>?
 
+    /// `candidateURLs` defaults to the search path `environment` resolves to, so the two are one
+    /// answer rather than two lists that can disagree — including for an injected `environment`,
+    /// which a default argument could not have read.
     init(
-        candidateURLs: [URL] = GitRepositoryService.defaultCandidateURLs(),
+        candidateURLs: [URL]? = nil,
         environment: [String: String] = ProcessInfo.processInfo.environment,
         askPassHelperURL: URL? = GitRepositoryService.bundledAskPassHelperURL()
     ) {
-        self.candidateURLs = candidateURLs
-        self.askPassHelperURL = askPassHelperURL
         // Keeps Git from waiting on a terminal Colofa does not have. An AskPass program is
         // consulted before this applies, so a question Colofa can ask is still asked.
-        self.environment = environment.merging(["GIT_TERMINAL_PROMPT": "0"]) { _, value in
-            value
-        }
+        //
+        // The search path is resolved here rather than at each command, because every program Git
+        // starts inherits this environment: its own helpers, OpenSSH, and whatever those two go on
+        // to run.
+        let environment = GitSearchPath.resolving(environment)
+            .merging(["GIT_TERMINAL_PROMPT": "0"]) { _, value in
+                value
+            }
+
+        self.environment = environment
+        self.candidateURLs = candidateURLs ?? Self.candidateURLs(searchedBy: environment)
+        self.askPassHelperURL = askPassHelperURL
     }
 
     func availability() async -> GitAvailability {
@@ -272,23 +282,13 @@ actor GitRepositoryService {
     /// executable directory.
     static let askPassHelperName = "ColofaAskPass"
 
-    private static func defaultCandidateURLs() -> [URL] {
-        let pathCandidates = (ProcessInfo.processInfo.environment["PATH"] ?? "")
-            .split(separator: ":")
-            .map {
-                URL(filePath: String($0), directoryHint: .isDirectory)
-                    .appending(path: "git")
-            }
-        let standardCandidates = [
-            URL(filePath: "/usr/bin/git"),
-            URL(filePath: "/opt/homebrew/bin/git"),
-            URL(filePath: "/usr/local/bin/git"),
-        ]
-
-        return (pathCandidates + standardCandidates).reduce(into: []) { result, candidate in
-            if !result.contains(candidate) {
-                result.append(candidate)
-            }
+    /// Where to look for Git itself: a `git` in each directory of the very search path Git is
+    /// then given for its own helper programs — one answer to "where are the tools", rather than
+    /// two lists that can disagree.
+    private static func candidateURLs(searchedBy environment: [String: String]) -> [URL] {
+        GitSearchPath.directories(in: environment).map {
+            URL(filePath: $0, directoryHint: .isDirectory)
+                .appending(path: "git")
         }
     }
 }
