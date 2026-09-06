@@ -38,6 +38,9 @@ final class WorkspaceState {
     /// explanation.
     var isShowingStaleBranchDeletionAlert = false
 
+    /// The open Merge confirmation, or `nil` when none is, owned by WorkspaceState+Merge.swift.
+    var mergeDraft: MergeDraft?
+
     /// The destructive file action waiting for its confirmation, or `nil` when none is. Not
     /// private: the file-actions extension in WorkspaceState+FileActions.swift owns it, and Swift
     /// keeps `private` within one file. Nothing has run while it is set.
@@ -334,11 +337,12 @@ extension WorkspaceState {
             // and confirming it here would contact a remote of this one that the user never saw.
             // A Push dialog goes for both of those reasons at once: its Branch, its remote, and
             // the object its lease expects all belong to the Repository being left behind. A
-            // Delete Branch confirmation goes for the same reason: it names a Branch of the
-            // Repository being left, and this one has branches of its own by those names.
+            // Delete Branch confirmation and a Merge confirmation go the same way: each names
+            // branches of the Repository being left, which this one has by those names too.
             commitDraft.clear()
             branchCreation = nil
             branchDeletion = nil
+            mergeDraft = nil
             tagFetchSelection = nil
             pushDialog = nil
             pendingFileAction = nil

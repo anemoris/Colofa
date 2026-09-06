@@ -35,12 +35,14 @@ extension UITestingRepositoryService {
     }
 
     /// Answers the question the request actually asks. The revision names which command is being
-    /// explained: a Pull compares the working tree against the upstream it just fetched, and a
-    /// Checkout against the Ref it was asked to move to.
+    /// explained: a Pull compares the working tree against the upstream it just fetched, a Merge
+    /// against the Branch it was bringing in, and a Checkout against the Ref it was asked to move
+    /// to.
     func loadCheckoutComparison(_ request: CheckoutComparisonRequest) -> CheckoutComparison {
-        request.revision == PullCommand.upstreamRevision
-            ? UITestingPull.comparison(arguments: arguments)
-            : UITestingBranches.comparison(arguments: arguments)
+        if request.revision == PullCommand.upstreamRevision {
+            return UITestingPull.comparison(arguments: arguments)
+        }
+        return mergeComparison(request) ?? UITestingBranches.comparison(arguments: arguments)
     }
 }
 #endif

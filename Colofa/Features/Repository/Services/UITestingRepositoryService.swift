@@ -101,6 +101,13 @@ actor UITestingRepositoryService {
             return
         }
 
+        // Ahead of the Commit branch below, because the command that completes an unfinished
+        // Merge is a Commit and means something different from the composer's own.
+        if let merged = try mergeMutation(command, in: snapshot) {
+            self.snapshot = merged
+            return
+        }
+
         if command.first == "config" {
             self.snapshot = replacing(
                 in: snapshot,
@@ -146,44 +153,6 @@ actor UITestingRepositoryService {
                 GitFailureDetails(command: "git", output: "UI test mutation failed")
             )
         }
-    }
-
-    private func updateChanges(for command: [String], in snapshot: RepositorySnapshot) {
-        let paths = command.drop { $0 != "--" }.dropFirst()
-        var staged = snapshot.stagedChanges
-        var unstaged = snapshot.unstagedChanges
-        let action = command.drop { $0 == "--literal-pathspecs" }.first
-        if action == "add" {
-            let changes = unstaged.filter { change in
-                !change.isConflict && change.gitPathspecs.contains { paths.contains($0) }
-            }
-            unstaged.removeAll { changes.contains($0) }
-            for change in changes where !staged.contains(change) {
-                staged.append(change)
-            }
-        } else if command.contains("--worktree") {
-            // A Discard restores the working tree from the index, so the unstaged projection of
-            // the path goes and whatever is staged for it stays exactly where it was.
-            unstaged.removeAll { change in
-                !change.isConflict
-                    && !change.isUntracked
-                    && change.gitPathspecs.contains { paths.contains($0) }
-            }
-        } else if action == "restore" || action == "rm" {
-            let changes = staged.filter { change in
-                change.gitPathspecs.contains { paths.contains($0) }
-            }
-            staged.removeAll { changes.contains($0) }
-            for change in changes where !unstaged.contains(change) {
-                unstaged.append(change)
-            }
-        }
-
-        self.snapshot = replacing(
-            in: snapshot,
-            staged: staged.sorted { $0.path < $1.path },
-            unstaged: unstaged.sorted(by: changeOrder)
-        )
     }
 
     /// The Commit the stub now reports at HEAD. A fresh Commit is unpublished; an Amend keeps
@@ -278,6 +247,10 @@ actor UITestingRepositoryService {
     ///
     /// `RepositorySnapshot` has no `with`-style API, so every stub mutation would otherwise
     /// restate all of its fields and silently drop whichever one a future property forgot.
+    ///
+    /// `operation` and `mergeHead` are doubly optional because both have to be settable *and*
+    /// clearable: a Merge that stopped at a Conflict writes them, and Continue and Abort are the
+    /// commands that take them away again.
     func replacing(
         in snapshot: RepositorySnapshot,
         head: RepositoryHead? = nil,
@@ -289,7 +262,9 @@ actor UITestingRepositoryService {
         headCommit: RepositoryHeadCommit? = nil,
         upstream: RepositoryUpstream? = nil,
         totalCommitCount: Int? = nil,
-        configuration: GitConfigurationSnapshot? = nil
+        configuration: GitConfigurationSnapshot? = nil,
+        operation: RepositoryOperation?? = nil,
+        mergeHead: MergeHead?? = nil
     ) -> RepositorySnapshot {
         RepositorySnapshot(
             name: snapshot.name,
@@ -304,18 +279,12 @@ actor UITestingRepositoryService {
             tags: tags ?? snapshot.tags,
             stagedChanges: staged ?? snapshot.stagedChanges,
             unstagedChanges: unstaged ?? snapshot.unstagedChanges,
-            operation: snapshot.operation,
+            operation: operation ?? snapshot.operation,
+            mergeHead: mergeHead ?? snapshot.mergeHead,
             totalCommitCount: totalCommitCount ?? snapshot.totalCommitCount,
             gitObjectSize: snapshot.gitObjectSize,
             configuration: configuration ?? snapshot.configuration
         )
-    }
-
-    private func changeOrder(_ lhs: RepositoryChange, _ rhs: RepositoryChange) -> Bool {
-        if lhs.isConflict != rhs.isConflict {
-            return lhs.isConflict
-        }
-        return lhs.path < rhs.path
     }
 }
 #endif

@@ -50,6 +50,18 @@ extension XCUIApplication {
         )
     }
 
+    /// A stubbed application whose restored Repository has a Branch worth merging into the
+    /// current one, and a working tree holding only what the test asked for.
+    static func configuredForMergeState(
+        path: String,
+        additionalArguments: [String] = []
+    ) -> XCUIApplication {
+        configuredForRepository(
+            path: path,
+            additionalArguments: [UITestingArgument.mergeState] + additionalArguments
+        )
+    }
+
     /// A stubbed application whose restored Repository has remotes worth fetching.
     static func configuredForFetchState(
         path: String,

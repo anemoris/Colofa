@@ -194,6 +194,22 @@ private struct SidebarReferenceMenu: View {
             }
             .accessibilityIdentifier("repository.ref.copyBranchName")
         }
+        // Only on a Branch, because Merge has nothing to act on for a tag or for HEAD. It stays
+        // on the current Branch's own row, disabled and saying why, for the same reason Delete
+        // Branch does. `DESIGN.md` §3 keeps it out of the toolbar: merging is infrequent and
+        // consequential, so it lives where the Ref it acts on is.
+        if state.mergeSource(of: reference) != nil {
+            Divider()
+            Button(.merge, action: merge)
+                .disabled(!state.canMerge(reference))
+                .help(
+                    String(
+                        localized: state.mergeUnavailabilityReason(for: reference)?.message
+                            ?? .mergeHelp
+                    )
+                )
+                .accessibilityIdentifier("repository.ref.merge")
+        }
         // Offered on the current Branch's own row too, disabled and saying why: an action that
         // disappeared there would leave the user hunting for one Colofa deliberately refuses.
         if state.deletableBranchName(of: reference) != nil {
@@ -214,6 +230,10 @@ private struct SidebarReferenceMenu: View {
         Task {
             await state.checkout(reference)
         }
+    }
+
+    private func merge() {
+        state.beginMerging(reference)
     }
 
     private func deleteBranch() {

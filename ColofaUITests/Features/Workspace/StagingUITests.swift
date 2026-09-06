@@ -59,7 +59,7 @@ final class StagingUITests: XCTestCase {
         XCTAssertFalse(conflictAction.isEnabled)
         conflict.click()
         XCTAssertTrue(
-            application.staticTexts["Resolve this Conflict in an editor before continuing."]
+            application.staticTexts["Choose a version or edit the file, then use Mark as Resolved."]
                 .waitForExistence(timeout: 2)
         )
 

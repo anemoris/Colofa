@@ -17,13 +17,14 @@ import Foundation
 final class FileSystemActionsRecorder {
     private(set) var trashed: [URL] = []
     private(set) var revealed: [URL] = []
+    private(set) var opened: [URL] = []
 
     /// What the Trash refuses with, or `nil` when it accepts. A `CocoaError` because that is what
     /// the real boundary throws, cancellation included.
     var trashError: CocoaError?
 
-    /// The paths Finder finds nothing at, which is how a path that disappeared before the click
-    /// is driven.
+    /// The paths Finder and the system open nothing at, which is how a path that disappeared
+    /// before the click is driven.
     var missingPaths: Set<String> = []
 
     var actions: FileSystemActions {
@@ -39,6 +40,12 @@ final class FileSystemActionsRecorder {
             reveal: { [self] url in
                 await MainActor.run {
                     revealed.append(url)
+                    return !missingPaths.contains(url.normalizedFilePath)
+                }
+            },
+            open: { [self] url in
+                await MainActor.run {
+                    opened.append(url)
                     return !missingPaths.contains(url.normalizedFilePath)
                 }
             }

@@ -33,6 +33,10 @@ enum RepositoryFailurePresentation: Sendable {
     /// path by path. Git's own output stays one click away, so an explanation Colofa assembled
     /// never stands in for what Git actually said.
     case pullBlockedAlert(CheckoutObstruction, error: RepositoryOpenError)
+    /// A Merge Git refused because untracked files stand where it would have written, named path
+    /// by path. Git's own output stays one click away, so an explanation Colofa assembled never
+    /// stands in for what Git actually said.
+    case mergeBlockedAlert(MergeCollision, error: RepositoryOpenError)
     /// A Publish or Push the remote refused rather than one that never reached the remote at all.
     /// Git's own output stays one click away, so an explanation Colofa assembled never stands in
     /// for what Git actually said.
@@ -70,6 +74,8 @@ enum RepositoryFailurePresentation: Sendable {
             divergence.title
         case .pullBlockedAlert:
             .pullBlockedTitle
+        case .mergeBlockedAlert:
+            .mergeBlockedTitle
         case .pushRejectedAlert(let rejection, _, _, _):
             rejection.title
         case .pushDestinationAlert(let refusal):
@@ -99,6 +105,8 @@ enum RepositoryFailurePresentation: Sendable {
             divergence.message
         case .pullBlockedAlert(let obstruction, _):
             obstruction.pullMessage
+        case .mergeBlockedAlert(let collision, _):
+            collision.message
         case .pushRejectedAlert(let rejection, let branch, let upstream, _):
             rejection.message(branch: branch, upstream: upstream)
         case .pushDestinationAlert(let refusal):
@@ -124,7 +132,8 @@ enum RepositoryFailurePresentation: Sendable {
         switch self {
         case .mutationAlert(let error, _), .checkoutRefusedAlert(_, _, let error),
             .tagFetchAlert(_, _, let error), .pullDivergedAlert(_, let error),
-            .pullBlockedAlert(_, let error), .pushRejectedAlert(_, _, _, let error),
+            .pullBlockedAlert(_, let error), .mergeBlockedAlert(_, let error),
+            .pushRejectedAlert(_, _, _, let error),
             .authenticationAlert(_, let error):
             error.failureDetails != nil
         case .fetchAlert(let outcome):
@@ -139,8 +148,8 @@ enum RepositoryFailurePresentation: Sendable {
     var isMutationAlert: Bool {
         switch self {
         case .mutationAlert, .checkoutRefusedAlert, .fetchAlert, .tagFetchAlert,
-            .pullDivergedAlert, .pullBlockedAlert, .pushRejectedAlert, .pushDestinationAlert,
-            .authenticationAlert, .fileActionAlert:
+            .pullDivergedAlert, .pullBlockedAlert, .mergeBlockedAlert, .pushRejectedAlert,
+            .pushDestinationAlert, .authenticationAlert, .fileActionAlert:
             true
         case .repositoryOpenAlert, .details:
             false
@@ -169,6 +178,8 @@ enum RepositoryFailurePresentation: Sendable {
             error.failureDetails.map { .details($0, message: divergence.message) }
         case .pullBlockedAlert(let obstruction, let error):
             error.failureDetails.map { .details($0, message: obstruction.pullMessage) }
+        case .mergeBlockedAlert(let collision, let error):
+            error.failureDetails.map { .details($0, message: collision.message) }
         case .pushRejectedAlert(let rejection, let branch, let upstream, let error):
             error.failureDetails.map {
                 .details($0, message: rejection.message(branch: branch, upstream: upstream))

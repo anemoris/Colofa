@@ -62,6 +62,28 @@ nonisolated enum UITestingArgument {
     /// not consider merged, so the refusal a count alone cannot predict can be driven.
     static let deleteBranchRefused = "--ui-testing-delete-branch-refused"
 
+    /// Serves a Repository with a clean tree and a Branch worth merging into the current one.
+    static let mergeState = "--ui-testing-merge-state"
+
+    /// Gives the merge fixture an untracked file, which is work a Merge is allowed to run over.
+    static let mergeUntrackedOnly = "--ui-testing-merge-untracked-only"
+
+    /// Gives the merge fixture a tracked local change, which is the work that blocks a Merge
+    /// before any command runs.
+    static let mergeLocalChanges = "--ui-testing-merge-local-changes"
+
+    /// Makes the merge fixture's Merge fail the way Git refuses one whose untracked files stand
+    /// where it would have written.
+    static let mergeCollision = "--ui-testing-merge-collision"
+
+    /// Makes the merge fixture's Fast-forward Only Merge fail the way Git refuses one whose
+    /// branches have diverged.
+    static let mergeNotFastForward = "--ui-testing-merge-not-fast-forward"
+
+    /// Makes the merge fixture's Merge stop at a Conflict, which is the state Continue and Abort
+    /// are the ways out of.
+    static let mergeConflict = "--ui-testing-merge-conflict"
+
     /// Serves the Changes whose Diffs cover text, rename, binary, submodule, and both size limits.
     static let diffState = "--ui-testing-diff-state"
 

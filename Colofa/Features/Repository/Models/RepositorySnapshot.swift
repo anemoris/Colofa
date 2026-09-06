@@ -22,6 +22,12 @@ struct RepositorySnapshot: Equatable, Identifiable, Sendable {
     let stagedChanges: [RepositoryChange]
     let unstagedChanges: [RepositoryChange]
     let operation: RepositoryOperation?
+
+    /// What an unfinished Merge is bringing in, or `nil` when no Merge is unfinished. Published
+    /// with the Repository because a Conflict outlives the command that caused it: the labels its
+    /// version choices carry have to survive a refresh, a new window, and a relaunch.
+    let mergeHead: MergeHead?
+
     let totalCommitCount: Int
     let gitObjectSize: Int64
     let configuration: GitConfigurationSnapshot
@@ -41,6 +47,7 @@ struct RepositorySnapshot: Equatable, Identifiable, Sendable {
         stagedChanges: [RepositoryChange] = [],
         unstagedChanges: [RepositoryChange] = [],
         operation: RepositoryOperation? = nil,
+        mergeHead: MergeHead? = nil,
         totalCommitCount: Int = 0,
         gitObjectSize: Int64 = 0,
         configuration: GitConfigurationSnapshot = .empty
@@ -58,6 +65,7 @@ struct RepositorySnapshot: Equatable, Identifiable, Sendable {
         self.stagedChanges = stagedChanges
         self.unstagedChanges = unstagedChanges
         self.operation = operation
+        self.mergeHead = mergeHead
         self.totalCommitCount = totalCommitCount
         self.gitObjectSize = gitObjectSize
         self.configuration = configuration

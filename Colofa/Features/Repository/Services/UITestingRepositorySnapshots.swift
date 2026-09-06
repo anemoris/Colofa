@@ -24,6 +24,9 @@ nonisolated enum UITestingRepositorySnapshots {
         if arguments.contains(UITestingArgument.branchState) {
             return branchState(at: url)
         }
+        if arguments.contains(UITestingArgument.mergeState) {
+            return mergeState(at: url, arguments: arguments)
+        }
         if arguments.contains(UITestingArgument.fetchState) {
             return fetchState(at: url, arguments: arguments)
         }

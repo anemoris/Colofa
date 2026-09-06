@@ -23,12 +23,16 @@ enum FileActionFailure: Equatable, Sendable {
     case trashFailed(path: String, reason: String)
     /// The path was already gone when Finder was asked for it, so the Repository was read again.
     case revealMissing(path: String)
+    /// Nothing opened the path: it is no longer there, or the system has no app for it. Both are
+    /// the same answer from the user's side — the file did not open — and neither is a Git failure.
+    case openFailed(path: String)
 
     var title: LocalizedStringResource {
         switch self {
         case .trashCancelled: .moveToTrashCancelledTitle
         case .trashFailed: .moveToTrashFailedTitle
         case .revealMissing: .revealInFinderFailedTitle
+        case .openFailed: .openInDefaultEditorFailedTitle
         }
     }
 
@@ -40,6 +44,8 @@ enum FileActionFailure: Equatable, Sendable {
             .moveToTrashFailedMessage(path, reason)
         case .revealMissing(let path):
             .revealInFinderFailedMessage(path)
+        case .openFailed(let path):
+            .openInDefaultEditorFailedMessage(path)
         }
     }
 }

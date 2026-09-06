@@ -9,7 +9,8 @@
 #if DEBUG
 import Foundation
 
-/// The file system a UI test's Move to Trash and Reveal in Finder reach.
+/// The file system a UI test's Move to Trash, Reveal in Finder, and Open in Default Editor
+/// reach.
 ///
 /// It lives on the Repository stub rather than beside it because the two answers have to agree:
 /// a path the Trash accepted is a path the next Repository read must no longer report.
@@ -36,6 +37,12 @@ extension UITestingRepositoryService {
     /// Answers for Finder without opening it. A path the fixture was told is gone is the case
     /// Reveal in Finder explains rather than shows.
     func reveal(_ url: URL) -> Bool {
+        !arguments.contains(UITestingArgument.missingFile)
+    }
+
+    /// Answers for the system's own opener without launching an app, so a UI test resolving a
+    /// Conflict never takes an editor to the foreground on the machine running it.
+    func open(_ url: URL) -> Bool {
         !arguments.contains(UITestingArgument.missingFile)
     }
 }
