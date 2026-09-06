@@ -894,11 +894,11 @@
     "resolveConflictBeforeStaging" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Resolve this Conflict in an editor before continuing." } },
-        "ja" : { "stringUnit" : { "state" : "translated", "value" : "続行する前に、エディタでこのコンフリクトを解決してください。" } },
-        "ko" : { "stringUnit" : { "state" : "translated", "value" : "계속하기 전에 편집기에서 이 충돌을 해결하세요." } },
-        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "请先在编辑器中解决此冲突。" } },
-        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "請先在編輯器中解決此衝突。" } }
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Choose a version or edit the file, then use Mark as Resolved." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "バージョンを選ぶかファイルを編集してから、解決済みにするを使ってください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "버전을 고르거나 파일을 편집한 뒤 해결됨으로 표시를 사용하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "先选择一个版本或编辑文件，然后使用标记为已解决。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "先選擇一個版本或編輯檔案，然後使用標記為已解決。" } }
       }
     },
     "stageAll" : {
@@ -3789,6 +3789,346 @@
         "ko" : { "stringUnit" : { "state" : "translated", "value" : "파일 동작" } },
         "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "文件操作" } },
         "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "檔案操作" } }
+      }
+    },
+    "mergeSourceBranch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Source Branch" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ソースブランチ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "소스 브랜치" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "源分支" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "來源分支" } }
+      }
+    },
+    "mergeTargetBranch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Into Branch" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "マージ先ブランチ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "대상 브랜치" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "目标分支" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "目標分支" } }
+      }
+    },
+    "mergeStrategy" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Strategy" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "方式" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "방식" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "策略" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "策略" } }
+      }
+    },
+    "mergeStrategyDefault" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Default" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "デフォルト" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "기본" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "默认" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "預設" } }
+      }
+    },
+    "mergeStrategyFastForwardOnly" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Fast-forward Only" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ファストフォワードのみ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "빨리 감기만" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "仅快进" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "僅快轉" } }
+      }
+    },
+    "mergeStrategyAlwaysCommit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Always Create Merge Commit" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "常にマージコミットを作成" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "항상 병합 커밋 생성" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "始终创建合并提交" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "總是建立合併提交" } }
+      }
+    },
+    "mergeStrategyDefaultDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Fast-forwards when Git can, and creates a merge commit when it cannot." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "可能な場合はファストフォワードし、できない場合はマージコミットを作成します。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "가능하면 빨리 감기하고, 불가능하면 병합 커밋을 만듭니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "能快进时快进，不能快进时创建合并提交。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "能快轉時快轉，無法快轉時建立合併提交。" } }
+      }
+    },
+    "mergeStrategyFastForwardOnlyDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Refuses the merge unless the current branch can be fast-forwarded." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "現在のブランチをファストフォワードできない場合はマージを拒否します。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "현재 브랜치를 빨리 감기할 수 없으면 병합을 거부합니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "当前分支无法快进时拒绝合并。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "目前分支無法快轉時拒絕合併。" } }
+      }
+    },
+    "mergeStrategyAlwaysCommitDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Records a merge commit even where a fast-forward was possible." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ファストフォワードできる場合でもマージコミットを作成します。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "빨리 감기가 가능한 경우에도 병합 커밋을 남깁니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "即使可以快进也创建合并提交。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "即使可以快轉也建立合併提交。" } }
+      }
+    },
+    "mergeHelp" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Merge this branch into the current branch." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "このブランチを現在のブランチにマージします。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 브랜치를 현재 브랜치에 병합합니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "将该分支合并到当前分支。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "將該分支合併到目前分支。" } }
+      }
+    },
+    "mergeUnavailableNoRepository" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Open a Repository first." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "先にリポジトリを開いてください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "먼저 저장소를 여세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "请先打开仓库。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "請先開啟儲存庫。" } }
+      }
+    },
+    "mergeUnavailableMutationInProgress" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Another Git command is still running." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "別の Git コマンドがまだ実行中です。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "다른 Git 명령이 아직 실행 중입니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "另一条 Git 命令仍在运行。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "另一條 Git 命令仍在執行。" } }
+      }
+    },
+    "mergeUnavailableUnbornBranch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This branch has no Commit yet, so there is nothing to merge into." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "このブランチにはまだコミットがないため、マージ先がありません。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 브랜치에는 아직 커밋이 없어 병합할 대상이 없습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "该分支还没有提交，没有可以合并进去的目标。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "該分支還沒有提交，沒有可以合併進去的目標。" } }
+      }
+    },
+    "mergeUnavailableNotBranch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Only a branch can be merged." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "マージできるのはブランチだけです。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "브랜치만 병합할 수 있습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "只有分支可以被合并。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "只有分支可以被合併。" } }
+      }
+    },
+    "mergeUnavailableCurrentBranch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This is the current branch, so there is nothing to merge into it." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "これは現在のブランチなので、マージするものがありません。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "현재 브랜치이므로 병합할 것이 없습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "这就是当前分支，没有可以合并进来的内容。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "這就是目前分支，沒有可以合併進來的內容。" } }
+      }
+    },
+    "mergeUnavailableOperationInProgress" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Finish or abort the Git operation in progress before merging." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "マージする前に、進行中の Git 操作を完了するか中止してください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "병합하기 전에 진행 중인 Git 작업을 완료하거나 중단하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "合并前请先完成或中止进行中的 Git 操作。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "合併前請先完成或中止進行中的 Git 操作。" } }
+      }
+    },
+    "mergeUnavailableConflict" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Resolve every Conflict before merging." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "マージする前にすべてのコンフリクトを解決してください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "병합하기 전에 모든 충돌을 해결하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "合并前请先解决所有冲突。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "合併前請先解決所有衝突。" } }
+      }
+    },
+    "mergeUnavailableLocalChanges" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Commit or Stash your local changes before merging." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "マージする前にローカルの変更をコミットまたはスタッシュしてください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "병합하기 전에 로컬 변경 사항을 커밋하거나 스태시하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "合并前请先提交或贮藏本地更改。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "合併前請先提交或儲藏本機變更。" } }
+      }
+    },
+    "mergeFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Merge Failed" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "マージに失敗しました" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "병합 실패" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "合并失败" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "合併失敗" } }
+      }
+    },
+    "mergeBlockedTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Cannot Merge" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "マージできません" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "병합할 수 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法合并" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法合併" } }
+      }
+    },
+    "mergeBlockedByUntrackedFiles" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "These untracked files would be overwritten by the Merge:\n\n%@\n\nMove or remove them first." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "次の追跡されていないファイルは、マージによって上書きされます:\n\n%@\n\n先に移動または削除してください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "다음 추적되지 않는 파일은 병합이 덮어씁니다:\n\n%@\n\n먼저 옮기거나 삭제하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "以下未跟踪的文件会被合并覆盖：\n\n%@\n\n请先移动或删除它们。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "以下未追蹤的檔案會被合併覆蓋：\n\n%@\n\n請先移動或刪除它們。" } }
+      }
+    },
+    "conflictUseVersion" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Use Version from “%@”" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "「%@」のバージョンを使用" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "“%@”의 버전 사용" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "使用“%@”的版本" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "使用「%@」的版本" } }
+      }
+    },
+    "markAsResolved" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Mark as Resolved" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "解決済みにする" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "해결됨으로 표시" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "标记为已解决" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "標記為已解決" } }
+      }
+    },
+    "markAsResolvedHelp" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Stages this file exactly as it is now. It does not check whether the Conflict was resolved." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "このファイルを現在の内容のままステージします。コンフリクトが解決されたかどうかは確認しません。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 파일을 지금 내용 그대로 스테이징합니다. 충돌이 해결되었는지는 확인하지 않습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "按文件当前的内容暂存它，并不检查冲突是否已经解决。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "按檔案目前的內容暫存它，並不檢查衝突是否已經解決。" } }
+      }
+    },
+    "conflictVersionFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Version Could Not Be Used" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "バージョンを使用できませんでした" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "버전을 사용할 수 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法使用该版本" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法使用該版本" } }
+      }
+    },
+    "markResolvedFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "File Could Not Be Marked as Resolved" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "解決済みにできませんでした" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "해결됨으로 표시할 수 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法标记为已解决" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法標記為已解決" } }
+      }
+    },
+    "continueMerge" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Continue" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "続行" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "계속" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "继续" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "繼續" } }
+      }
+    },
+    "abortMerge" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Abort" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "中止" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "중단" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "中止" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "中止" } }
+      }
+    },
+    "continueMergeHelp" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Complete the merge with the message Git prepared." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Git が用意したメッセージでマージを完了します。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Git이 준비한 메시지로 병합을 완료합니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "使用 Git 已准备好的提交信息完成合并。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "使用 Git 已準備好的提交訊息完成合併。" } }
+      }
+    },
+    "continueMergeBlockedHelp" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Resolve every conflicted file before continuing." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "続行する前に、コンフリクトしているファイルをすべて解決してください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "계속하기 전에 충돌한 파일을 모두 해결하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "继续前请先解决所有冲突文件。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "繼續前請先解決所有衝突檔案。" } }
+      }
+    },
+    "continueMergeFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Merge Could Not Be Completed" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "マージを完了できませんでした" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "병합을 완료할 수 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法完成合并" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法完成合併" } }
+      }
+    },
+    "abortMergeFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Merge Could Not Be Aborted" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "マージを中止できませんでした" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "병합을 중단할 수 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法中止合并" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法中止合併" } }
+      }
+    },
+    "openInDefaultEditorFailedTitle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "File Could Not Be Opened" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ファイルを開けませんでした" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "파일을 열 수 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法打开文件" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法開啟檔案" } }
+      }
+    },
+    "openInDefaultEditorFailedMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Nothing opened “%@”. The file may no longer be there, or no app is set to open it." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "「%@」を開けるものがありませんでした。ファイルが存在しないか、開くアプリが設定されていない可能性があります。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "“%@”을(를) 연 앱이 없습니다. 파일이 더 이상 없거나 열 앱이 지정되지 않았을 수 있습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "没有应用打开“%@”。文件可能已不存在，或没有设置用于打开它的应用。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "沒有 App 開啟「%@」。檔案可能已不存在，或沒有設定用於開啟它的 App。" } }
       }
     }
   },

@@ -18,6 +18,14 @@ struct RepositoryChangeActions: View {
     var body: some View {
         RepositoryChangeActionButton(change: change, isStaged: isStaged)
 
+        // Everything an unmerged path offers, which no other kind of row does. Only the unstaged
+        // projection carries them: a Conflict is what the working tree holds, and the staged side
+        // of one is what Mark as Resolved has already written.
+        if !isStaged, change.isConflict {
+            Divider()
+            ConflictResolutionActions(change: change)
+        }
+
         // Rendered by what the path is rather than by whether the action can run right now. A
         // Conflict and a Staged Change offer neither: choosing a side of a Conflict is always
         // explicit, and a Staged Change is unstaged rather than discarded.
@@ -70,6 +78,56 @@ struct RepositoryChangeActions: View {
 
     private func copyPath() {
         state.copyPath(change)
+    }
+}
+
+/// What one unmerged path offers: either complete version, the file itself, and the one action
+/// that tells Git the Conflict is over.
+///
+/// The two version choices are named after real Refs — the Branch the working tree is on and
+/// whatever `MERGE_HEAD` points at — because "ours" and "theirs" are positions in a Git command
+/// rather than things a user recognizes. Restoring one writes the working tree and leaves the
+/// path unmerged, so Mark as Resolved stays the separate, explicit step it is named for.
+private struct ConflictResolutionActions: View {
+    @Environment(WorkspaceState.self) private var state
+    let change: RepositoryChange
+
+    var body: some View {
+        ForEach(ConflictVersion.allCases) { version in
+            if let label = state.conflictVersionLabel(version) {
+                Button(version.title(label), systemImage: "arrow.triangle.merge") {
+                    chooseVersion(version)
+                }
+                .disabled(!state.canChooseConflictVersion(version, for: change))
+                .accessibilityIdentifier(version.accessibilityIdentifier)
+            }
+        }
+
+        Button(.openInDefaultEditor, systemImage: "square.and.pencil", action: openInEditor)
+            .accessibilityIdentifier("repository.conflict.openInDefaultEditor")
+
+        Button(.markAsResolved, systemImage: "checkmark.circle", action: markResolved)
+            .disabled(!state.canMarkResolved(change))
+            .help(String(localized: .markAsResolvedHelp))
+            .accessibilityIdentifier("repository.conflict.markResolved")
+    }
+
+    private func chooseVersion(_ version: ConflictVersion) {
+        Task {
+            await state.chooseConflictVersion(version, for: change)
+        }
+    }
+
+    private func openInEditor() {
+        Task {
+            await state.openInDefaultEditor(change)
+        }
+    }
+
+    private func markResolved() {
+        Task {
+            await state.markResolved(change)
+        }
     }
 }
 

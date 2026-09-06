@@ -98,8 +98,10 @@ struct ColofaCommands: Commands {
             // deletes a Branch other than the one the window is showing as chosen.
             Button(String(localized: .deleteBranch), action: deleteSelectedBranch)
                 .disabled(!state.canDeleteSelectedBranch)
-            Button(String(localized: .merge), action: unavailableAction)
-                .disabled(true)
+            // Acts on the sidebar's selected Ref, the same one Checkout and Delete Branch do, so
+            // the menu never merges a Branch other than the one the window shows as chosen.
+            Button(String(localized: .merge), action: state.beginMergingSelectedReference)
+                .disabled(!state.canMergeSelectedReference)
             Button(String(localized: .rebase), action: unavailableAction)
                 .disabled(true)
         }

@@ -152,6 +152,9 @@ actor GitRepositoryService {
     ) async throws -> RepositorySnapshot {
         let status = try await status(using: git, in: rootURL)
         let references = try await references(using: git, in: rootURL)
+        // Read once and reused: what an unfinished Merge is bringing in is only asked for when
+        // there is one, so an ordinary Repository pays nothing for the question.
+        let operation = GitOperationReader.operation(inGitDirectoryAt: gitDirectoryURL)
 
         return RepositorySnapshot(
             name: rootURL.lastPathComponent,
@@ -176,7 +179,10 @@ actor GitRepositoryService {
             tags: references.tags,
             stagedChanges: status.stagedChanges,
             unstagedChanges: status.unstagedChanges,
-            operation: GitOperationReader.operation(inGitDirectoryAt: gitDirectoryURL),
+            operation: operation,
+            mergeHead: operation == .merge
+                ? try await GitMergeReader(git: git).mergeHead(inRepositoryAt: rootURL)
+                : nil,
             totalCommitCount: try await totalCommitCount(
                 head: status.head,
                 using: git,

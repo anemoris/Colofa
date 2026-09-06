@@ -19,6 +19,7 @@ func repository(
     headCommit: RepositoryHeadCommit? = nil,
     upstream: RepositoryUpstream? = nil,
     operation: RepositoryOperation? = nil,
+    mergeHead: MergeHead? = nil,
     remotes: [RepositoryRemote] = [],
     localBranches: [String] = [],
     remoteBranches: [String] = [],
@@ -42,6 +43,7 @@ func repository(
         stagedChanges: stagedChanges,
         unstagedChanges: unstagedChanges,
         operation: operation,
+        mergeHead: mergeHead,
         totalCommitCount: totalCommitCount,
         configuration: configuration
     )

@@ -70,6 +70,13 @@ enum LayoutMetrics {
         static let maximumFailureOutputHeight = 120.0
     }
 
+    /// The Merge confirmation's own dimensions. Wider than the New Branch dialog because it
+    /// names two Refs in full and carries a radio group whose longest option must not wrap into
+    /// something that reads as two choices.
+    enum Merge {
+        static let dialogWidth = 460.0
+    }
+
     /// The Fetch Tags dialog's own dimensions. A sheet is sized by its content rather than by
     /// the window it belongs to, so its width lives apart from the window's.
     enum Remote {

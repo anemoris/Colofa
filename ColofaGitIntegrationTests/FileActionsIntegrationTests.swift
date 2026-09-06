@@ -250,6 +250,10 @@ private extension FileSystemActions {
             reveal: { url in
                 Issue.record("Unexpected Reveal in Finder of \(url.normalizedFilePath)")
                 return true
+            },
+            open: { url in
+                Issue.record("Unexpected Open of \(url.normalizedFilePath)")
+                return true
             }
         )
     }
@@ -265,6 +269,10 @@ private extension FileSystemActions {
             },
             reveal: { url in
                 Issue.record("Unexpected Reveal in Finder of \(url.normalizedFilePath)")
+                return true
+            },
+            open: { url in
+                Issue.record("Unexpected Open of \(url.normalizedFilePath)")
                 return true
             }
         )

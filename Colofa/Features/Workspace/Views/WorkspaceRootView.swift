@@ -63,6 +63,9 @@ struct WorkspaceRootView: View {
         .sheet(isPresented: $state.isDeletingBranch) {
             DeleteBranchSheet()
         }
+        .sheet(isPresented: $state.isMerging) {
+            MergeSheet()
+        }
         .sheet(isPresented: $state.isChoosingTagFetchRemote) {
             FetchTagsSheet()
         }

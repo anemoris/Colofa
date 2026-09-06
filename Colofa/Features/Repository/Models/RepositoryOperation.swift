@@ -8,7 +8,9 @@
 
 import Foundation
 
-enum RepositoryOperation: Equatable, Sendable {
+/// Declared `nonisolated` because the project defaults to Main Actor isolation while
+/// `GitRepositoryService` decides from an actor which reads one operation still needs.
+nonisolated enum RepositoryOperation: Equatable, Sendable {
     case am
     case cherryPick
     case merge

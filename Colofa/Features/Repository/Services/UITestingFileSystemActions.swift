@@ -22,6 +22,9 @@ extension FileSystemActions {
             },
             reveal: { url in
                 await backend.reveal(url)
+            },
+            open: { url in
+                await backend.open(url)
             }
         )
     }
