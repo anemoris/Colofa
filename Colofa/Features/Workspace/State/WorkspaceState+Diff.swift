@@ -96,7 +96,21 @@ extension WorkspaceState {
                 kind: nil
             )
         case .stashes:
-            return .none
+            // One file of the Stash, not the whole of it. Which pair of objects that file is
+            // compared against is the Stash's own answer: Git saved untracked files in a Commit
+            // apart from the one holding the tracked changes.
+            guard let stash = selectedStash,
+                  let file = selectedStashFile,
+                  let source = stash.diffSource(of: file) else {
+                return .none
+            }
+            return .patch(
+                DiffKey(repositoryURL: repository.rootURL, source: source),
+                // A Stash holds content that is not at that path on disk, so there is no file
+                // beside the patch to offer opening instead of rendering it.
+                path: nil,
+                kind: nil
+            )
         }
     }
 

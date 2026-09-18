@@ -27,9 +27,15 @@ actor UITestingRepositoryService {
     /// removes a trashed path from it, and Swift keeps `private` within one file.
     var snapshot: RepositorySnapshot?
 
-    /// Long enough that a test can look at the composer without racing the command, and long
-    /// enough that the command is still out when the test ends.
-    private static let slowCommitDuration = Duration.seconds(30)
+    /// Every Stash the fixture holds, newest first.
+    ///
+    /// Not private: the Stash extension in UITestingRepositoryService+Stashes.swift reads and
+    /// replaces it, and Swift keeps `private` within one file.
+    lazy var stashEntries: [Stash] = UITestingStashes.seeded(arguments: arguments)
+
+    /// Long enough that a test can look at the form without racing the command, and long enough
+    /// that the command is still out when the test ends.
+    private static let slowMutationDuration = Duration.seconds(30)
 
     init(arguments: [String]) {
         self.arguments = arguments
@@ -87,7 +93,12 @@ actor UITestingRepositoryService {
         // A Commit that takes a while is the ordinary slow case — a Hook, or signing — and the
         // one window in which the composer must refuse the text it is about to discard.
         if command.first == "commit", arguments.contains(UITestingArgument.slowCommit) {
-            try await Task.sleep(for: Self.slowCommitDuration)
+            try await Task.sleep(for: Self.slowMutationDuration)
+        }
+        // The same window for a Stash: the sheet must not take edits the running command
+        // will never see.
+        if command.first == "stash", arguments.contains(UITestingArgument.slowStash) {
+            try await Task.sleep(for: Self.slowMutationDuration)
         }
         try throwRequestedMutationFailure()
         try throwRequestedCheckoutRefusal(of: command)
@@ -105,6 +116,11 @@ actor UITestingRepositoryService {
         // Merge is a Commit and means something different from the composer's own.
         if let merged = try mergeMutation(command, in: snapshot) {
             self.snapshot = merged
+            return
+        }
+
+        if let stashed = try stashMutation(command, in: snapshot) {
+            self.snapshot = stashed
             return
         }
 

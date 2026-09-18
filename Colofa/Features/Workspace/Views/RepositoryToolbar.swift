@@ -36,10 +36,18 @@ struct RepositoryToolbar: ToolbarContent {
                 .disabled(!state.canBeginCreatingBranch)
                 .accessibilityIdentifier("repository.toolbar.newBranch")
 
-            Button(.stash, systemImage: "tray.and.arrow.down", action: unavailableAction)
+            Button(
+                .stash,
+                systemImage: "tray.and.arrow.down",
+                action: state.beginCreatingStash
+            )
                 .labelStyle(.iconOnly)
-                .help(String(localized: .stashHelp))
-                .disabled(true)
+                .help(
+                    String(
+                        localized: state.stashCreationUnavailabilityReason?.message ?? .stashHelp
+                    )
+                )
+                .disabled(!state.canBeginCreatingStash)
                 .accessibilityIdentifier("repository.toolbar.stash")
 
             Toggle(isOn: $state.isShowingInspector) {
@@ -50,9 +58,6 @@ struct RepositoryToolbar: ToolbarContent {
             .help(String(localized: .repositoryInfoHelp))
             .accessibilityIdentifier("baseline.inspector.toggle")
         }
-    }
-
-    private func unavailableAction() {
     }
 }
 

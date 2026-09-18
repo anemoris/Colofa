@@ -50,6 +50,49 @@ struct GitStatusParserTests {
         ])
     }
 
+    /// Every shape a submodule's change takes in `S<c><m><u>`: a moved Commit, a dirty working
+    /// tree inside it, untracked files inside it, and a Staged move. Each is still a submodule,
+    /// which is what decides whether `git stash push` counts it.
+    @Test
+    func keepsWhichPathsAreSubmodules() throws {
+        let output = [
+            "# branch.oid 0123456789abcdef",
+            "# branch.head main",
+            "1 .M N... 100644 100644 100644 aaaaaaa aaaaaaa plain.txt",
+            "1 .M S.M. 160000 160000 160000 aaaaaaa aaaaaaa dirty",
+            "1 .M S..U 160000 160000 160000 aaaaaaa aaaaaaa untracked-inside",
+            "1 .M SC.. 160000 160000 160000 aaaaaaa aaaaaaa moved",
+            "1 M. S... 160000 160000 160000 aaaaaaa bbbbbbb staged",
+            "",
+        ].joined(separator: "\0")
+
+        let status = try GitStatusParser.parse(Data(output.utf8))
+
+        #expect(status.stagedChanges == [
+            RepositoryChange(path: "staged", kind: .modified, isSubmodule: true),
+        ])
+        #expect(status.unstagedChanges == [
+            RepositoryChange(path: "dirty", kind: .modified, isSubmodule: true),
+            RepositoryChange(path: "moved", kind: .modified, isSubmodule: true),
+            RepositoryChange(path: "plain.txt", kind: .modified),
+            RepositoryChange(path: "untracked-inside", kind: .modified, isSubmodule: true),
+        ])
+    }
+
+    @Test(arguments: ["X...", "S..", "N....."])
+    func refusesASubmoduleFieldItCannotRead(field: String) {
+        let output = [
+            "# branch.oid 0123456789abcdef",
+            "# branch.head main",
+            "1 .M \(field) 100644 100644 100644 aaaaaaa aaaaaaa plain.txt",
+            "",
+        ].joined(separator: "\0")
+
+        #expect(throws: GitOutputParsingError.self) {
+            try GitStatusParser.parse(Data(output.utf8))
+        }
+    }
+
     /// Git stops counting once the ref it counted against is gone, and it says so by omitting
     /// `branch.ab` rather than by printing zeroes. Reading that silence as level would report a
     /// Branch as caught up with a remote-tracking Branch a Fetch Remotes just removed.

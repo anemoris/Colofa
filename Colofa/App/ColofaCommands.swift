@@ -85,8 +85,8 @@ struct ColofaCommands: Commands {
             // second way to reach it when the middle column is not where the focus happens to be.
             Button(String(localized: .commit), action: commit)
                 .disabled(!state.canCommit)
-            Button(String(localized: .stash), action: unavailableAction)
-                .disabled(true)
+            Button(String(localized: .stash), action: state.beginCreatingStash)
+                .disabled(!state.canBeginCreatingStash)
         }
 
         CommandMenu(String(localized: .branchMenu)) {

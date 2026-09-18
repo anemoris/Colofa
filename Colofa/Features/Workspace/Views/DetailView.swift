@@ -30,6 +30,8 @@ private struct DetailContentView: View {
 
         if state.selectedSection == .history {
             HistoryCommitDetailView()
+        } else if state.selectedSection == .stashes {
+            StashDetailView()
         } else if state.selectedSection == .changes,
                   let selection = state.selectedChange,
                   let change = state.change(for: selection) {

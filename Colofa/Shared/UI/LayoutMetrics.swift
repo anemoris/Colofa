@@ -42,6 +42,27 @@ enum LayoutMetrics {
         static let maximumChangedFilesHeight = 160.0
     }
 
+    /// The Stashes pane's and its sheet's own dimensions, kept apart from the window's for the
+    /// reason History's are: they answer to the density of a saved-work list rather than to a
+    /// column.
+    enum Stash {
+
+        /// The sheet is as wide as the New Branch dialog: one text field and two checkboxes read
+        /// at that width without either stretching the field or wrapping a checkbox title.
+        static let dialogWidth = 420.0
+
+        /// How much of Git's own refusal the sheet shows before it scrolls, so a long message
+        /// cannot push the field and its buttons off a sheet.
+        static let maximumFailureOutputHeight = 120.0
+
+        /// How much of the detail column the Stash's own metadata may take before it scrolls.
+        static let maximumDetailHeight = 200.0
+
+        /// How much the saved paths may take. They sit above the Diff rather than inside the
+        /// scrolling metadata, because choosing one is what the pane is for.
+        static let maximumChangedFilesHeight = 160.0
+    }
+
     /// The toolbar's own metrics.
     enum Toolbar {
 

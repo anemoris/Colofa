@@ -35,6 +35,8 @@ func openedWorkspace(
         loadDiff: { try await backend.loadDiff($0) },
         loadHistory: { try await backend.loadHistory($0) },
         loadCommitDetail: { try await backend.loadCommitDetail($0) },
+        loadStashes: { try await backend.loadStashes(in: $0) },
+        loadStashDetail: { try await backend.loadStashDetail($0) },
         validateBranchName: { try await backend.validateBranchName($0) },
         loadCheckoutComparison: { try await backend.loadCheckoutComparison($0) },
         loadBranchDeletionSurvey: { try await backend.loadBranchDeletionSurvey($0) },
