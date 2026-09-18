@@ -33,21 +33,13 @@ struct WorkspaceContentView: View {
                     Text(.loadingRepositoryDescription)
                 }
             } else if let repository = state.repository {
-                if section == .changes {
+                switch section {
+                case .changes:
                     RepositoryChangesView(repository: repository)
-                } else if section == .history {
+                case .history:
                     HistoryView()
-                } else {
-                    ContentUnavailableView {
-                        Label {
-                            Text(section.emptyTitle)
-                        } icon: {
-                            Image(systemName: section.systemImage)
-                        }
-                    } description: {
-                        Text(section.emptyDescription)
-                    }
-                    .accessibilityIdentifier(section.emptyAccessibilityIdentifier)
+                case .stashes:
+                    StashesView()
                 }
             } else {
                 ContentUnavailableView {

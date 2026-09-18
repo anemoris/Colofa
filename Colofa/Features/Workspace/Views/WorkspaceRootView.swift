@@ -66,6 +66,9 @@ struct WorkspaceRootView: View {
         .sheet(isPresented: $state.isMerging) {
             MergeSheet()
         }
+        .sheet(isPresented: $state.isCreatingStash) {
+            CreateStashSheet()
+        }
         .sheet(isPresented: $state.isChoosingTagFetchRemote) {
             FetchTagsSheet()
         }

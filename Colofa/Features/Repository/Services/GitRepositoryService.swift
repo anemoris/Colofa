@@ -226,7 +226,9 @@ actor GitRepositoryService {
         )
     }
 
-    private func resolvedGit() async throws -> GitProcess {
+    /// Not private: the Stash extension in GitRepositoryService+Stashes.swift reaches Git through
+    /// it, and Swift keeps `private` within one file.
+    func resolvedGit() async throws -> GitProcess {
         guard case .available(let executableURL) = await availability() else {
             throw RepositoryOpenError.gitUnavailable
         }

@@ -12,6 +12,20 @@ struct RepositoryChange: Equatable, Identifiable, Sendable {
     let path: String
     let kind: RepositoryChangeKind
 
+    /// Whether the path is a submodule, which is what `git status` reports in the `S` of its
+    /// submodule field.
+    ///
+    /// Kept because Git treats a submodule unlike any other path: `git stash push` does not count
+    /// a submodule's change — not its moved Commit, not its own dirty working tree, not even a
+    /// Staged move — as something to save.
+    let isSubmodule: Bool
+
+    nonisolated init(path: String, kind: RepositoryChangeKind, isSubmodule: Bool = false) {
+        self.path = path
+        self.kind = kind
+        self.isSubmodule = isSubmodule
+    }
+
     var id: String { path }
 
     nonisolated var gitPathspecs: [String] {

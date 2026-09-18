@@ -30,6 +30,13 @@ struct RepositoryService: Sendable {
     /// leaves unread.
     let loadCommitDetail: @Sendable (HistoryCommitDetailRequest) async throws -> HistoryCommitDetail
 
+    /// Reads every Stash the Repository holds. Separate from `load` for the same reason History
+    /// is: it is read for the pane that shows it rather than carried by every Repository read.
+    let loadStashes: @Sendable (URL) async throws -> [Stash]
+
+    /// Reads the paths one selected Stash saved, which the list deliberately leaves unread.
+    let loadStashDetail: @Sendable (StashDetailRequest) async throws -> StashDetail
+
     /// Asks Git whether it would accept one branch name, so Colofa accepts exactly the names Git
     /// accepts rather than reproducing its rules.
     let validateBranchName: @Sendable (BranchNameValidationRequest) async throws -> Bool
@@ -96,6 +103,8 @@ struct RepositoryService: Sendable {
             loadCommitDetail: { request in
                 try await backend.loadCommitDetail(request)
             },
+            loadStashes: { url in try await backend.loadStashes(in: url) },
+            loadStashDetail: { request in try await backend.loadStashDetail(request) },
             validateBranchName: { request in
                 try await backend.validateBranchName(request)
             },
@@ -135,6 +144,8 @@ struct RepositoryService: Sendable {
             loadDiff: { _ in throw RepositoryOpenError.gitUnavailable },
             loadHistory: { _ in throw RepositoryOpenError.gitUnavailable },
             loadCommitDetail: { _ in throw RepositoryOpenError.gitUnavailable },
+            loadStashes: { _ in throw RepositoryOpenError.gitUnavailable },
+            loadStashDetail: { _ in throw RepositoryOpenError.gitUnavailable },
             validateBranchName: { _ in throw RepositoryOpenError.gitUnavailable },
             loadCheckoutComparison: { _ in throw RepositoryOpenError.gitUnavailable },
             loadBranchDeletionSurvey: { _ in throw RepositoryOpenError.gitUnavailable },
@@ -168,6 +179,8 @@ struct RepositoryService: Sendable {
             loadCommitDetail: { request in
                 await backend.loadCommitDetail(request)
             },
+            loadStashes: { url in await backend.stashes(in: url) },
+            loadStashDetail: { request in await backend.stashDetail(request) },
             validateBranchName: { request in
                 await backend.validateBranchName(request)
             },

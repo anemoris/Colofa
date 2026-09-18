@@ -31,27 +31,7 @@ enum WorkspaceSection: String, CaseIterable, Identifiable, Sendable {
         }
     }
 
-    var emptyTitle: LocalizedStringResource {
-        switch self {
-        case .changes: .noChanges
-        case .history: .noHistory
-        case .stashes: .noStashes
-        }
-    }
-
-    var emptyDescription: LocalizedStringResource {
-        switch self {
-        case .changes: .noChangesDescription
-        case .history: .noHistoryDescription
-        case .stashes: .noStashesDescription
-        }
-    }
-
     var accessibilityIdentifier: String {
         "baseline.section.\(rawValue)"
-    }
-
-    var emptyAccessibilityIdentifier: String {
-        "baseline.empty.\(rawValue)"
     }
 }

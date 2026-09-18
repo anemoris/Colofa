@@ -70,7 +70,14 @@ struct RepositoryChangesView: View {
 
             if !isClean || state.commitDraft.isAmending {
                 Divider()
-                CommitComposerView(repository: repository)
+                // The composer scrolls rather than setting a floor under the column: a column
+                // that cannot be shorter than its contents makes the window's own minimum
+                // unreachable, and resizing such a window crashes on macOS 27.
+                ScrollView {
+                    CommitComposerView(repository: repository)
+                }
+                .frame(minHeight: 0)
+                .scrollBounceBehavior(.basedOnSize)
             }
         }
     }

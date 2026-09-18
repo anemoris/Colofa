@@ -84,6 +84,30 @@ nonisolated enum UITestingArgument {
     /// are the ways out of.
     static let mergeConflict = "--ui-testing-merge-conflict"
 
+    /// Serves a Repository holding work worth stashing: a Staged Change, an unstaged tracked
+    /// change, and an untracked file, with nothing in the way of saving them.
+    static let stashState = "--ui-testing-stash-state"
+
+    /// Leaves the stash fixture with an untracked file as its only local change, which is the
+    /// state the default options would save nothing from.
+    static let stashUntrackedOnly = "--ui-testing-stash-untracked-only"
+
+    /// Removes every local change from the stash fixture, which is the clean state that has
+    /// nothing to save at all.
+    static let stashCleanState = "--ui-testing-stash-clean-state"
+
+    /// Gives the stash fixture two Stashes it already holds, so identity, metadata, selection,
+    /// and the read-only Diff can be asserted without saving one first.
+    static let stashEntries = "--ui-testing-stash-entries"
+
+    /// Makes the fixture's Stash fail the way Git refuses one it could not write.
+    static let stashFailure = "--ui-testing-stash-failure"
+
+    /// Makes the fixture's Stash block long enough for the sheet to be examined while it runs,
+    /// standing in for a slow disk or a large working tree. Nothing cancels a Stash, so a test
+    /// that uses this ends while the command is still out.
+    static let slowStash = "--ui-testing-slow-stash"
+
     /// Serves the Changes whose Diffs cover text, rename, binary, submodule, and both size limits.
     static let diffState = "--ui-testing-diff-state"
 

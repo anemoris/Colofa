@@ -26,7 +26,7 @@ struct GitStatusParser {
                 let fields = record.split(separator: " ", maxSplits: 8)
                 guard fields.count == 9 else { throw GitOutputParsingError() }
                 try appendChanges(
-                    status: fields[1],
+                    fields: fields,
                     path: String(fields[8]),
                     originalPath: nil,
                     staged: &stagedChanges,
@@ -39,7 +39,7 @@ struct GitStatusParser {
                 }
                 index += 1
                 try appendChanges(
-                    status: fields[1],
+                    fields: fields,
                     path: String(fields[9]),
                     originalPath: records[index],
                     staged: &stagedChanges,
@@ -82,20 +82,34 @@ struct GitStatusParser {
     }
 
     private nonisolated static func appendChanges(
-        status: Substring,
+        fields: [Substring],
         path: String,
         originalPath: String?,
         staged: inout [RepositoryChange],
         unstaged: inout [RepositoryChange]
     ) throws {
+        // `<XY> <sub>` lead every ordinary and renamed record, after the record's own type.
+        let status = fields[1]
         guard status.count == 2 else { throw GitOutputParsingError() }
         let values = Array(status)
+        let isSubmodule = try isSubmodule(fields[2])
 
         if let kind = try kind(for: values[0], originalPath: originalPath) {
-            staged.append(RepositoryChange(path: path, kind: kind))
+            staged.append(RepositoryChange(path: path, kind: kind, isSubmodule: isSubmodule))
         }
         if let kind = try kind(for: values[1], originalPath: originalPath) {
-            unstaged.append(RepositoryChange(path: path, kind: kind))
+            unstaged.append(RepositoryChange(path: path, kind: kind, isSubmodule: isSubmodule))
+        }
+    }
+
+    /// Reads the four-character submodule field: `N...` for an ordinary path, and `S` followed by
+    /// what changed inside it for a submodule.
+    private nonisolated static func isSubmodule(_ field: Substring) throws -> Bool {
+        guard field.count == 4 else { throw GitOutputParsingError() }
+        switch field.first {
+        case "N": return false
+        case "S": return true
+        default: throw GitOutputParsingError()
         }
     }
 

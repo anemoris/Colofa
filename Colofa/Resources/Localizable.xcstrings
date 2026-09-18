@@ -4130,6 +4130,256 @@
         "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "没有应用打开“%@”。文件可能已不存在，或没有设置用于打开它的应用。" } },
         "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "沒有 App 開啟「%@」。檔案可能已不存在，或沒有設定用於開啟它的 App。" } }
       }
+    },
+    "loadingStashes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Loading Stashes" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "スタッシュを読み込み中" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "스태시 불러오는 중" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "正在载入贮藏" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "正在載入儲藏" } }
+      }
+    },
+    "stashesLoadFailed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Stashes Could Not Be Read" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "スタッシュを読み込めませんでした" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "스태시를 읽을 수 없습니다" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "无法读取贮藏" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "無法讀取儲藏" } }
+      }
+    },
+    "reloadStashes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Reload Stashes" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "スタッシュを再読み込み" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "스태시 다시 불러오기" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "重新载入贮藏" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "重新載入儲藏" } }
+      }
+    },
+    "noStashSelected" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No Stash Selected" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "スタッシュが選択されていません" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "선택된 스태시 없음" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "未选择贮藏" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "未選擇儲藏" } }
+      }
+    },
+    "noStashSelectedDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Select a Stash to inspect what it saved." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "保存された内容を確認するスタッシュを選択してください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "저장된 내용을 볼 스태시를 선택하십시오." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "选择一条贮藏以查看它保存的内容。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "選擇一條儲藏以查看它儲存的內容。" } }
+      }
+    },
+    "stashMessage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Message" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "メッセージ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "메시지" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "说明" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "說明" } }
+      }
+    },
+    "optional" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Optional" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "省略可能" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "선택 사항" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "可选" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "可選" } }
+      }
+    },
+    "keepStagedChanges" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Keep Staged Changes" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ステージされた変更を残す" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "스테이지된 변경 사항 유지" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "保留已暂存的更改" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "保留已暫存的變更" } }
+      }
+    },
+    "includeUntrackedFiles" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Include Untracked Files" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "追跡されていないファイルを含める" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "추적되지 않은 파일 포함" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "包含未跟踪的文件" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "包含未追蹤的檔案" } }
+      }
+    },
+    "stashIgnoredFilesNote" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Ignored files are never included." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "無視されているファイルが含まれることはありません。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "무시된 파일은 절대 포함되지 않습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "被忽略的文件永远不会被包含。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "被忽略的檔案永遠不會被包含。" } }
+      }
+    },
+    "stashIncludesUntracked" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Untracked Included" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "未追跡を含む" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "미추적 포함" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "含未跟踪" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "含未追蹤" } }
+      }
+    },
+    "stashUntrackedFile" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Untracked" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "未追跡" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "미추적" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "未跟踪" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "未追蹤" } }
+      }
+    },
+    "stashSelector" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Stash" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "スタッシュ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "스태시" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "贮藏" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "儲藏" } }
+      }
+    },
+    "stashSaved" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Saved" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "保存日時" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "저장 시각" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "保存于" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "儲存於" } }
+      }
+    },
+    "yes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Yes" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "はい" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "예" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "是" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "是" } }
+      }
+    },
+    "no" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No" } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "いいえ" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "아니요" } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "否" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "否" } }
+      }
+    },
+    "stashFailedDescription" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Git refused to save the Stash." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "Git はスタッシュの保存を拒否しました。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "Git이 스태시 저장을 거부했습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "Git 拒绝保存该贮藏。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "Git 拒絕儲存該儲藏。" } }
+      }
+    },
+    "stashUnavailableNoRepository" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Open a Repository first." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "先にリポジトリを開いてください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "먼저 저장소를 여세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "请先打开仓库。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "請先開啟儲存庫。" } }
+      }
+    },
+    "stashUnavailableUnbornBranch" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "This branch has no Commit yet, so there is nothing to save a Stash against." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "このブランチにはまだコミットがないため、スタッシュの保存先がありません。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "이 브랜치에는 아직 커밋이 없어 스태시를 저장할 기준이 없습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "该分支还没有提交，没有可供贮藏参照的基点。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "該分支還沒有提交，沒有可供儲藏參照的基點。" } }
+      }
+    },
+    "stashUnavailableOperationInProgress" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Finish or abort the Git operation in progress before stashing." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "スタッシュする前に、進行中の Git 操作を完了するか中止してください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "스태시하기 전에 진행 중인 Git 작업을 완료하거나 중단하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "贮藏前请先完成或中止进行中的 Git 操作。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "儲藏前請先完成或中止進行中的 Git 操作。" } }
+      }
+    },
+    "stashUnavailableConflict" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Resolve every Conflict before stashing." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "スタッシュする前にすべてのコンフリクトを解決してください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "스태시하기 전에 모든 충돌을 해결하세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "贮藏前请先解决所有冲突。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "儲藏前請先解決所有衝突。" } }
+      }
+    },
+    "stashUnavailableNoLocalChanges" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "There are no local changes to save." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "保存するローカルの変更がありません。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "저장할 로컬 변경 사항이 없습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "没有可保存的本地更改。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "沒有可儲存的本機變更。" } }
+      }
+    },
+    "stashUnavailableSubmoduleChangesOnly" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "The only local changes are in submodules, which a Stash does not save on their own." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ローカルの変更はサブモジュール内だけです。サブモジュールの変更だけではスタッシュに保存されません。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "로컬 변경 사항이 서브모듈에만 있습니다. 서브모듈 변경 사항만으로는 스태시에 저장되지 않습니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "本地更改只在子模块中。仅有子模块的更改时，贮藏不会保存它们。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "本機變更只在子模組中。僅有子模組的變更時，儲藏不會儲存它們。" } }
+      }
+    },
+    "stashUnavailableUntrackedOnly" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "The only local changes are untracked files. Turn on Include Untracked Files to save them." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "ローカルの変更は追跡されていないファイルだけです。保存するには「追跡されていないファイルを含める」をオンにしてください。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "로컬 변경 사항이 추적되지 않은 파일뿐입니다. 저장하려면 ‘추적되지 않은 파일 포함’을 켜세요." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "本地更改只有未跟踪的文件。请打开「包含未跟踪的文件」以保存它们。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "本機變更只有未追蹤的檔案。請開啟「包含未追蹤的檔案」以儲存它們。" } }
+      }
+    },
+    "stashUnavailableMutationInProgress" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Another Git command is still running." } },
+        "ja" : { "stringUnit" : { "state" : "translated", "value" : "別の Git コマンドがまだ実行中です。" } },
+        "ko" : { "stringUnit" : { "state" : "translated", "value" : "다른 Git 명령이 아직 실행 중입니다." } },
+        "zh-Hans" : { "stringUnit" : { "state" : "translated", "value" : "另一条 Git 命令仍在运行。" } },
+        "zh-Hant" : { "stringUnit" : { "state" : "translated", "value" : "另一條 Git 命令仍在執行。" } }
+      }
     }
   },
   "version" : "1.0"

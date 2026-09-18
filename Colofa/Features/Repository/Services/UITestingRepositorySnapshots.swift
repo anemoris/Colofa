@@ -24,6 +24,9 @@ nonisolated enum UITestingRepositorySnapshots {
         if arguments.contains(UITestingArgument.branchState) {
             return branchState(at: url)
         }
+        if arguments.contains(UITestingArgument.stashState) {
+            return stashState(at: url, arguments: arguments)
+        }
         if arguments.contains(UITestingArgument.mergeState) {
             return mergeState(at: url, arguments: arguments)
         }
@@ -217,7 +220,11 @@ nonisolated enum UITestingRepositorySnapshots {
                 RepositoryChange(path: UITestingDiffs.deletedBeyondLimitPath, kind: .deleted),
                 RepositoryChange(path: UITestingDiffs.confirmationPath, kind: .modified),
                 RepositoryChange(path: UITestingDiffs.slowPath, kind: .modified),
-                RepositoryChange(path: UITestingDiffs.submodulePath, kind: .modified),
+                RepositoryChange(
+                    path: UITestingDiffs.submodulePath,
+                    kind: .modified,
+                    isSubmodule: true
+                ),
             ],
             totalCommitCount: 12,
             gitObjectSize: 4_096,

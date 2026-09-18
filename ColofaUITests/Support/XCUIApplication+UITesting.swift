@@ -62,6 +62,18 @@ extension XCUIApplication {
         )
     }
 
+    /// A stubbed application whose restored Repository holds work worth stashing, and whatever
+    /// Stashes the test asked it to already hold.
+    static func configuredForStashState(
+        path: String,
+        additionalArguments: [String] = []
+    ) -> XCUIApplication {
+        configuredForRepository(
+            path: path,
+            additionalArguments: [UITestingArgument.stashState] + additionalArguments
+        )
+    }
+
     /// A stubbed application whose restored Repository has remotes worth fetching.
     static func configuredForFetchState(
         path: String,

@@ -10,7 +10,9 @@ import Foundation
 @testable import Colofa
 
 actor RepositoryServiceStub {
-    private let gitAvailability: GitAvailability
+    // Not private: the service extension in RepositoryServiceStub+Service.swift answers with
+    // everything the fixture holds, and Swift keeps `private` within one file.
+    let gitAvailability: GitAvailability
     private let delays: [URL: Duration]
     private let errors: [URL: RepositoryOpenError]
     private let mutationError: RepositoryOpenError?
@@ -24,6 +26,19 @@ actor RepositoryServiceStub {
     private let historyFailingOffsets: Set<Int>
     private let historyDelay: Duration?
     private let commitDetails: [String: HistoryCommitDetail]
+    // Not private: the Stash extension in RepositoryServiceStub+Stashes.swift answers with these,
+    // and Swift keeps `private` within one file.
+
+    /// The lists this fixture's Git reports, answered in order so a reload can report a different
+    /// one. The last list stays once the others are used up.
+    var stashLists: [[Stash]]
+    let stashesError: RepositoryOpenError?
+    /// How long a list read blocks, so a test can look at the pane while one is known to be out.
+    let stashDelay: Duration?
+    /// What the fixture says one Stash saved, keyed by its object ID.
+    let stashDetails: [String: StashDetail]
+    let stashDetailError: RepositoryOpenError?
+    var stashDetailRequests: [StashDetailRequest] = []
     // Not private: the branch extension in RepositoryServiceStub+Branches.swift answers with
     // everything below, and Swift keeps `private` within one file.
 
@@ -124,6 +139,11 @@ actor RepositoryServiceStub {
         historyFailingOffsets: Set<Int> = [],
         historyDelay: Duration? = nil,
         commitDetails: [String: HistoryCommitDetail] = [:],
+        stashLists: [[Stash]] = [],
+        stashesError: RepositoryOpenError? = nil,
+        stashDelay: Duration? = nil,
+        stashDetails: [String: StashDetail] = [:],
+        stashDetailError: RepositoryOpenError? = nil,
         invalidBranchNames: Set<String> = [],
         branchNameValidationError: RepositoryOpenError? = nil,
         checkoutComparison: CheckoutComparison = .empty,
@@ -162,6 +182,11 @@ actor RepositoryServiceStub {
         self.historyFailingOffsets = historyFailingOffsets
         self.historyDelay = historyDelay
         self.commitDetails = commitDetails
+        self.stashLists = stashLists
+        self.stashesError = stashesError
+        self.stashDelay = stashDelay
+        self.stashDetails = stashDetails
+        self.stashDetailError = stashDetailError
         self.invalidBranchNames = invalidBranchNames
         self.branchNameValidationError = branchNameValidationError
         self.checkoutComparison = checkoutComparison
@@ -187,57 +212,7 @@ actor RepositoryServiceStub {
         self.tagConflictDelay = tagConflictDelay
     }
 
-    nonisolated var service: RepositoryService {
-        RepositoryService(
-            availability: {
-                self.gitAvailability
-            },
-            load: { url in
-                try await self.load(url)
-            },
-            runMutation: { arguments, standardInput, _ in
-                try await self.mutate(arguments, standardInput: standardInput)
-            },
-            loadDiff: { request in
-                try await self.diff(request)
-            },
-            loadHistory: { request in
-                try await self.history(request)
-            },
-            loadCommitDetail: { request in
-                try await self.commitDetail(request)
-            },
-            validateBranchName: { request in
-                try await self.validateBranchName(request)
-            },
-            loadCheckoutComparison: { request in
-                try await self.comparison(request)
-            },
-            loadBranchDeletionSurvey: { request in
-                try await self.deletionSurvey(request)
-            },
-            loadSkippedRemotes: { _ in
-                try await self.skipped()
-            },
-            loadTagConflicts: { request in
-                try await self.conflicts(request)
-            },
-            loadPublishRemote: { request in
-                try await self.configuredPublishRemote(request)
-            },
-            loadPushTarget: { request in
-                try await self.configuredPushTarget(request)
-            },
-            loadPushDestination: { request in
-                try await self.configuredPushDestination(request)
-            },
-            runNetworkMutation: { arguments, _, responder in
-                try await self.networkMutate(arguments, answeredBy: responder)
-            }
-        )
-    }
-
-    private func load(_ url: URL) async throws -> RepositorySnapshot {
+    func load(_ url: URL) async throws -> RepositorySnapshot {
         if let delay = delays[url] {
             try await Task.sleep(for: delay)
         }
@@ -258,7 +233,7 @@ actor RepositoryServiceStub {
 
     /// A confirmed request is answered with the rendered Diff the unconfirmed one refused, which
     /// is how the real loader behaves once the higher bound applies.
-    private func diff(_ request: DiffLoadRequest) async throws -> DiffLoadResult {
+    func diff(_ request: DiffLoadRequest) async throws -> DiffLoadResult {
         diffRequests.append(request)
         if let diffDelay {
             try await Task.sleep(for: diffDelay)
@@ -277,7 +252,7 @@ actor RepositoryServiceStub {
 
     /// Pages the fixture the same way Git does: from an offset into one walk, reporting whether
     /// anything follows the page rather than whether the page came back full.
-    private func history(_ request: HistoryPageRequest) async throws -> HistoryPage {
+    func history(_ request: HistoryPageRequest) async throws -> HistoryPage {
         historyRequests.append(request)
         if let historyDelay {
             try await Task.sleep(for: historyDelay)
@@ -311,7 +286,7 @@ actor RepositoryServiceStub {
 /// apart from the body above so that body stays about what the fixture is rather than what it
 /// answers.
 extension RepositoryServiceStub {
-    private func commitDetail(
+    func commitDetail(
         _ request: HistoryCommitDetailRequest
     ) async throws -> HistoryCommitDetail {
         commitDetailRequests.append(request)
@@ -333,7 +308,7 @@ extension RepositoryServiceStub {
         return ""
     }
 
-    private func mutate(_ arguments: [String], standardInput: String?) async throws {
+    func mutate(_ arguments: [String], standardInput: String?) async throws {
         mutations.append(RecordedMutation(arguments: arguments, standardInput: standardInput))
         if let mutationDelay {
             try await Task.sleep(for: mutationDelay)

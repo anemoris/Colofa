@@ -41,6 +41,13 @@ final class WorkspaceState {
     /// The open Merge confirmation, or `nil` when none is, owned by WorkspaceState+Merge.swift.
     var mergeDraft: MergeDraft?
 
+    /// The open Stash sheet, or `nil` when none is, owned by WorkspaceState+Stashes.swift.
+    /// Nothing has run while it is set.
+    var stashCreation: StashCreationDraft?
+
+    /// Everything the Stashes pane holds, owned by WorkspaceState+Stashes.swift.
+    var stashPresentation = StashPresentation()
+
     /// The destructive file action waiting for its confirmation, or `nil` when none is. Not
     /// private: the file-actions extension in WorkspaceState+FileActions.swift owns it, and Swift
     /// keeps `private` within one file. Nothing has run while it is set.
@@ -138,7 +145,10 @@ final class WorkspaceState {
 
     /// `UserDefaults` key holding the most recently opened Repository path. UI tests seed it
     /// by passing `-lastRepositoryPath <path>` as a launch argument.
-    private static let lastRepositoryPathKey = "lastRepositoryPath"
+    ///
+    /// Not private: the publishing extension in WorkspaceState+Repository.swift records the
+    /// Repository through it, and Swift keeps `private` within one file.
+    static let lastRepositoryPathKey = "lastRepositoryPath"
 
     // Not private: the Diff extension reads patches through it directly, because a Diff is not
     // published Repository state and does not travel with a snapshot.
@@ -252,8 +262,21 @@ final class WorkspaceState {
     var canReplaceRepository: Bool {
         !isPerformingMutation && !isFetching && !isPulling && !isPushing
     }
+
+    /// Replaces the published snapshot and counts the read that produced it.
+    ///
+    /// Not private: the publishing extension in WorkspaceState+Repository.swift publishes through
+    /// it, and Swift keeps `private` within one file. Keeping it the one way the snapshot is
+    /// replaced is what makes the pair inseparable: no read can land without the generation that
+    /// tells a Diff to be asked for again.
+    func storePublishedRepository(_ repository: RepositorySnapshot) {
+        self.repository = repository
+        repositoryGeneration += 1
+    }
 }
 
+/// Reading the open Repository, and the bookkeeping that keeps one read from being overtaken by
+/// another.
 extension WorkspaceState {
     func retryGitDiscovery() async {
         gitAvailability = nil
@@ -324,59 +347,6 @@ extension WorkspaceState {
 
     private func clearSavedRepository() {
         userDefaults.removeObject(forKey: Self.lastRepositoryPathKey)
-    }
-
-    private func publishRepository(_ repository: RepositorySnapshot) {
-        let isSameRepository = self.repository?.rootURL == repository.rootURL
-        self.repository = repository
-        repositoryGeneration += 1
-        if !isSameRepository {
-            // A message written for one Repository must not follow the user into another, and
-            // neither may a New Branch dialog whose start point belongs to the previous one, nor
-            // a Fetch Tags dialog: its remote was chosen from the previous Repository's remotes,
-            // and confirming it here would contact a remote of this one that the user never saw.
-            // A Push dialog goes for both of those reasons at once: its Branch, its remote, and
-            // the object its lease expects all belong to the Repository being left behind. A
-            // Delete Branch confirmation and a Merge confirmation go the same way: each names
-            // branches of the Repository being left, which this one has by those names too.
-            commitDraft.clear()
-            branchCreation = nil
-            branchDeletion = nil
-            mergeDraft = nil
-            tagFetchSelection = nil
-            pushDialog = nil
-            pendingFileAction = nil
-            isConfirmingHistoryRewrite = false
-            isShowingStaleAmendAlert = false
-            isShowingStalePushAlert = false
-            isShowingStaleBranchDeletionAlert = false
-        } else {
-            // The same Repository, read again. A dialog that survived that reload has to be
-            // checked against it rather than trusted: what it showed is what its own confirmation
-            // will act on, and only a comparison can say whether that is still the truth.
-            reconcilePushDialog(against: repository)
-            reconcileFileAction(against: repository)
-            reconcileBranchDeletion(against: repository)
-            if !isRewritingHead {
-                reconcileAmendDraft()
-            }
-        }
-        updateSelectedChange(for: repository)
-        updateHistoryReference(for: repository, isSameRepository: isSameRepository)
-        if !isSameRepository {
-            // App-owned metadata, so it is read when a Repository arrives rather than on every
-            // reload: a reload of the same Repository must not overwrite the time the Fetch that
-            // started it just recorded.
-            lastFetchDate = storedFetchDate(of: repository.rootURL)
-        }
-        repositoryFailure = nil
-        guard !isUITesting else {
-            return
-        }
-        userDefaults.set(
-            repository.rootURL.normalizedFilePath,
-            forKey: Self.lastRepositoryPathKey
-        )
     }
 
     // Not private: the configuration extension in WorkspaceState+Configuration.swift needs it.
