@@ -21,18 +21,23 @@ struct RepositoryOperationBanner: View {
         HStack(alignment: .top) {
             Image(systemName: "exclamationmark.triangle")
                 .accessibilityHidden(true)
+            // The actions sit below the explanation rather than beside it: the Changes column is
+            // at most 440pt wide, and beside the text the two buttons truncated to "Con…" at the
+            // column's minimum.
             VStack(alignment: .leading) {
-                Text(title)
-                    .font(.headline)
-                Text(.operationInProgressDescription)
-                    .foregroundStyle(.secondary)
+                VStack(alignment: .leading) {
+                    Text(title)
+                        .font(.headline)
+                    Text(.operationInProgressDescription)
+                        .foregroundStyle(.secondary)
+                }
+                .accessibilityElement(children: .combine)
+                .accessibilityIdentifier("repository.operation")
+                if operation == .merge {
+                    MergeOperationActions()
+                }
             }
-            .accessibilityElement(children: .combine)
-            .accessibilityIdentifier("repository.operation")
-            Spacer()
-            if operation == .merge {
-                MergeOperationActions()
-            }
+            Spacer(minLength: 0)
         }
         .padding()
         .background(.bar)

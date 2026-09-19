@@ -18,7 +18,9 @@ struct WorkspaceRootView: View {
 
         Group {
             if case .unavailable? = state.gitAvailability {
+                // No split view here to hold the window to its minimum width.
                 GitUnavailableView()
+                    .frame(minWidth: LayoutMetrics.minimumWindowWidth)
             } else {
                 RepositoryWorkspaceView()
             }

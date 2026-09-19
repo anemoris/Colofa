@@ -15,17 +15,30 @@ enum LayoutMetrics {
     static let idealContentWidth = 320.0
     static let maximumContentWidth = 440.0
 
-    static let minimumDetailWidth = 420.0
-    static let idealDetailWidth = 620.0
+    /// The detail column's minimum is whatever the window's minimum leaves once the sidebar, the
+    /// content column, and the dividers between them are placed.
+    ///
+    /// The window's minimum width is the columns' minimums added up, not a `.frame(minWidth:)`
+    /// around the workspace. Such a frame broke the sidebar's slide: while the sidebar slid in,
+    /// the frame still held the rest of the workspace to the full minimum, so in any window
+    /// narrower than that minimum plus the sidebar the slide was cut short and snapped to its end
+    /// (measured on macOS 27). The split view's own minimums slide cleanly, and in a window too
+    /// narrow for the sidebar, showing it widens the window as it slides in.
+    static let minimumDetailWidth = minimumWindowWidth - minimumSidebarWidth - minimumContentWidth
+        - 2 * dividerWidth
+    static let idealDetailWidth = 640.0
 
-    static let minimumInspectorWidth = 260.0
-    static let idealInspectorWidth = 296.0
-    static let maximumInspectorWidth = 380.0
+    /// The width of the split view's dividers, one between each pair of columns.
+    static let dividerWidth = 1.0
+
+    /// Repository Info's panel is a fixed width: it is a plain panel beside the detail view
+    /// rather than a resizable system inspector.
+    static let inspectorWidth = 296.0
     static let maximumFailureDetailsHeight = 160.0
 
-    static let minimumWindowWidth = 940.0
+    static let minimumWindowWidth = 1100.0
     static let minimumWindowHeight = 580.0
-    static let defaultWindowWidth = 1180.0
+    static let defaultWindowWidth = 1200.0
     static let defaultWindowHeight = 720.0
 
     /// The History pane's own dimensions, kept apart from the window's for the same reason the

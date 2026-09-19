@@ -36,7 +36,7 @@ final class StatusBarPlacementUITests: XCTestCase {
         assertStatusBarIsInside(window, of: application, at: "the size it opened at")
 
         // Again at the window's own minimum, which is where the column has least room to give.
-        shrinkToMinimum(window)
+        window.shrinkToMinimum()
         assertStatusBarIsInside(window, of: application, at: "its minimum size")
 
         // The composer is what the column gives way for, so it has to stay reachable.
@@ -60,30 +60,5 @@ final class StatusBarPlacementUITests: XCTestCase {
                 + "\(path.frame) against \(window.frame)",
             line: line
         )
-    }
-
-    /// Drags the window as small as it will go, from inside both edges: an edge flush with the
-    /// screen's own has nothing outside it left to click.
-    @MainActor
-    private func shrinkToMinimum(_ window: XCUIElement) {
-        for _ in 0..<2 {
-            let bottom = window.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 1))
-                .withOffset(CGVector(dx: 0, dy: -2))
-            bottom.click(
-                forDuration: 0.3,
-                thenDragTo: bottom.withOffset(CGVector(dx: 0, dy: -600)),
-                withVelocity: .fast,
-                thenHoldForDuration: 0
-            )
-
-            let trailing = window.coordinate(withNormalizedOffset: CGVector(dx: 1, dy: 0.5))
-                .withOffset(CGVector(dx: -2, dy: 0))
-            trailing.click(
-                forDuration: 0.3,
-                thenDragTo: trailing.withOffset(CGVector(dx: -600, dy: 0)),
-                withVelocity: .fast,
-                thenHoldForDuration: 0
-            )
-        }
     }
 }
