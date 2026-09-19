@@ -14,6 +14,13 @@ struct RepositorySnapshot: Equatable, Identifiable, Sendable {
     let gitDirectoryURL: URL
     let head: RepositoryHead
     let headCommit: RepositoryHeadCommit?
+
+    /// The full object ID of the Commit HEAD points at, or `nil` on an Unborn Branch.
+    ///
+    /// Read with `head`, and present even when `headCommit` is not: a Commit whose message Colofa
+    /// cannot decode still has an object ID a new Branch can start at.
+    let headObjectID: String?
+
     let upstream: RepositoryUpstream?
     let remotes: [RepositoryRemote]
     let localBranches: [String]
@@ -39,6 +46,7 @@ struct RepositorySnapshot: Equatable, Identifiable, Sendable {
         gitDirectoryURL: URL,
         head: RepositoryHead,
         headCommit: RepositoryHeadCommit? = nil,
+        headObjectID: String? = nil,
         upstream: RepositoryUpstream? = nil,
         remotes: [RepositoryRemote] = [],
         localBranches: [String] = [],
@@ -57,6 +65,7 @@ struct RepositorySnapshot: Equatable, Identifiable, Sendable {
         self.gitDirectoryURL = gitDirectoryURL
         self.head = head
         self.headCommit = headCommit
+        self.headObjectID = headObjectID
         self.upstream = upstream
         self.remotes = remotes
         self.localBranches = localBranches

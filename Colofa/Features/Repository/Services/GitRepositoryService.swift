@@ -167,6 +167,7 @@ actor GitRepositoryService {
                 using: git,
                 in: rootURL
             ),
+            headObjectID: status.headObjectID,
             upstream: status.upstream,
             remotes: try GitRemoteParser.parse(
                 try await git.dataAllowingNoMatches(
@@ -200,15 +201,7 @@ actor GitRepositoryService {
     }
 
     private func status(using git: GitProcess, in rootURL: URL) async throws -> RepositoryStatus {
-        try GitStatusParser.parse(
-            try await git.data(
-                [
-                    "--no-optional-locks", "status", "--porcelain=v2", "--branch", "-z", "--renames",
-                    "--untracked-files=all",
-                ],
-                in: rootURL
-            )
-        )
+        try GitStatusParser.parse(try await git.data(GitStatusParser.arguments, in: rootURL))
     }
 
     private func references(

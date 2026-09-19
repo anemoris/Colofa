@@ -33,25 +33,33 @@ nonisolated struct BranchStartPoint: Equatable, Sendable {
     let summary: String
 
     /// The start point HEAD names, or `nil` on an Unborn Branch, which names no Commit at all.
+    ///
+    /// Resolved to a full object ID once, when the dialog opens. Asking Git for `HEAD` at Create
+    /// would follow HEAD wherever a Checkout, Commit, or Reset elsewhere moved it while the
+    /// dialog was open, and create the Branch at a Commit the user was never shown.
+    ///
+    /// The object ID comes from the same read as the Summary whenever there is one, so the two
+    /// always describe one Commit. A message Colofa cannot decode leaves no Summary, and the
+    /// object ID Git reported alongside HEAD is used on its own.
     static func head(of repository: RepositorySnapshot) -> Self? {
+        guard let objectID = repository.headCommit?.objectID ?? repository.headObjectID else {
+            return nil
+        }
+        let label: String
         switch repository.head {
         case .unbornBranch:
-            nil
+            return nil
         case .branch(let name):
-            Self(
-                origin: .head,
-                revision: "HEAD",
-                label: name,
-                summary: repository.headCommit?.summary ?? ""
-            )
-        case .detached(let objectID):
-            Self(
-                origin: .head,
-                revision: "HEAD",
-                label: String(objectID.prefix(12)),
-                summary: repository.headCommit?.summary ?? ""
-            )
+            label = name
+        case .detached:
+            label = String(objectID.prefix(12))
         }
+        return Self(
+            origin: .head,
+            revision: objectID,
+            label: label,
+            summary: repository.headCommit?.summary ?? ""
+        )
     }
 
     /// The start point one selected Commit names. The full object ID is what Git is asked for,
