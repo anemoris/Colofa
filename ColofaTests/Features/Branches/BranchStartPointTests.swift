@@ -26,8 +26,29 @@ struct BranchStartPointTests {
         )
 
         #expect(startPoint.origin == .head)
-        #expect(startPoint.revision == "HEAD")
         #expect(startPoint.label == "main")
+        #expect(startPoint.summary == "Fixture commit")
+    }
+
+    /// Git is asked for the Commit the dialog showed, not for `HEAD`, which would follow HEAD
+    /// wherever something outside Colofa moved it while the dialog was open.
+    @Test
+    func pinsTheHeadStartPointToTheCommitWhoseSummaryItShows() throws {
+        let startPoint = try #require(
+            BranchStartPoint.head(
+                of: repository(
+                    at: Self.repositoryURL,
+                    head: .branch("main"),
+                    headCommit: RepositoryHeadCommit(
+                        objectID: "0123456789abcdef0123456789abcdef01234567",
+                        summary: "Fixture commit"
+                    ),
+                    headObjectID: "fedcba9876543210fedcba9876543210fedcba98"
+                )
+            )
+        )
+
+        #expect(startPoint.revision == "0123456789abcdef0123456789abcdef01234567")
         #expect(startPoint.summary == "Fixture commit")
     }
 
@@ -38,13 +59,36 @@ struct BranchStartPointTests {
             BranchStartPoint.head(
                 of: repository(
                     at: Self.repositoryURL,
-                    head: .detached("0123456789abcdef0123456789abcdef01234567")
+                    head: .detached("0123456789abcdef0123456789abcdef01234567"),
+                    headCommit: RepositoryHeadCommit(
+                        objectID: "0123456789abcdef0123456789abcdef01234567",
+                        summary: "Fixture commit"
+                    ),
+                    headObjectID: "0123456789abcdef0123456789abcdef01234567"
                 )
             )
         )
 
-        #expect(startPoint.revision == "HEAD")
+        #expect(startPoint.revision == "0123456789abcdef0123456789abcdef01234567")
         #expect(startPoint.label == "0123456789ab")
+    }
+
+    /// A message Colofa cannot decode leaves no Summary, but HEAD still names a Commit to start at.
+    @Test
+    func pinsTheObjectIDGitReportedWhenTheSummaryCouldNotBeRead() throws {
+        let startPoint = try #require(
+            BranchStartPoint.head(
+                of: repository(
+                    at: Self.repositoryURL,
+                    head: .branch("main"),
+                    headObjectID: "0123456789abcdef0123456789abcdef01234567"
+                )
+            )
+        )
+
+        #expect(startPoint.revision == "0123456789abcdef0123456789abcdef01234567")
+        #expect(startPoint.label == "main")
+        #expect(startPoint.summary.isEmpty)
     }
 
     /// An Unborn Branch names no Commit, so there is nothing for a branch to start at.

@@ -161,6 +161,21 @@ struct GitStatusParserTests {
         #expect(detached.head == .detached("fedcba9876543210"))
     }
 
+    /// The Commit HEAD points at comes from the same read as the Branch it names, whatever its
+    /// message holds, so New Branch can pin it without asking Git again.
+    @Test
+    func readsTheCommitHeadPointsAt() throws {
+        let branch = try GitStatusParser.parse(
+            Data("# branch.oid 0123456789abcdef\0# branch.head main\0".utf8)
+        )
+        let unborn = try GitStatusParser.parse(
+            Data("# branch.oid (initial)\0# branch.head main\0".utf8)
+        )
+
+        #expect(branch.headObjectID == "0123456789abcdef")
+        #expect(unborn.headObjectID == nil)
+    }
+
     @Test
     func rejectsMalformedOutput() {
         #expect(throws: GitOutputParsingError.self) {

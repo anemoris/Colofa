@@ -39,7 +39,8 @@ final class WorkspaceStateNewBranchTests {
         state.beginCreatingBranch()
         #expect(state.isCreatingBranch)
         #expect(state.branchCreation?.startPoint.origin == .head)
-        #expect(state.branchCreation?.startPoint.revision == "HEAD")
+        // The fixture's HEAD Commit, pinned by object ID rather than followed through `HEAD`.
+        #expect(state.branchCreation?.startPoint.revision == "head")
         #expect(state.branchCreation?.startPoint.label == "main")
         // Checkout New Branch is enabled by default, and it is only a default.
         #expect(state.branchCreation?.checksOutNewBranch == true)
@@ -79,7 +80,7 @@ final class WorkspaceStateNewBranchTests {
         #expect(state.canCreateBranch)
         await state.createBranch()
 
-        #expect(await stub.recordedArguments() == [["branch", "--", "feature", "HEAD"]])
+        #expect(await stub.recordedArguments() == [["branch", "--", "feature", "head"]])
         #expect(state.repository?.head == .branch("main"))
         #expect(state.repository?.unstagedChanges.isEmpty == true)
         #expect(!state.isCreatingBranch)

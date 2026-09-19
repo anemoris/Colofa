@@ -9,6 +9,13 @@
 import Foundation
 
 struct GitStatusParser {
+    /// The `git status` whose output `parse(_:)` reads. `--branch` is what reports the headers,
+    /// including `branch.oid`, the Commit HEAD points at.
+    nonisolated static let arguments = [
+        "--no-optional-locks", "status", "--porcelain=v2", "--branch", "-z", "--renames",
+        "--untracked-files=all",
+    ]
+
     nonisolated static func parse(_ data: Data) throws -> RepositoryStatus {
         let records = try data.split(separator: 0).map(decode)
         var headers: [String: String] = [:]
@@ -61,13 +68,13 @@ struct GitStatusParser {
             index += 1
         }
 
-        guard let oid = headers["branch.oid"],
-              let branch = headers["branch.head"] else {
+        guard let oid = headers["branch.oid"], let branch = headers["branch.head"] else {
             throw GitOutputParsingError()
         }
 
         return RepositoryStatus(
             head: head(oid: oid, branch: branch),
+            headObjectID: oid == Self.unbornObjectID ? nil : oid,
             upstream: try upstream(from: headers, at: oid),
             stagedChanges: stagedChanges.sorted(by: changeOrder),
             unstagedChanges: unstagedChanges.sorted(by: changeOrder)
