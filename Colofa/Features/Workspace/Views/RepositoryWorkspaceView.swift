@@ -10,11 +10,10 @@ import SwiftUI
 
 struct RepositoryWorkspaceView: View {
     @Environment(WorkspaceState.self) private var state
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var columnVisibility = NavigationSplitViewVisibility.all
 
     var body: some View {
-        @Bindable var state = state
-
         VStack(spacing: 0) {
             if let details = state.repositoryFailureDetails {
                 RepositoryFailureBanner(
@@ -38,21 +37,32 @@ struct RepositoryWorkspaceView: View {
                         max: LayoutMetrics.maximumContentWidth
                     )
             } detail: {
-                DetailView()
-                    .navigationSplitViewColumnWidth(
-                        min: LayoutMetrics.minimumDetailWidth,
-                        ideal: LayoutMetrics.idealDetailWidth
-                    )
+                // Repository Info is a plain panel beside the detail view rather than the system
+                // `.inspector()`, which is a split view of its own. Outside the detail column it
+                // counted its width twice and pushed the sidebar and itself past both edges of the
+                // window; inside it, opening it widened the window by its own width every time.
+                // A plain panel is laid out by SwiftUI alone: opening it only narrows the detail
+                // view, and the window keeps its size.
+                HStack(spacing: 0) {
+                    DetailView()
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    if state.isShowingInspector {
+                        Divider()
+                        RepositoryInspector()
+                            .frame(width: LayoutMetrics.inspectorWidth)
+                            .frame(maxHeight: .infinity, alignment: .top)
+                            .background(.windowBackground)
+                            .transition(.move(edge: .trailing))
+                    }
+                }
+                .clipped()
+                .animation(reduceMotion ? nil : .default, value: state.isShowingInspector)
+                .navigationSplitViewColumnWidth(
+                    min: LayoutMetrics.minimumDetailWidth,
+                    ideal: LayoutMetrics.idealDetailWidth
+                )
             }
             .navigationTitle(state.repository?.name ?? String(localized: .appName))
-            .inspector(isPresented: $state.isShowingInspector) {
-                RepositoryInspector()
-                    .inspectorColumnWidth(
-                        min: LayoutMetrics.minimumInspectorWidth,
-                        ideal: LayoutMetrics.idealInspectorWidth,
-                        max: LayoutMetrics.maximumInspectorWidth
-                    )
-            }
 
             StatusBarView()
         }

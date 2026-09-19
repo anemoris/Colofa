@@ -61,10 +61,7 @@ struct ColofaApp: App {
         WindowGroup {
             WorkspaceRootView()
                 .environment(state)
-                .frame(
-                    minWidth: LayoutMetrics.minimumWindowWidth,
-                    minHeight: LayoutMetrics.minimumWindowHeight
-                )
+                .frame(minHeight: LayoutMetrics.minimumWindowHeight)
         }
         .defaultSize(
             width: LayoutMetrics.defaultWindowWidth,
