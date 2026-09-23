@@ -32,14 +32,12 @@ struct ColofaApp: App {
 #else
         service = .live()
 #endif
-        _state = State(
-            initialValue: WorkspaceState(
-                repositoryService: service,
-                fileSystem: fileSystem,
-                launchArguments: arguments
-            )
-        )
         languageStore = Self.languageStore()
+        state = WorkspaceState(
+            repositoryService: service,
+            fileSystem: fileSystem,
+            launchArguments: arguments
+        )
     }
 
     /// The app's own preferences domain, except under a UI test that has asked for a throwaway

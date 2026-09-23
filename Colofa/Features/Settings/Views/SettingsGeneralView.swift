@@ -40,7 +40,7 @@ struct SettingsGeneralView: View {
         self.localizations = bundle.localizations
         self.languages = DisplayLanguage.available(in: bundle.localizations)
         self.launchLanguage = bundle.preferredLocalizations.first
-        _preferences = State(initialValue: DisplayLanguagePreferences(store: languageStore))
+        preferences = DisplayLanguagePreferences(store: languageStore)
     }
 
     var body: some View {

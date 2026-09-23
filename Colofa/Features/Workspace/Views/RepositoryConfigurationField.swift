@@ -23,12 +23,10 @@ struct RepositoryConfigurationField: View {
         self.configuration = configuration
         self.key = key
         self.editingScope = editingScope
-        _draft = State(
-            initialValue: ConfigurationFieldDraft(
-                key: key,
-                configuration: configuration,
-                editing: editingScope
-            )
+        draft = ConfigurationFieldDraft(
+            key: key,
+            configuration: configuration,
+            editing: editingScope
         )
     }
 
